@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  vms-db:
+    container_name: vms-db
+    image: "postgres:14"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=vms
+      - POSTGRES_PASSWORD=vms
+      - POSTGRES_DB=vms
+  vms-app:
+    container_name: vms-app
+    image: "vms-app:latest"
+    build: .
+    depends_on:
+      - vms-db
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://vms-db:5432/vms
+      - SPRING_DATASOURCE_USERNAME=vms
+      - SPRING_DATASOURCE_PASSWORD=vms
