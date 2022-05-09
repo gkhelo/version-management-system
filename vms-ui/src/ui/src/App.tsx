@@ -1,26 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { Provider as AppProvider } from "./context/AppContext";
+import {
+  createHashHistory,
+  Outlet,
+  ReactLocation,
+  Router,
+} from "react-location";
+import MainContainer from "./pages/home/MainContainer";
+import { ReactQueryDevtools } from "react-query-devtools";
+import Homepage from "./pages/home/Homepage";
+import Clients from "./pages/client/Clients";
+import Applications from "./pages/application/Applications";
 
-function App() {
+const queryClient = new QueryClient();
+const history = createHashHistory();
+const location = new ReactLocation({ history });
+
+const App = () => {
+  const theme = createTheme();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <AppProvider>
+          <Router
+            location={location}
+            routes={[
+              {
+                path: "clients",
+                element: <Clients />,
+              },
+              {
+                path: "applications",
+                element: <Applications />,
+              },
+
+              { path: "/*", element: <Homepage /> },
+            ]}
+          >
+            <ThemeProvider theme={theme}>
+              <MainContainer>
+                <Outlet />
+                <ReactQueryDevtools initialIsOpen={false} />
+              </MainContainer>
+            </ThemeProvider>
+          </Router>
+        </AppProvider>
+      </LocalizationProvider>
+    </QueryClientProvider>
   );
-}
+};
 
 export default App;
