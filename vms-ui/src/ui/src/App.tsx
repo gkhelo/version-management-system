@@ -2,15 +2,15 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Provider as AppProvider } from "./context/AppContext";
+import { ReactQueryDevtools } from "react-query/devtools";
 import {
   createHashHistory,
   Outlet,
   ReactLocation,
   Router,
 } from "react-location";
+import { Provider as AppProvider } from "./context/AppContext";
 import MainContainer from "./pages/home/MainContainer";
-import { ReactQueryDevtools } from "react-query-devtools";
 import Homepage from "./pages/home/Homepage";
 import Clients from "./pages/client/Clients";
 import Applications from "./pages/application/Applications";
