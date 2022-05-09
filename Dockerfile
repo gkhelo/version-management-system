@@ -7,4 +7,4 @@ COPY $JAR_FILE $APP_DIR/app.jar
 
 WORKDIR $APP_DIR
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8787", "-jar", "app.jar"]

@@ -40,6 +40,11 @@
             <artifactId>vms-ui</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.vms</groupId>
+            <artifactId>vms-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

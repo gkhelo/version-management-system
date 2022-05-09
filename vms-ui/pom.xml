@@ -83,5 +83,12 @@
 		</plugins>
 	</build>
 
+	<dependencies>
+		<dependency>
+			<groupId>com.vms</groupId>
+			<artifactId>vms-server</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 
 </project>
