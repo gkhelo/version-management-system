@@ -5,7 +5,9 @@ import com.vms.model.user.User;
 import com.vms.security.dto.AuthRequest;
 import com.vms.security.dto.AuthResponse;
 import com.vms.user.mapper.UserMapper;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,12 @@ import java.time.Instant;
 @RequestMapping("/auth")
 public class AuthController {
 
+    @Value("${jwt.expiry:120}")
+    private long expiry;
+
+    @Autowired
+    private Logger log;
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -42,8 +50,6 @@ public class AuthController {
             User user = ((CustomUserDetails) authentication.getPrincipal()).getUser();
 
             Instant now = Instant.now();
-            long expiry = 120L;
-
             JwtClaimsSet claims = JwtClaimsSet.builder()
                     .issuer("com.vms")
                     .issuedAt(now)
@@ -54,10 +60,12 @@ public class AuthController {
 
             String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
+            log.info("Successfully authenticated {}", user.getUsername());
             return ResponseEntity.ok()
                     .header(HttpHeaders.AUTHORIZATION, token)
                     .body(new AuthResponse(UserMapper.INSTANCE.toDTO(user)));
         } catch (BadCredentialsException ex) {
+            log.error("Unsuccessful authentication, bad credentials for {}", request.getUsername());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
