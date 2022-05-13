@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/companies")
+@RequestMapping("/api/companies")
 @Secured("ADMIN")
 public class CompanyController {
 

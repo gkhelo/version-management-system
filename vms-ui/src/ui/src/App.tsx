@@ -10,6 +10,7 @@ import {
   Router,
 } from "react-location";
 import { Provider as AppProvider } from "./context/AppContext";
+import Login from "./pages/login/Login";
 import MainContainer from "./pages/home/MainContainer";
 import Homepage from "./pages/home/Homepage";
 import Clients from "./pages/client/Clients";
@@ -21,6 +22,12 @@ const location = new ReactLocation({ history });
 
 const App = () => {
   const theme = createTheme();
+
+  const isLoggedIn = false;
+  if (!isLoggedIn) {
+    return <Login />
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
