@@ -7,11 +7,11 @@ const DrawerListItems: React.FC = () => {
   return (
     <List>
       <ListLinkItem
-        path="/clients"
-        title="მომხმარებლები"
+        path="/users"
+        title="users"
         Icon={PersonIcon}
-        pageName="clients"
-        query="query-clients"
+        pageName="users"
+        query="query-users"
       />
       <ListLinkItem
         path="/applications"

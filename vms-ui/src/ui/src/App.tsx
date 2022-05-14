@@ -12,7 +12,7 @@ import {
 import { Provider as AppProvider } from "./context/AppContext";
 import MainContainer from "./pages/home/MainContainer";
 import Homepage from "./pages/home/Homepage";
-import Clients from "./pages/client/Clients";
+import Users from "./pages/user/Users";
 import Applications from "./pages/application/Applications";
 
 const queryClient = new QueryClient();
@@ -29,8 +29,8 @@ const App = () => {
             location={location}
             routes={[
               {
-                path: "clients",
-                element: <Clients />,
+                path: "users",
+                element: <Users />,
               },
               {
                 path: "applications",
