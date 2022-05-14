@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/users")
 @Tag(name = "Users")
@@ -28,8 +26,9 @@ public class UserController {
 	@GetMapping("/all")
 	public Page<UserDTO> getAllUsers(@RequestParam(defaultValue = "0") Integer page,
 									 @RequestParam(defaultValue = "10") Integer size,
-									 @RequestParam(defaultValue = "id") String sortBy) {
-		Pageable paging = PageRequest.of(page, size, Sort.by(sortBy));
+									 @RequestParam(defaultValue = "id") String sortBy,
+									 @RequestParam(defaultValue = "asc") String sortDirection) {
+		Pageable paging = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
 		Page<User> userResult = userService.getUsers(paging);
 		return new PageImpl<>(UserMapper.INSTANCE.toDTOs(userResult.getContent()), paging, userResult.getTotalElements());
 	}
