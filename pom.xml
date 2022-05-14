@@ -30,6 +30,7 @@
         <yarn.version>v1.22.17</yarn.version>
         <frontend-maven-plugin.version>1.7.6</frontend-maven-plugin.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
+        <openapi-ui.version>1.6.8</openapi-ui.version>
     </properties>
 
     <dependencyManagement>
@@ -125,6 +126,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${openapi-ui.version}</version>
         </dependency>
     </dependencies>
 
