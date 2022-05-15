@@ -55,6 +55,7 @@ const MainContainer: React.FC<{ children: React.ReactNode }> = ({
     setOpen(true);
   };
   const handleLogout = () => {
+    localStorage.removeItem("jwt");
     setUser(null);
   };
 

@@ -18,6 +18,7 @@ const Login = () => {
       .then(response => {
         console.log("Successfully authenticated " + data.get("username"));
 
+        localStorage.setItem("jwt", response.headers.authorization);
         setUser(response.data.user);
       })
       .catch(() => {
