@@ -1,4 +1,5 @@
 import { Dispatch } from "react";
+import { User } from "./User";
 
 export interface AppState {
   currentPage: string;
@@ -6,6 +7,10 @@ export interface AppState {
 
 export interface PermissionState {
   permissions: string[];
+}
+
+export interface UserState {
+  user: User | null;
 }
 
 export interface ActionInterface {
