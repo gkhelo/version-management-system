@@ -1,5 +1,6 @@
 package com.vms.user;
 
+import com.vms.exceptions.VMSException;
 import com.vms.model.user.User;
 import com.vms.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,5 +17,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<User> getUsers(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public User addUser(User user) {
+        try {
+            return userRepository.save(user);
+        } catch (Exception ex) {
+            throw new VMSException(ex.getMessage());
+        }
     }
 }

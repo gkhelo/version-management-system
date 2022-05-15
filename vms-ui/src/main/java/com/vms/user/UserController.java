@@ -10,7 +10,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +27,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private UserMapper userMapper;
+
 	@GetMapping("/all")
 	public Page<UserDTO> getAllUsers(@RequestParam(defaultValue = "0") Integer page,
 									 @RequestParam(defaultValue = "10") Integer size,
@@ -30,6 +37,12 @@ public class UserController {
 									 @RequestParam(defaultValue = "asc") String sortDirection) {
 		Pageable paging = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
 		Page<User> userResult = userService.getUsers(paging);
-		return new PageImpl<>(UserMapper.INSTANCE.toDTOs(userResult.getContent()), paging, userResult.getTotalElements());
+		return new PageImpl<>(userMapper.toDTOs(userResult.getContent()), paging, userResult.getTotalElements());
+	}
+
+	@PostMapping("/add")
+	public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO userDTO) {
+		User user = userMapper.fromDTO(userDTO);
+		return new ResponseEntity<>(userMapper.toDTO(userService.addUser(user)), HttpStatus.OK);
 	}
 }
