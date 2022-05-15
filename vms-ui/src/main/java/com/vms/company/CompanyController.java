@@ -2,6 +2,7 @@ package com.vms.company;
 
 import com.vms.company.dto.CompanyDTO;
 import com.vms.company.mapper.CompanyMapper;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/companies")
 @Secured("ADMIN")
+@Tag(name = "Companies")
 public class CompanyController {
 
     @Autowired
