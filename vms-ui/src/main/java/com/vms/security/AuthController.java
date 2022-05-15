@@ -40,6 +40,9 @@ public class AuthController {
     @Autowired
     private JwtEncoder jwtEncoder;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(AuthRequest request) {
         try {
@@ -63,7 +66,7 @@ public class AuthController {
             log.info("Successfully authenticated {}", user.getUsername());
             return ResponseEntity.ok()
                     .header(HttpHeaders.AUTHORIZATION, token)
-                    .body(new AuthResponse(UserMapper.INSTANCE.toDTO(user)));
+                    .body(new AuthResponse(userMapper.toDTO(user)));
         } catch (BadCredentialsException ex) {
             log.error("Unsuccessful authentication, bad credentials for {}", request.getUsername());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
