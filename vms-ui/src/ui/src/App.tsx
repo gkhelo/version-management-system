@@ -10,7 +10,7 @@ import {
   Router,
 } from "react-location";
 import { Provider as AppProvider } from "./context/AppContext";
-import Login from "./pages/login/Login";
+import { Provider as UserProvider } from "./context/UserContext";
 import MainContainer from "./pages/home/MainContainer";
 import Homepage from "./pages/home/Homepage";
 import Users from "./pages/user/Users";
@@ -22,11 +22,6 @@ const location = new ReactLocation({ history });
 
 const App = () => {
   const theme = createTheme();
-
-  const isLoggedIn = false;
-  if (!isLoggedIn) {
-    return <Login />
-  }
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -48,10 +43,12 @@ const App = () => {
             ]}
           >
             <ThemeProvider theme={theme}>
-              <MainContainer>
-                <Outlet />
-                <ReactQueryDevtools initialIsOpen={false} />
-              </MainContainer>
+              <UserProvider>
+                <MainContainer>
+                  <Outlet />
+                  <ReactQueryDevtools initialIsOpen={false} />
+                </MainContainer>
+              </UserProvider>
             </ThemeProvider>
           </Router>
         </AppProvider>

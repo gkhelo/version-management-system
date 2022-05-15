@@ -2,6 +2,7 @@ package com.vms.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -61,6 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         config.addAllowedOriginPattern("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
+        config.addExposedHeader(HttpHeaders.AUTHORIZATION);
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
