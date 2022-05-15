@@ -1,5 +1,6 @@
-export const API_URL_PREFIX = "/"
+export const AUTH_URL_PREFIX = "auth"
+export const API_URL_PREFIX = "api"
 
-export const LOGIN = "auth/login"
+export const LOGIN = "login"
 
 export const GET_USERS = "users/all"
