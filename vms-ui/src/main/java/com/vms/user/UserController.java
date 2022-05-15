@@ -3,6 +3,7 @@ package com.vms.user;
 import com.vms.model.user.User;
 import com.vms.user.dto.UserDTO;
 import com.vms.user.mapper.UserMapper;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/users")
 @Secured("ADMIN")
 @Tag(name = "Users")
+@SecurityRequirement(name = "bearerAuth")
 public class UserController {
 
 	@Autowired
