@@ -1,0 +1,13 @@
+{
+  "Version Management System": "ვერსიების მართვის სისტემა",
+  "logout": "გასვლა",
+  "createTime": "შექმნის დრო",
+  "updateTime": "განახლების დრო",
+  "version": "ვერსია",
+  "Users": "მომხმარებლები",
+  "username": "მომხმარებლის სახელი",
+  "firstname": "სახელი",
+  "lastname": "გვარი",
+  "email": "ელ.ფოსტა",
+  "Applications": "აპლიკაციები"
+}

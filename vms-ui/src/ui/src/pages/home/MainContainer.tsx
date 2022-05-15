@@ -10,6 +10,7 @@ import Main from "./Main";
 import Typography from "@mui/material/Typography";
 import makeStyles from "@mui/styles/makeStyles";
 import { Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 // import Button from "@mui/material/Button";
 
 const useStyles = makeStyles(() => ({
@@ -46,6 +47,7 @@ const MainContainer: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [open, setOpen] = React.useState(false);
   const classes = useStyles(open);
+  const { t } = useTranslation();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -69,11 +71,11 @@ const MainContainer: React.FC<{ children: React.ReactNode }> = ({
             noWrap
             className={classes.toolbarTitle}
           >
-            ვერსიების მართვის სისტემა
+            {t("Version Management System")}
           </Typography>
 
           <Button disableElevation className={classes.logoutButton}>
-            გასვლა
+            {t("Logout")}
           </Button>
         </Toolbar>
       </AppBar>
