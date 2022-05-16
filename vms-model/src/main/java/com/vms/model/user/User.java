@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @Getter
@@ -23,6 +24,7 @@ public class User extends Configurable {
 
     private String lastname;
 
+    @Email
     private String email;
 
     private boolean passwordChangeRequired;

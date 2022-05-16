@@ -2,6 +2,7 @@ package com.vms.group;
 
 import com.vms.group.dto.GroupDTO;
 import com.vms.group.mapper.GroupMapper;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequestMapping("/api/groups")
 @Secured("ADMIN")
 @Tag(name = "Groups")
+@SecurityRequirement(name = "bearerAuth")
 public class GroupController {
 
     @Autowired
