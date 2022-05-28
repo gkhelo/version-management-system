@@ -20,5 +20,5 @@ public class UserDTO extends ConfigurableDTO {
 
     private RoleDTO role;
 
-    private long companyId;
+    private Long companyId;
 }

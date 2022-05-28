@@ -1,9 +1,14 @@
 package com.vms.security;
 
+import com.vms.company.CompanyService;
+import com.vms.company.mapper.CompanyMapper;
+import com.vms.exceptions.VMSException;
+import com.vms.model.company.Company;
 import com.vms.model.security.CustomUserDetails;
 import com.vms.model.user.User;
 import com.vms.security.dto.AuthRequest;
 import com.vms.security.dto.AuthResponse;
+import com.vms.security.dto.RegisterRequest;
 import com.vms.user.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +24,7 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,10 +44,16 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
+    private CompanyService companyService;
+
+    @Autowired
     private JwtEncoder jwtEncoder;
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private CompanyMapper companyMapper;
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(AuthRequest request) {
@@ -70,6 +82,21 @@ public class AuthController {
         } catch (BadCredentialsException ex) {
             log.error("Unsuccessful authentication, bad credentials for {}", request.getUsername());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<Void> register(@RequestBody RegisterRequest request) {
+        try {
+            Company company = companyMapper.fromDTO(request.getCompany());
+            User admin = userMapper.fromDTO(request.getAdmin());
+
+            companyService.addCompany(company, admin);
+
+            return ResponseEntity.ok().build();
+        } catch (VMSException ex) {
+            log.error("Error occurred while trying to register new company: {}", ex.getMessage());
+            return ResponseEntity.badRequest().build();
         }
     }
 }

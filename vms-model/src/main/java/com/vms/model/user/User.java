@@ -13,7 +13,9 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"company_id", "username"})
+})
 public class User extends Configurable {
 
     private String username;
