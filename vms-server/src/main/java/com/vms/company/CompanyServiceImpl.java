@@ -7,6 +7,7 @@ import com.vms.model.user.User;
 import com.vms.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,9 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Autowired
     private UserService userService;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public List<Company> getCompanies() {
@@ -44,6 +48,7 @@ public class CompanyServiceImpl implements CompanyService {
 			company = companyRepository.save(company);
 
 			admin.setCompany(company);
+			admin.setPassword(passwordEncoder.encode(admin.getPassword()));
 			userService.addUser(admin);
 
 			return company;

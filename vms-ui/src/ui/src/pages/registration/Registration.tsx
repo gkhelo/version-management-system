@@ -21,6 +21,7 @@ const Registration = () => {
   const adminFormik = useFormik({
     initialValues: {
       adminUsername: "",
+      adminPassword: "",
       adminFirstname: "",
       adminLastname: "",
       adminEmail: ""
@@ -43,6 +44,7 @@ const Registration = () => {
     const admin: User = {
       id: 0,
       username: adminFormik.values.adminUsername,
+      password: adminFormik.values.adminPassword,
       firstname: adminFormik.values.adminFirstname,
       lastname: adminFormik.values.adminLastname,
       email: adminFormik.values.adminEmail,

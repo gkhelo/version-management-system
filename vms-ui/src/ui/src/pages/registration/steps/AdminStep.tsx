@@ -22,6 +22,19 @@ const AdminStep = (props: any) => {
           margin="normal"
           required
           fullWidth
+          id="password"
+          label="Password"
+          name="adminPassword"
+          type="password"
+          autoComplete="password"
+          onChange={ formik.handleChange }
+          value={ formik.values.adminPassword }
+        />
+
+        <TextField
+          margin="normal"
+          required
+          fullWidth
           id="firstname"
           label="Firstname"
           name="adminFirstname"
