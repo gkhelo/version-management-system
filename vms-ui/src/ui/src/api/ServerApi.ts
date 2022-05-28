@@ -1,10 +1,18 @@
 import { apiAxiosInstance, authAxiosInstance } from "../utils/AxiosInstance";
-import { GET_USERS, LOGIN } from "../constants/Endpoints";
+import { GET_USERS, LOGIN, REGISTER } from "../constants/Endpoints";
 import { User } from "../types/User";
 import { Pageable, PageImpl } from "../types/Pageable";
+import { Company } from "../types/Company";
 
 const login = async (data: FormData) => {
   return await authAxiosInstance.post(LOGIN, data);
+};
+
+const register = async (company: Company, admin: User) => {
+  return await authAxiosInstance.post(REGISTER, {
+    "company": company,
+    "admin": admin
+  });
 };
 
 const getUsers = async (pageable: Pageable) => {
@@ -16,6 +24,7 @@ const getUsers = async (pageable: Pageable) => {
 
 const ServerApi = {
   login,
+  register,
   getUsers,
 };
 

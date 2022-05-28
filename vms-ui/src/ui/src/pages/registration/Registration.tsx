@@ -4,6 +4,9 @@ import { useFormik } from "formik";
 import LinearStepper from "./LinearStepper";
 import CompanyStep from "./steps/CompanyStep";
 import AdminStep from "./steps/AdminStep";
+import { Company } from "../../types/Company";
+import { Role, User } from "../../types/User";
+import ServerApi from "../../api/ServerApi";
 
 const Registration = () => {
   const companyFormik = useFormik({
@@ -32,10 +35,32 @@ const Registration = () => {
   ];
 
   const handleSubmit = () => {
-    // TODO: Register company and admin
-    console.log("Submit data:");
-    console.log(companyFormik.values);
-    console.log(adminFormik.values);
+    const company: Company = {
+      name: companyFormik.values.companyName,
+      email: companyFormik.values.companyEmail
+    };
+
+    const admin: User = {
+      id: 0,
+      username: adminFormik.values.adminUsername,
+      firstname: adminFormik.values.adminFirstname,
+      lastname: adminFormik.values.adminLastname,
+      email: adminFormik.values.adminEmail,
+      role: Role.ADMIN
+    }
+
+    ServerApi.register(company, admin)
+      .then(() => {
+        console.log("Company registered successfully");
+
+        // TODO: show that registration completed successfully
+        // TODO: show link/button "Go to login page"
+        window.location.reload();
+      })
+      .catch(error => {
+        // TODO: show errors
+        console.log("Registration error", error);
+      });
   }
 
   return (
