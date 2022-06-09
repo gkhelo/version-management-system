@@ -9,6 +9,7 @@ import com.vms.model.user.User;
 import com.vms.security.dto.AuthRequest;
 import com.vms.security.dto.AuthResponse;
 import com.vms.security.dto.RegisterRequest;
+import com.vms.user.UserService;
 import com.vms.user.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +21,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.jwt.*;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/auth")
@@ -44,10 +41,16 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private CompanyService companyService;
 
     @Autowired
     private JwtEncoder jwtEncoder;
+
+    @Autowired
+    private JwtDecoder jwtDecoder;
 
     @Autowired
     private UserMapper userMapper;
@@ -69,7 +72,7 @@ public class AuthController {
                     .issuer("com.vms")
                     .issuedAt(now)
                     .expiresAt(now.plusSeconds(expiry))
-                    .subject(user.getUsername())
+                    .subject(String.valueOf(user.getId()))
                     .claim("role", user.getRole().name())
                     .build();
 
@@ -96,6 +99,24 @@ public class AuthController {
             return ResponseEntity.ok().build();
         } catch (VMSException ex) {
             log.error("Error occurred while trying to register new company: {}", ex.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/authenticated/{jwt}")
+    public ResponseEntity<AuthResponse> getAuthenticatedUser(@PathVariable(name = "jwt") String jwtToken) {
+        try {
+            Jwt jwt = jwtDecoder.decode(jwtToken);
+            if (Objects.requireNonNull(jwt.getExpiresAt()).isBefore(Instant.now())) {
+                throw new JwtException("Token expired");
+            }
+
+            long userId = Long.parseLong(jwt.getSubject());
+            User user = userService.getUserById(userId);
+
+            return ResponseEntity.ok(new AuthResponse(userMapper.toDTO(user)));
+        } catch (Exception ex) {
+            log.error("Error occurred while trying to get authenticated user: {}", ex.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }

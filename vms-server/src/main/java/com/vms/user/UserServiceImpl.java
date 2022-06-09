@@ -20,6 +20,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserById(long id) {
+        return userRepository.findById(id).orElseThrow(() -> new VMSException("User not exists"));
+    }
+
+    @Override
     public User addUser(User user) {
         try {
             return userRepository.save(user);

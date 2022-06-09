@@ -1,5 +1,5 @@
 import { apiAxiosInstance, authAxiosInstance } from "../utils/AxiosInstance";
-import { GET_USERS, LOGIN, REGISTER } from "../constants/Endpoints";
+import { AUTHENTICATED, GET_USERS, LOGIN, REGISTER } from "../constants/Endpoints";
 import { User } from "../types/User";
 import { Pageable, PageImpl } from "../types/Pageable";
 import { Company } from "../types/Company";
@@ -15,6 +15,10 @@ const register = async (company: Company, admin: User) => {
   });
 };
 
+const getAuthenticatedUser = async (jwt: String) => {
+  return await authAxiosInstance.get(AUTHENTICATED + "/" + jwt);
+};
+
 const getUsers = async (pageable: Pageable) => {
   const response = await apiAxiosInstance.get<PageImpl<User>>(GET_USERS, {
     params: { ...pageable },
@@ -25,6 +29,7 @@ const getUsers = async (pageable: Pageable) => {
 const ServerApi = {
   login,
   register,
+  getAuthenticatedUser,
   getUsers,
 };
 
