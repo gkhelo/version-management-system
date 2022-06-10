@@ -8,6 +8,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -16,31 +19,34 @@ import java.util.List;
 @Table(name = "users")
 public class User extends Configurable {
 
-    private String username;
+	private String username;
 
-    private String password;
+	@NotBlank(message = "Password cannot be blank")
+	@NotEmpty(message = "Password cannot be empty")
+	@NotNull(message = "Password cannot be null")
+	private String password;
 
-    private String firstname;
+	private String firstname;
 
-    private String lastname;
+	private String lastname;
 
-    @Email
-    private String email;
+	@Email
+	private String email;
 
-    private boolean passwordChangeRequired;
+	private boolean passwordChangeRequired;
 
-    @Enumerated(value = EnumType.STRING)
-    private Role role;
+	@Enumerated(value = EnumType.STRING)
+	private Role role;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id", nullable = false)
-    private Company company;
+	@ManyToOne
+	@JoinColumn(name = "company_id", nullable = false)
+	private Company company;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_groups",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id")
-    )
-    private List<Group> groups;
+	@ManyToMany
+	@JoinTable(
+			name = "user_groups",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "group_id")
+	)
+	private List<Group> groups;
 }

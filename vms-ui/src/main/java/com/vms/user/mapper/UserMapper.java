@@ -14,6 +14,7 @@ import java.util.List;
 public interface UserMapper {
 
 	@Mapping(target = "companyId", source = "company", qualifiedByName = "companyToId")
+	@Mapping(target = "password", ignore = true)
 	UserDTO toDTO(User user);
 
 	@Mapping(target = "company", source = "companyId")

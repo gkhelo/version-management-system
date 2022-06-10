@@ -80,7 +80,9 @@ public class UserServiceImplTest {
         user.setEmail("123");
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         assertFalse(violations.isEmpty());
+        assertEquals(4, violations.size());
         user.setEmail("123@123");
+        user.setPassword("password");
         violations = validator.validate(user);
         assertTrue(violations.isEmpty());
     }
