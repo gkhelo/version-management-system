@@ -9,5 +9,10 @@
   "firstname": "Firstname",
   "lastname": "Lastname",
   "email": "Email",
-  "Applications": "Applications"
+  "Applications": "Applications",
+  "editUser": "Edit user",
+  "deleteUser": "Delete user",
+  "homepage": "Homepage",
+  "labelRowsPerPage": "Rows per page",
+  "labelDisplayedRows": "{{from}}-{{to}} of {{count}}"
 }

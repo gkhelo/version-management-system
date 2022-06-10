@@ -4,11 +4,19 @@ import useDateFormatter from "../../hooks/UseDateTimeFormatter";
 import usePageSelector from "../../hooks/usePageSelector";
 import useUsers from "../../hooks/useUsers";
 import usePagination from "../../hooks/usePagination";
+import VMSBreadcrumbs from "../../components/VMSBreadcrumbs";
+import { GridActionsCellItem, GridRowParams } from "@mui/x-data-grid";
+import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
+import { useNavigate } from "@tanstack/react-location";
+import useDeleteMutation from "../../hooks/useDeleteMutation";
+import { QueryKeyType } from "../../types/QueryKeyType";
 
-const Users: React.FC = () => {
+const UsersPage: React.FC = () => {
   usePageSelector("users");
   const { dataGridValueFormatter } = useDateFormatter();
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const deleteUser = useDeleteMutation(QueryKeyType.USERS);
   const pagination = usePagination([]);
   const userData = useUsers({
     page: pagination.page,
@@ -16,9 +24,14 @@ const Users: React.FC = () => {
     sortBy: pagination.sortModel ? pagination.sortModel[0]?.field : null,
     sortDirection: pagination.sortModel ? pagination.sortModel[0]?.sort : null,
   });
+
+  const navigateToUser = (userId: string | number) => {
+    navigate({ to: `/users/${userId}`, replace: true });
+  };
+
   return (
     <>
-      <h1>Users Page</h1>
+      <VMSBreadcrumbs links={[{ location: "/users", name: t("Users") }]} />
       {userData.isError ? (
         <h3>{userData.error.message}</h3>
       ) : (
@@ -46,6 +59,23 @@ const Users: React.FC = () => {
                 flex: 2,
                 valueFormatter: dataGridValueFormatter,
               },
+              {
+                field: "actions",
+                type: "actions",
+                flex: 1,
+                getActions: (params: GridRowParams) => [
+                  <GridActionsCellItem
+                    icon={<EditIcon />}
+                    label={t("editUser")}
+                    onClick={() => navigateToUser(params.id)}
+                  />,
+                  <GridActionsCellItem
+                    icon={<DeleteIcon />}
+                    label={t("deleteUser")}
+                    onClick={() => deleteUser(params.id)}
+                  />,
+                ],
+              },
             ]}
             rows={userData.data.content}
             rowCount={userData.data.totalElements}
@@ -57,4 +87,4 @@ const Users: React.FC = () => {
   );
 };
 
-export default Users;
+export default UsersPage;

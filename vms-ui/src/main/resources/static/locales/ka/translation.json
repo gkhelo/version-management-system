@@ -9,5 +9,10 @@
   "firstname": "სახელი",
   "lastname": "გვარი",
   "email": "ელ.ფოსტა",
-  "Applications": "აპლიკაციები"
+  "Applications": "აპლიკაციები",
+  "editUser": "მომხმარებლის რედაქტირება",
+  "deleteUser": "მომხმარებლის წაშლა",
+  "homepage": "მთავარი გვერდი",
+  "labelRowsPerPage": "ჩანაწერები გვერდზე",
+  "labelDisplayedRows": "{{from}}-{{to}} {{count}}-დან"
 }
