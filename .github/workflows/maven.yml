@@ -41,7 +41,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install project dependencies
-        run: yarn --prefer-offline
+        run: cd vms-ui/src/ui && yarn --prefer-offline
       - name: Build with Maven
         run: CI=false mvn -B verify --file pom.xml
       - name: Staging phase
