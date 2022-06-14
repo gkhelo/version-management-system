@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,10 +47,16 @@ public class UserController {
 		return new PageImpl<>(userMapper.toDTOs(userResult.getContent()), paging, userResult.getTotalElements());
 	}
 
-	@PostMapping("/save")
-	public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO) {
+	@PostMapping("/add")
+	public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO userDTO) {
 		User user = userMapper.fromDTO(userDTO);
-		return new ResponseEntity<>(userMapper.toDTO(userService.saveUser(user)), HttpStatus.OK);
+		return new ResponseEntity<>(userMapper.toDTO(userService.addUser(user)), HttpStatus.OK);
+	}
+
+	@PutMapping("/update")
+	public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO) {
+		User user = userMapper.fromDTO(userDTO);
+		return new ResponseEntity<>(userMapper.toDTO(userService.updateUser(user)), HttpStatus.OK);
 	}
 
 	@GetMapping("/get/{userId}")

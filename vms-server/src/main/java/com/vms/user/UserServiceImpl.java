@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -28,20 +27,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Transactional
-	public User saveUser(User user) {
-		try {
-			if (user.getId() == 0L) {
-				return addUser(user);
-			} else {
-				return updateUser(user);
-			}
-		} catch (Exception ex) {
-			throw new VMSException(ex.getMessage());
-		}
-	}
-
-	private User addUser(User user) {
+	public User addUser(User user) {
+		user.setId(0L);
 		user.setPasswordChangeRequired(true);
 		if (passwordIsFilled(user.getPassword())) {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -51,7 +38,8 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 
-	private User updateUser(User user) {
+	@Override
+	public User updateUser(User user) {
 		User targetUser = getUser(user.getId());
 		if (!passwordIsFilled(user.getPassword())) {
 			user.setPassword(targetUser.getPassword());
