@@ -29,6 +29,7 @@ const UserPage = () => {
       confirmPassword: "",
       email: null,
       companyId: null,
+      role: null,
     });
   };
 

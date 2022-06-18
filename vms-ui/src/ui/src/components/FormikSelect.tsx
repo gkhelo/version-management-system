@@ -3,7 +3,9 @@ import { useFormikContext } from "formik";
 import FormikTextfield from "./FormikTextfield";
 
 const FormikSelect = <T extends {}>(props: FormikSelectProps) => {
-  const { name, label, type, data, ...rest } = { ...props };
+  const { name, label, type, data, getValue, renderValue, ...rest } = {
+    ...props,
+  };
   const formik = useFormikContext<T>();
   const nameKey = name as keyof T;
   return (
@@ -19,8 +21,11 @@ const FormikSelect = <T extends {}>(props: FormikSelectProps) => {
         {data ? (
           [
             ...data.map((item: any) => (
-              <MenuItem key={item.id} value={item.id}>
-                {item.name}
+              <MenuItem
+                key={getValue && getValue(item)}
+                value={getValue && getValue(item)}
+              >
+                {renderValue && renderValue(item)}
               </MenuItem>
             )),
           ]
@@ -40,6 +45,8 @@ type FormikSelectProps = {
   label: string;
   type?: string;
   data?: any[];
+  getValue?: Function;
+  renderValue?: Function;
   [rest: string]: any;
 };
 

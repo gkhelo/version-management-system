@@ -9,6 +9,7 @@
   "firstname": "სახელი",
   "lastname": "გვარი",
   "email": "ელ.ფოსტა",
+  "role": "როლი",
   "password": "პაროლი",
   "confirmPassword": "პაროლის დადასტურება",
   "save": "შენახვა",
@@ -28,5 +29,6 @@
   "Company is required": "კომპანიის შევსება სავალდებულოა",
   "Password should be of minimum min characters length": "პაროლი უნდა შეიცავდეს მინიმუმ {{min}} სიმბოლოს",
   "Password is required": "პაროლის შევსება აუცილებელია",
-  "Passwords do not match": "პაროლები ერთმანეთს არ ემთხვევა"
+  "Passwords do not match": "პაროლები ერთმანეთს არ ემთხვევა",
+  "Role is required": "როლის შევსება აუცილებელია"
 }
