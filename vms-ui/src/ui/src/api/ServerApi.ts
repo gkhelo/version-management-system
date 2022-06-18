@@ -3,6 +3,7 @@ import {
   ADD_USER,
   DELETE_USER,
   GET_COMPANIES,
+  GET_ROLES,
   GET_USER,
   GET_USERS,
   LOGIN,
@@ -43,6 +44,11 @@ const deleteUser = async (id: string | number) => {
   return response.data;
 };
 
+const getRoles = async () => {
+  const response = await apiAxiosInstance.get(GET_ROLES);
+  return response.data;
+};
+
 const getCompanies = async () => {
   const response = await apiAxiosInstance.get<Company[]>(GET_COMPANIES);
   return response.data;
@@ -55,6 +61,7 @@ const ServerApi = {
   addUser,
   updateUser,
   deleteUser,
+  getRoles,
   getCompanies,
 };
 

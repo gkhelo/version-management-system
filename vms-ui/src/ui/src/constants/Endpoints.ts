@@ -8,5 +8,7 @@ export const GET_USER = "users/get";
 export const ADD_USER = "users/add";
 export const UPDATE_USER = "users/update";
 export const DELETE_USER = "users/delete";
+export const GET_ROLES = "users/roles";
+
 
 export const GET_COMPANIES = "companies/all";
