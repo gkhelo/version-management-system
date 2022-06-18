@@ -9,4 +9,10 @@ public interface UserService {
     Page<User> getUsers(Pageable pageable);
 
     User addUser(User user);
+
+    User updateUser(User user);
+
+    User getUser(long userId);
+
+    void deleteUser(long userId);
 }

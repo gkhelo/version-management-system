@@ -1,7 +1,16 @@
 import { apiAxiosInstance, authAxiosInstance } from "../utils/AxiosInstance";
-import { GET_USERS, LOGIN } from "../constants/Endpoints";
+import {
+  ADD_USER,
+  DELETE_USER,
+  GET_COMPANIES,
+  GET_USER,
+  GET_USERS,
+  LOGIN,
+  UPDATE_USER,
+} from "../constants/Endpoints";
 import { User } from "../types/User";
 import { Pageable, PageImpl } from "../types/Pageable";
+import { Company } from "../types/Company";
 
 const login = async (data: FormData) => {
   return await authAxiosInstance.post(LOGIN, data);
@@ -14,9 +23,39 @@ const getUsers = async (pageable: Pageable) => {
   return response.data;
 };
 
+const getUser = async (id: string | number) => {
+  const response = await apiAxiosInstance.get<User>(`${GET_USER}/${id}`);
+  return response.data;
+};
+
+const addUser = async (user: User) => {
+  const response = await apiAxiosInstance.post<User>(ADD_USER, user);
+  return response.data;
+};
+
+const updateUser = async (user: User) => {
+  const response = await apiAxiosInstance.put<User>(UPDATE_USER, user);
+  return response.data;
+};
+
+const deleteUser = async (id: string | number) => {
+  const response = await apiAxiosInstance.delete(`${DELETE_USER}/${id}`);
+  return response.data;
+};
+
+const getCompanies = async () => {
+  const response = await apiAxiosInstance.get<Company[]>(GET_COMPANIES);
+  return response.data;
+};
+
 const ServerApi = {
   login,
   getUsers,
+  getUser,
+  addUser,
+  updateUser,
+  deleteUser,
+  getCompanies,
 };
 
 export default ServerApi;
