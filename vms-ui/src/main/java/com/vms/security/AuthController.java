@@ -112,7 +112,7 @@ public class AuthController {
             }
 
             long userId = Long.parseLong(jwt.getSubject());
-            User user = userService.getUserById(userId);
+            User user = userService.getUser(userId);
 
             return ResponseEntity.ok(new AuthResponse(userMapper.toDTO(user)));
         } catch (Exception ex) {

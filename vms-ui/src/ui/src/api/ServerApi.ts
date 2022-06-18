@@ -1,13 +1,14 @@
 import { apiAxiosInstance, authAxiosInstance } from "../utils/AxiosInstance";
-import { AUTHENTICATED, GET_USERS, LOGIN, REGISTER } from "../constants/Endpoints";
 import {
   ADD_USER,
+  AUTHENTICATED,
   DELETE_USER,
   GET_COMPANIES,
   GET_ROLES,
   GET_USER,
   GET_USERS,
   LOGIN,
+  REGISTER,
   UPDATE_USER,
 } from "../constants/Endpoints";
 import { User } from "../types/User";

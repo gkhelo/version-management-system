@@ -1,5 +1,5 @@
 export type Company = {
-  id: number;
+  id?: number;
   createTime?: string | null;
   updateTime?: string | null;
   version?: number;

@@ -67,17 +67,4 @@ public class UserServiceImpl implements UserService {
 	private boolean passwordIsFilled(String password) {
 		return password != null && !password.isEmpty() && !password.isBlank();
 	}
-    @Override
-    public User getUserById(long id) {
-        return userRepository.findById(id).orElseThrow(() -> new VMSException("User not exists"));
-    }
-
-    @Override
-    public User addUser(User user) {
-        try {
-            return userRepository.save(user);
-        } catch (Exception ex) {
-            throw new VMSException(ex.getMessage());
-        }
-    }
 }
