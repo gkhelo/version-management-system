@@ -3,6 +3,7 @@ import ListLinkItem from "./ListLinkItem";
 import PersonIcon from "@mui/icons-material/Person";
 import WorkIcon from "@mui/icons-material/Work";
 import { useTranslation } from "react-i18next";
+import { QueryKeyType } from "../../types/QueryKeyType";
 
 const DrawerListItems: React.FC = () => {
   const { t } = useTranslation();
@@ -13,14 +14,14 @@ const DrawerListItems: React.FC = () => {
         title={t("Users")}
         Icon={PersonIcon}
         pageName="users"
-        query="query-users"
+        query={QueryKeyType.USERS}
       />
       <ListLinkItem
         path="/applications"
         title={t("Applications")}
         Icon={WorkIcon}
         pageName="applications"
-        query="query-applications"
+        query={QueryKeyType.APPLICATIONS}
       />
     </List>
   );

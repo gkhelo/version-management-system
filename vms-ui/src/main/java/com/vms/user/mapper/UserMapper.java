@@ -6,7 +6,6 @@ import com.vms.model.user.User;
 import com.vms.user.dto.UserDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import org.mapstruct.Named;
 
 import java.util.List;
@@ -14,10 +13,8 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {CompanyService.class})
 public interface UserMapper {
 
-	@Mappings({
-            @Mapping(target = "companyId", source = "company", qualifiedByName = "companyToId"),
-            @Mapping(target = "password", ignore = true)
-    })
+	@Mapping(target = "companyId", source = "company", qualifiedByName = "companyToId")
+	@Mapping(target = "password", ignore = true)
 	UserDTO toDTO(User user);
 
 	@Mapping(target = "company", source = "companyId")

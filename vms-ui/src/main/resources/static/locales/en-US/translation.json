@@ -1,6 +1,6 @@
 {
   "Version Management System": "Version Management System",
-  "Logout": "Logout",
+  "logout": "Logout",
   "createTime": "Creation Time",
   "updateTime": "Update Time",
   "version": "Version",
@@ -9,5 +9,24 @@
   "firstname": "Firstname",
   "lastname": "Lastname",
   "email": "Email",
-  "Applications": "Applications"
+  "password": "password",
+  "confirmPassword": "Confirm password",
+  "save": "save",
+  "Applications": "Applications",
+  "editUser": "Edit user",
+  "addUser": "Add User",
+  "deleteUser": "Delete user",
+  "homepage": "Homepage",
+  "labelRowsPerPage": "Rows per page",
+  "labelDisplayedRows": "{{from}}-{{to}} of {{count}}",
+  "company": "Company",
+  "Username is required" : "Username is required",
+  "Firstname is required": "Firstname is required",
+  "Lastname is required": "Lastname is required",
+  "Enter a valid email": "Enter a valid email",
+  "Email is required": "Email is required",
+  "Company is required": "Company is required",
+  "Password should be of minimum min characters length": "Password should be of minimum {{min}} characters length",
+  "Password is required": "Password is required",
+  "Passwords do not match": "Passwords do not match"
 }

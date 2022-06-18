@@ -1,11 +1,12 @@
 import { useContext } from "react";
-import { useNavigate } from "react-location";
+import { useNavigate } from "@tanstack/react-location";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { ListItemButton, Tooltip } from "@mui/material";
 import { Context } from "../../context/AppContext";
 import { makeStyles } from "@mui/styles";
 import { useQueryClient } from "react-query";
+import { QueryKeyType } from "../../types/QueryKeyType";
 
 const useStyles = makeStyles(() => ({
   selected: {
@@ -51,7 +52,7 @@ type ListLinkItemType = {
   path: string;
   Icon: React.ElementType;
   pageName: string;
-  query?: string;
+  query?: QueryKeyType;
 };
 
 export default ListLinkItem;

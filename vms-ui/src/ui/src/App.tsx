@@ -8,13 +8,15 @@ import {
   Outlet,
   ReactLocation,
   Router,
-} from "react-location";
+} from "@tanstack/react-location";
+import { rankRoutes } from "@tanstack/react-location-rank-routes";
 import { Provider as AppProvider } from "./context/AppContext";
 import { Provider as UserProvider } from "./context/UserContext";
 import MainContainer from "./pages/home/MainContainer";
 import Homepage from "./pages/home/Homepage";
-import Users from "./pages/user/Users";
+import UsersPage from "./pages/user/UsersPage";
 import Applications from "./pages/application/Applications";
+import UserPage from "./pages/user/UserPage";
 
 const queryClient = new QueryClient();
 const history = createHashHistory();
@@ -29,17 +31,20 @@ const App = () => {
         <AppProvider>
           <Router
             location={location}
+            filterRoutes={rankRoutes}
             routes={[
               {
-                path: "users",
-                element: <Users />,
+                path: "/users",
+                children: [
+                  { path: "/", element: <UsersPage /> },
+                  { path: "/:userId", element: <UserPage /> },
+                ],
               },
               {
-                path: "applications",
+                path: "/applications",
                 element: <Applications />,
               },
-
-              { path: "/*", element: <Homepage /> },
+              { path: "/", element: <Homepage /> },
             ]}
           >
             <ThemeProvider theme={theme}>

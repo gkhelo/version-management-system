@@ -48,7 +48,10 @@ const useStyles = makeStyles(() => ({
 const MainContainer: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { state : { user }, setUser }  = React.useContext(UserContext);
+  const {
+    state: { user },
+    setUser,
+  } = React.useContext(UserContext);
   const [open, setOpen] = React.useState(false);
   const classes = useStyles(open);
   const { t } = useTranslation();
@@ -62,7 +65,7 @@ const MainContainer: React.FC<{ children: React.ReactNode }> = ({
 
   useAuthenticatedUser();
   if (!user) {
-    return <Login />
+    return <Login />;
   }
 
   return (
@@ -87,8 +90,12 @@ const MainContainer: React.FC<{ children: React.ReactNode }> = ({
             {t("Version Management System")}
           </Typography>
 
-          <Button disableElevation className={classes.logoutButton} onClick={handleLogout}>
-            {t("Logout")}
+          <Button
+            disableElevation
+            className={classes.logoutButton}
+            onClick={handleLogout}
+          >
+            {t("logout")}
           </Button>
         </Toolbar>
       </AppBar>

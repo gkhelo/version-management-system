@@ -8,8 +8,11 @@ export type User = {
   firstname?: string | null;
   lastname?: string | null;
   email?: string | null;
+  password?: string | null;
+  confirmPassword?: string | null;
   passwordChangeRequired?: boolean;
   role?: Role | null;
+  companyId?: number | null;
 };
 
 export enum Role {

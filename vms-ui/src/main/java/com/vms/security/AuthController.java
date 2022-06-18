@@ -31,7 +31,7 @@ import java.util.Objects;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Value("${jwt.expiry:120}")
+    @Value("${jwt.expiry:86400}")
     private long expiry;
 
     @Autowired
