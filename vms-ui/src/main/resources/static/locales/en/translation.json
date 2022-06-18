@@ -11,6 +11,7 @@
   "email": "Email",
   "password": "password",
   "confirmPassword": "Confirm password",
+  "role": "Role",
   "save": "save",
   "Applications": "Applications",
   "editUser": "Edit user",
@@ -28,5 +29,6 @@
   "Company is required": "Company is required",
   "Password should be of minimum min characters length": "Password should be of minimum {{min}} characters length",
   "Password is required": "Password is required",
-  "Passwords do not match": "Passwords do not match"
+  "Passwords do not match": "Passwords do not match",
+  "Role is required": "Role is required"
 }

@@ -61,12 +61,13 @@ const UsersPage: React.FC = () => {
                 {
                   field: "id",
                   headerName: "ID",
-                  flex: 1,
+                  flex: 0.5,
                 },
                 { field: "username", headerName: t("username"), flex: 2 },
                 { field: "firstname", headerName: t("firstname"), flex: 2 },
                 { field: "lastname", headerName: t("lastname"), flex: 2 },
                 { field: "email", headerName: t("email"), flex: 2 },
+                { field: "role", headerName: t("role"), flex: 1 },
                 {
                   field: "createTime",
                   headerName: t("createTime"),

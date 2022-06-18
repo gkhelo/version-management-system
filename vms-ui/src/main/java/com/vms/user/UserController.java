@@ -1,6 +1,7 @@
 package com.vms.user;
 
 import com.vms.model.user.User;
+import com.vms.user.dto.RoleDTO;
 import com.vms.user.dto.UserDTO;
 import com.vms.user.mapper.UserMapper;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -68,6 +69,11 @@ public class UserController {
 	public ResponseEntity<?> deleteUser(@PathVariable("userId") long userId) {
 		userService.deleteUser(userId);
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@GetMapping("/roles")
+	public RoleDTO[] getAllRoles() {
+		return RoleDTO.values();
 	}
 
 }

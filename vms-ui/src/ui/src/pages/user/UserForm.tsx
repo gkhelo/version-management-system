@@ -5,6 +5,8 @@ import * as yup from "yup";
 import FormikSelect from "../../components/FormikSelect";
 import FormikTextfield from "../../components/FormikTextfield";
 import useCompanies from "../../hooks/useCompanies";
+import useRoles from "../../hooks/useRoles";
+import { Company } from "../../types/Company";
 import { User } from "../../types/User";
 
 const validationSchema = yup.object({
@@ -17,6 +19,7 @@ const validationSchema = yup.object({
     .required("Email is required")
     .nullable(),
   companyId: yup.string().required("Company is required").nullable(),
+  role: yup.string().required("Role is required").nullable(),
   password: yup
     .string()
     .default(null)
@@ -45,6 +48,7 @@ const UserForm: React.FC<{ user: User | null; onSubmitHandler: Function }> = ({
   const initialValues: User = user ? { ...user } : { id: 0 };
 
   const companies = useCompanies();
+  const roles = useRoles();
 
   return (
     <Container maxWidth={false} disableGutters>
@@ -68,14 +72,22 @@ const UserForm: React.FC<{ user: User | null; onSubmitHandler: Function }> = ({
                 <FormikTextfield<User> name="email" label={t("email")} />
                 <FormikSelect<User>
                   name="companyId"
-                  label={t("Company")}
+                  label={t("company")}
+                  getValue={(company: Company) => company.id}
+                  renderValue={(company: Company) => company.name}
                   data={companies.data}
+                />
+                <FormikSelect<User>
+                  name="role"
+                  label={t("role")}
+                  getValue={(role: string) => role}
+                  renderValue={(role: string) => role}
+                  data={roles.data}
                 />
                 <FormikTextfield<User>
                   name="password"
                   label={t("password")}
                   type="password"
-                  reqired
                 />
                 <FormikTextfield<User>
                   name="confirmPassword"
