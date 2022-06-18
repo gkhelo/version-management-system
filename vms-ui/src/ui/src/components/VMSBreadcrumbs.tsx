@@ -1,8 +1,28 @@
-import { Breadcrumbs, Link, Typography } from "@mui/material";
+import { Breadcrumbs, Link, styled, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "@tanstack/react-location";
 import { BreadcrumbLink } from "../types/Breadcrumbs";
 import { useTranslation } from "react-i18next";
+
+const StyledLink = styled(Link)(() => ({
+  cursor: "pointer",
+}));
+
+const StyledBreadcrumbLink: React.FC<{
+  children: React.ReactNode;
+  onClickHandler: React.MouseEventHandler;
+}> = ({ children, onClickHandler }, props) => {
+  return (
+    <StyledLink
+      underline="hover"
+      color="inherit"
+      onClick={(e) => onClickHandler(e)}
+      {...props}
+    >
+      {children}
+    </StyledLink>
+  );
+};
 
 const VMSBreadcrumbs: React.FC<{ links: BreadcrumbLink[] }> = (
   { links },
@@ -18,14 +38,11 @@ const VMSBreadcrumbs: React.FC<{ links: BreadcrumbLink[] }> = (
   };
   return (
     <Breadcrumbs color="primary" sx={{ marginBottom: 1 }} {...props}>
-      <Link
-        underline="hover"
-        key="1"
-        color="inherit"
-        onClick={(e) => locationChangeHandler(e, "/")}
+      <StyledBreadcrumbLink
+        onClickHandler={(e) => locationChangeHandler(e, "/")}
       >
         {t("homepage")}
-      </Link>
+      </StyledBreadcrumbLink>
       {[
         ...links.map((link: BreadcrumbLink, index: number) => {
           return index === links.length - 1 ? (
@@ -33,13 +50,12 @@ const VMSBreadcrumbs: React.FC<{ links: BreadcrumbLink[] }> = (
               {link.name}
             </Typography>
           ) : (
-            <Link
-              underline="hover"
+            <StyledBreadcrumbLink
               key={link.name}
-              onClick={(e) => locationChangeHandler(e, link.location)}
+              onClickHandler={(e) => locationChangeHandler(e, link.location)}
             >
               {link.name}
-            </Link>
+            </StyledBreadcrumbLink>
           );
         }),
       ]}

@@ -5,6 +5,8 @@ export const LOGIN = "login";
 
 export const GET_USERS = "users/all";
 export const GET_USER = "users/get";
-export const SAVE_USER = "users/save";
+export const ADD_USER = "users/add";
+export const UPDATE_USER = "users/update";
 export const DELETE_USER = "users/delete";
 
+export const GET_COMPANIES = "companies/all";
