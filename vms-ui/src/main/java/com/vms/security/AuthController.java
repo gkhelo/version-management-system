@@ -31,93 +31,93 @@ import java.util.Objects;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Value("${jwt.expiry:86400}")
-    private long expiry;
+	@Value("${jwt.expiry:86400}")
+	private long expiry;
 
-    @Autowired
-    private Logger log;
+	@Autowired
+	private Logger log;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @Autowired
-    private CompanyService companyService;
+	@Autowired
+	private CompanyService companyService;
 
-    @Autowired
-    private JwtEncoder jwtEncoder;
+	@Autowired
+	private JwtEncoder jwtEncoder;
 
-    @Autowired
-    private JwtDecoder jwtDecoder;
+	@Autowired
+	private JwtDecoder jwtDecoder;
 
-    @Autowired
-    private UserMapper userMapper;
+	@Autowired
+	private UserMapper userMapper;
 
-    @Autowired
-    private CompanyMapper companyMapper;
+	@Autowired
+	private CompanyMapper companyMapper;
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(AuthRequest request) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-            );
+	@PostMapping("/login")
+	public ResponseEntity<AuthResponse> login(AuthRequest request) {
+		try {
+			Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+			);
 
-            User user = ((CustomUserDetails) authentication.getPrincipal()).getUser();
+			User user = ((CustomUserDetails) authentication.getPrincipal()).getUser();
 
-            Instant now = Instant.now();
-            JwtClaimsSet claims = JwtClaimsSet.builder()
-                    .issuer("com.vms")
-                    .issuedAt(now)
-                    .expiresAt(now.plusSeconds(expiry))
-                    .subject(String.valueOf(user.getId()))
-                    .claim("role", user.getRole().name())
-                    .build();
+			Instant now = Instant.now();
+			JwtClaimsSet claims = JwtClaimsSet.builder()
+				.issuer("com.vms")
+				.issuedAt(now)
+				.expiresAt(now.plusSeconds(expiry))
+				.subject(String.valueOf(user.getId()))
+				.claim("role", user.getRole().name())
+				.build();
 
-            String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+			String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
-            log.info("Successfully authenticated {}", user.getUsername());
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.AUTHORIZATION, token)
-                    .body(new AuthResponse(userMapper.toDTO(user)));
-        } catch (BadCredentialsException ex) {
-            log.error("Unsuccessful authentication, bad credentials for {}", request.getUsername());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-    }
+			log.info("Successfully authenticated {}", user.getUsername());
+			return ResponseEntity.ok()
+				.header(HttpHeaders.AUTHORIZATION, token)
+				.body(new AuthResponse(userMapper.toDTO(user)));
+		} catch (BadCredentialsException ex) {
+			log.error("Unsuccessful authentication, bad credentials for {}", request.getUsername());
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+	}
 
-    @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody RegisterRequest request) {
-        try {
-            Company company = companyMapper.fromDTO(request.getCompany());
-            User admin = userMapper.fromDTO(request.getAdmin());
+	@PostMapping("/register")
+	public ResponseEntity<Void> register(@RequestBody RegisterRequest request) {
+		try {
+			Company company = companyMapper.fromDTO(request.getCompany());
+			User admin = userMapper.fromDTO(request.getAdmin());
 
-            companyService.addCompany(company, admin);
+			companyService.addCompany(company, admin);
 
-            return ResponseEntity.ok().build();
-        } catch (VMSException ex) {
-            log.error("Error occurred while trying to register new company: {}", ex.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
-    }
+			return ResponseEntity.ok().build();
+		} catch (VMSException ex) {
+			log.error("Error occurred while trying to register new company: {}", ex.getMessage());
+			return ResponseEntity.badRequest().build();
+		}
+	}
 
-    @GetMapping("/authenticated/{jwt}")
-    public ResponseEntity<AuthResponse> getAuthenticatedUser(@PathVariable(name = "jwt") String jwtToken) {
-        try {
-            Jwt jwt = jwtDecoder.decode(jwtToken);
-            if (Objects.requireNonNull(jwt.getExpiresAt()).isBefore(Instant.now())) {
-                throw new JwtException("Token expired");
-            }
+	@GetMapping("/authenticated/{jwt}")
+	public ResponseEntity<AuthResponse> getAuthenticatedUser(@PathVariable(name = "jwt") String jwtToken) {
+		try {
+			Jwt jwt = jwtDecoder.decode(jwtToken);
+			if (Objects.requireNonNull(jwt.getExpiresAt()).isBefore(Instant.now())) {
+				throw new JwtException("Token expired");
+			}
 
-            long userId = Long.parseLong(jwt.getSubject());
-            User user = userService.getUser(userId);
+			long userId = Long.parseLong(jwt.getSubject());
+			User user = userService.getUser(userId);
 
-            return ResponseEntity.ok(new AuthResponse(userMapper.toDTO(user)));
-        } catch (Exception ex) {
-            log.error("Error occurred while trying to get authenticated user: {}", ex.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
-    }
+			return ResponseEntity.ok(new AuthResponse(userMapper.toDTO(user)));
+		} catch (Exception ex) {
+			log.error("Error occurred while trying to get authenticated user: {}", ex.getMessage());
+			return ResponseEntity.badRequest().build();
+		}
+	}
 }

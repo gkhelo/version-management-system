@@ -10,11 +10,11 @@ import java.util.List;
 @Service
 public class GroupServiceImpl implements GroupService {
 
-    @Autowired
-    private GroupRepository groupRepository;
+	@Autowired
+	private GroupRepository groupRepository;
 
-    @Override
-    public List<Group> getGroups() {
-        return groupRepository.findAll();
-    }
+	@Override
+	public List<Group> getGroups() {
+		return groupRepository.findAll();
+	}
 }

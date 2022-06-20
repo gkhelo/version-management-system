@@ -21,7 +21,7 @@
   "labelRowsPerPage": "Rows per page",
   "labelDisplayedRows": "{{from}}-{{to}} of {{count}}",
   "company": "Company",
-  "Username is required" : "Username is required",
+  "Username is required": "Username is required",
   "Firstname is required": "Firstname is required",
   "Lastname is required": "Lastname is required",
   "Enter a valid email": "Enter a valid email",

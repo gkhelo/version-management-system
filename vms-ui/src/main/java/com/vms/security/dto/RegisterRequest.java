@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class RegisterRequest {
 
-    private CompanyDTO company;
+	private CompanyDTO company;
 
-    private UserDTO admin;
+	private UserDTO admin;
 }

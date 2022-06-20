@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface CompanyService {
 
-    List<Company> getCompanies();
+	List<Company> getCompanies();
 
-    Company findById(long id);
+	Company findById(long id);
 
-    Company addCompany(Company company, User admin);
+	Company addCompany(Company company, User admin);
 }

@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class CompanyDTO extends ConfigurableDTO {
 
-    private String name;
+	private String name;
 
-    private String email;
+	private String email;
 }

@@ -19,11 +19,11 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 public class CompanyController {
 
-    @Autowired
-    private CompanyService companyService;
+	@Autowired
+	private CompanyService companyService;
 
-    @GetMapping("/all")
-    public List<CompanyDTO> getAllCompanies() {
-        return CompanyMapper.INSTANCE.toDTOs(companyService.getCompanies());
-    }
+	@GetMapping("/all")
+	public List<CompanyDTO> getAllCompanies() {
+		return CompanyMapper.INSTANCE.toDTOs(companyService.getCompanies());
+	}
 }

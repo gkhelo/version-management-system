@@ -19,11 +19,11 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 public class GroupController {
 
-    @Autowired
-    private GroupService groupService;
+	@Autowired
+	private GroupService groupService;
 
-    @GetMapping("/all")
-    public List<GroupDTO> getAllGroups() {
-        return GroupMapper.INSTANCE.toDTOs(groupService.getGroups());
-    }
+	@GetMapping("/all")
+	public List<GroupDTO> getAllGroups() {
+		return GroupMapper.INSTANCE.toDTOs(groupService.getGroups());
+	}
 }

@@ -8,19 +8,19 @@ import lombok.Setter;
 @Setter
 public class UserDTO extends ConfigurableDTO {
 
-    private String username;
+	private String username;
 
-    private String password;
+	private String password;
 
-    private String firstname;
+	private String firstname;
 
-    private String lastname;
+	private String lastname;
 
-    private String email;
+	private String email;
 
-    private boolean passwordChangeRequired;
+	private boolean passwordChangeRequired;
 
-    private RoleDTO role;
+	private RoleDTO role;
 
-    private Long companyId;
+	private Long companyId;
 }

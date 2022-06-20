@@ -10,13 +10,13 @@ import java.util.List;
 @Mapper
 public interface GroupMapper {
 
-    GroupMapper INSTANCE = Mappers.getMapper(GroupMapper.class);
+	GroupMapper INSTANCE = Mappers.getMapper(GroupMapper.class);
 
-    GroupDTO toDTO(Group group);
+	GroupDTO toDTO(Group group);
 
-    Group fromDTO(GroupDTO dto);
+	Group fromDTO(GroupDTO dto);
 
-    List<GroupDTO> toDTOs(List<Group> group);
+	List<GroupDTO> toDTOs(List<Group> group);
 
-    List<Group> fromDTOs(List<GroupDTO> dtos);
+	List<Group> fromDTOs(List<GroupDTO> dtos);
 }

@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Scope;
 @Configuration
 public class LoggerConfiguration {
 
-    @Bean
-    @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-    public Logger logger(InjectionPoint injectionPoint) {
-        Class<?> clazz = injectionPoint.getMember().getDeclaringClass();
-        return LoggerFactory.getLogger(clazz);
-    }
+	@Bean
+	@Scope(BeanDefinition.SCOPE_PROTOTYPE)
+	public Logger logger(InjectionPoint injectionPoint) {
+		Class<?> clazz = injectionPoint.getMember().getDeclaringClass();
+		return LoggerFactory.getLogger(clazz);
+	}
 }

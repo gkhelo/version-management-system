@@ -11,27 +11,27 @@ import java.util.Date;
 @MappedSuperclass
 public class Configurable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 
-    private Date createTime;
+	private Date createTime;
 
-    private Date updateTime;
+	private Date updateTime;
 
-    @Version
-    private long version;
+	@Version
+	private long version;
 
-    @PrePersist
-    public void onCreate() {
-        Date now = new Date();
+	@PrePersist
+	public void onCreate() {
+		Date now = new Date();
 
-        createTime = now;
-        updateTime = now;
-    }
+		createTime = now;
+		updateTime = now;
+	}
 
-    @PreUpdate
-    public void onUpdate() {
-        updateTime = new Date();
-    }
+	@PreUpdate
+	public void onUpdate() {
+		updateTime = new Date();
+	}
 }

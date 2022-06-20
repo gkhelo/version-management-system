@@ -10,11 +10,11 @@ import java.util.Date;
 @Setter
 public class ConfigurableDTO implements Serializable {
 
-    private long id;
+	private long id;
 
-    private Date createTime;
+	private Date createTime;
 
-    private Date updateTime;
+	private Date updateTime;
 
-    private long version;
+	private long version;
 }

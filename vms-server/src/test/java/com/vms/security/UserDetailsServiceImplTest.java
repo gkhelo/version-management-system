@@ -24,45 +24,45 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class UserDetailsServiceImplTest {
 
-    @Mock
-    private UserRepository userRepository;
+	@Mock
+	private UserRepository userRepository;
 
-    @InjectMocks
-    private UserDetailsServiceImpl service;
+	@InjectMocks
+	private UserDetailsServiceImpl service;
 
-    @Test
-    public void shouldThrowException_when_userNotExists() {
-        when(userRepository.findByUsername(any())).thenReturn(Optional.empty());
+	@Test
+	public void shouldThrowException_when_userNotExists() {
+		when(userRepository.findByUsername(any())).thenReturn(Optional.empty());
 
-        String username = "username";
-        UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> service.loadUserByUsername(username));
+		String username = "username";
+		UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> service.loadUserByUsername(username));
 
-        assertEquals(format("User %s not exists", username), exception.getMessage());
-    }
+		assertEquals(format("User %s not exists", username), exception.getMessage());
+	}
 
-    @Test
-    public void shouldReturnUserDetails_when_userExists() {
-        String username = "username";
-        String password = "password";
-        Role role = Role.ADMIN;
+	@Test
+	public void shouldReturnUserDetails_when_userExists() {
+		String username = "username";
+		String password = "password";
+		Role role = Role.ADMIN;
 
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setRole(role);
+		User user = new User();
+		user.setUsername(username);
+		user.setPassword(password);
+		user.setRole(role);
 
-        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
+		when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
 
-        UserDetails details = service.loadUserByUsername(username);
-        assertInstanceOf(CustomUserDetails.class, details);
+		UserDetails details = service.loadUserByUsername(username);
+		assertInstanceOf(CustomUserDetails.class, details);
 
-        CustomUserDetails customUserDetails = (CustomUserDetails) details;
-        assertEquals(username, customUserDetails.getUsername());
-        assertEquals(password, customUserDetails.getPassword());
+		CustomUserDetails customUserDetails = (CustomUserDetails) details;
+		assertEquals(username, customUserDetails.getUsername());
+		assertEquals(password, customUserDetails.getPassword());
 
-        assertEquals(1, customUserDetails.getAuthorities().size());
-        assertEquals(role.name(), new ArrayList<GrantedAuthority>(customUserDetails.getAuthorities()).get(0).getAuthority());
+		assertEquals(1, customUserDetails.getAuthorities().size());
+		assertEquals(role.name(), new ArrayList<GrantedAuthority>(customUserDetails.getAuthorities()).get(0).getAuthority());
 
-        assertEquals(user, customUserDetails.getUser());
-    }
+		assertEquals(user, customUserDetails.getUser());
+	}
 }

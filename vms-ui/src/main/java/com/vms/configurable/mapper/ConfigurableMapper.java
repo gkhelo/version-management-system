@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface ConfigurableMapper {
 
-    ConfigurableDTO toDTO(Configurable configurable);
+	ConfigurableDTO toDTO(Configurable configurable);
 
-    Configurable fromDTO(ConfigurableDTO dto);
+	Configurable fromDTO(ConfigurableDTO dto);
 }

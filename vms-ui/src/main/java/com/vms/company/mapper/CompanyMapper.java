@@ -10,13 +10,13 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CompanyMapper {
 
-    CompanyMapper INSTANCE = Mappers.getMapper(CompanyMapper.class);
+	CompanyMapper INSTANCE = Mappers.getMapper(CompanyMapper.class);
 
-    CompanyDTO toDTO(Company company);
+	CompanyDTO toDTO(Company company);
 
-    Company fromDTO(CompanyDTO dto);
+	Company fromDTO(CompanyDTO dto);
 
-    List<CompanyDTO> toDTOs(List<Company> companies);
+	List<CompanyDTO> toDTOs(List<Company> companies);
 
-    List<Company> fromDTOs(List<CompanyDTO> dtos);
+	List<Company> fromDTOs(List<CompanyDTO> dtos);
 }

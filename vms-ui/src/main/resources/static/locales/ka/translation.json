@@ -21,7 +21,7 @@
   "labelRowsPerPage": "ჩანაწერები გვერდზე",
   "labelDisplayedRows": "{{from}}-{{to}} {{count}}-დან",
   "company": "კომპანია",
-  "Username is required" : "მომხმარებლის სახელის შევსება სავალდებულოა",
+  "Username is required": "მომხმარებლის სახელის შევსება სავალდებულოა",
   "Firstname is required": "სახელის შევსება სავალდებულოა",
   "Lastname is required": "გვარის შევსება სავალდებულოა",
   "Enter a valid email": "შეიყვანეთ ვალიდური ელ.ფოსტა",

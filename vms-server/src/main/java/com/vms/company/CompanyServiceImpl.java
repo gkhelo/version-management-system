@@ -21,7 +21,7 @@ public class CompanyServiceImpl implements CompanyService {
 	private CompanyRepository companyRepository;
 
 	@Autowired
-    private UserService userService;
+	private UserService userService;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;

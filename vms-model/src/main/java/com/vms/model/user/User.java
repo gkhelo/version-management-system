@@ -1,7 +1,7 @@
 package com.vms.model.user;
 
-import com.vms.model.configurable.Configurable;
 import com.vms.model.company.Company;
+import com.vms.model.configurable.Configurable;
 import com.vms.model.group.Group;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"company_id", "username"})
+	@UniqueConstraint(columnNames = {"company_id", "username"})
 })
 public class User extends Configurable {
 
@@ -46,9 +46,9 @@ public class User extends Configurable {
 
 	@ManyToMany
 	@JoinTable(
-			name = "user_groups",
-			joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "group_id")
+		name = "user_groups",
+		joinColumns = @JoinColumn(name = "user_id"),
+		inverseJoinColumns = @JoinColumn(name = "group_id")
 	)
 	private List<Group> groups;
 }

@@ -18,43 +18,43 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class GroupServiceImplTest {
 
-    @Mock
-    private GroupRepository groupRepository;
+	@Mock
+	private GroupRepository groupRepository;
 
-    @InjectMocks
-    private GroupServiceImpl service;
+	@InjectMocks
+	private GroupServiceImpl service;
 
-    @Test
-    public void test_empty_getGroups() {
-        when(groupRepository.findAll()).thenReturn(Collections.emptyList());
+	@Test
+	public void test_empty_getGroups() {
+		when(groupRepository.findAll()).thenReturn(Collections.emptyList());
 
-        List<Group> result = service.getGroups();
-        assertEquals(0, result.size());
-    }
+		List<Group> result = service.getGroups();
+		assertEquals(0, result.size());
+	}
 
-    @Test
-    public void test_getGroups() {
-        int numGroups = 5;
-        String namePrefix = "name_";
+	@Test
+	public void test_getGroups() {
+		int numGroups = 5;
+		String namePrefix = "name_";
 
-        List<Group> groups = new ArrayList<>();
-        for (int i = 0; i < numGroups; i++) {
-            Group group = new Group();
-            group.setId(i);
-            group.setName(namePrefix + i);
+		List<Group> groups = new ArrayList<>();
+		for (int i = 0; i < numGroups; i++) {
+			Group group = new Group();
+			group.setId(i);
+			group.setName(namePrefix + i);
 
-            groups.add(group);
-        }
+			groups.add(group);
+		}
 
-        when(groupRepository.findAll()).thenReturn(groups);
-        List<Group> result = service.getGroups();
+		when(groupRepository.findAll()).thenReturn(groups);
+		List<Group> result = service.getGroups();
 
-        assertEquals(numGroups, result.size());
-        for (int i = 0; i < numGroups; i++) {
-            Group group = result.get(i);
+		assertEquals(numGroups, result.size());
+		for (int i = 0; i < numGroups; i++) {
+			Group group = result.get(i);
 
-            assertEquals(i, group.getId());
-            assertEquals(namePrefix + i, group.getName());
-        }
-    }
+			assertEquals(i, group.getId());
+			assertEquals(namePrefix + i, group.getName());
+		}
+	}
 }

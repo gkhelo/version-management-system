@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 public class GroupDTO extends ConfigurableDTO {
 
-    private String name;
+	private String name;
 }

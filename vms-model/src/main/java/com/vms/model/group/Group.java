@@ -15,12 +15,12 @@ import java.util.List;
 @Table(name = "groups")
 public class Group extends Configurable {
 
-    private String name;
+	private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id", nullable = false)
-    private Company company;
+	@ManyToOne
+	@JoinColumn(name = "company_id", nullable = false)
+	private Company company;
 
-    @ManyToMany(mappedBy = "groups")
-    private List<User> users;
+	@ManyToMany(mappedBy = "groups")
+	private List<User> users;
 }

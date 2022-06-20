@@ -12,5 +12,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AuthResponse {
 
-    private UserDTO user;
+	private UserDTO user;
 }

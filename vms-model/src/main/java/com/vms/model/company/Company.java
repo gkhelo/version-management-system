@@ -17,17 +17,17 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "companies", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "name")
+	@UniqueConstraint(columnNames = "name")
 })
 public class Company extends Configurable {
 
-    private String name;
+	private String name;
 
-    private String email;
+	private String email;
 
-    @OneToMany(mappedBy = "company")
-    private List<User> users = new ArrayList<>();
+	@OneToMany(mappedBy = "company")
+	private List<User> users = new ArrayList<>();
 
-    @OneToMany(mappedBy = "company")
-    private List<Group> groups = new ArrayList<>();
+	@OneToMany(mappedBy = "company")
+	private List<Group> groups = new ArrayList<>();
 }

@@ -22,32 +22,32 @@ import java.security.interfaces.RSAPublicKey;
 @Configuration
 public class JwtConfiguration {
 
-    @Value("${jwt.public.key}")
-    private RSAPublicKey rsaPublicKey;
+	@Value("${jwt.public.key}")
+	private RSAPublicKey rsaPublicKey;
 
-    @Value("${jwt.private.key}")
-    private RSAPrivateKey rsaPrivateKey;
+	@Value("${jwt.private.key}")
+	private RSAPrivateKey rsaPrivateKey;
 
-    @Bean
-    public JwtEncoder jwtEncoder() {
-        JWK jwk = new RSAKey.Builder(rsaPublicKey).privateKey(rsaPrivateKey).build();
-        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
-        return new NimbusJwtEncoder(jwks);
-    }
+	@Bean
+	public JwtEncoder jwtEncoder() {
+		JWK jwk = new RSAKey.Builder(rsaPublicKey).privateKey(rsaPrivateKey).build();
+		JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
+		return new NimbusJwtEncoder(jwks);
+	}
 
-    @Bean
-    public JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withPublicKey(rsaPublicKey).build();
-    }
+	@Bean
+	public JwtDecoder jwtDecoder() {
+		return NimbusJwtDecoder.withPublicKey(rsaPublicKey).build();
+	}
 
-    @Bean
-    public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("role");
-        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("");
+	@Bean
+	public JwtAuthenticationConverter jwtAuthenticationConverter() {
+		JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+		jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("role");
+		jwtGrantedAuthoritiesConverter.setAuthorityPrefix("");
 
-        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
-        return jwtAuthenticationConverter;
-    }
+		JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+		jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
+		return jwtAuthenticationConverter;
+	}
 }
