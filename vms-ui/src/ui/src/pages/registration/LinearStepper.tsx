@@ -10,7 +10,7 @@ const LinearStepper = (props: any) => {
   const steps: [StepInfo] = props.steps;
   const handleSubmit = props.handleSubmit;
 
-  const [ activeStep, setActiveStep ] = React.useState(0);
+  const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -25,39 +25,37 @@ const LinearStepper = (props: any) => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Stepper activeStep={ activeStep } alternativeLabel>
-        {
-          steps.map(info => {
-            const stepProps: { completed?: boolean } = {};
-            return (
-              <Step key={ info.name } { ...stepProps }>
-                <StepLabel>{ info.name }</StepLabel>
-              </Step>
-            );
-          })
-        }
+      <Stepper activeStep={activeStep} alternativeLabel>
+        {steps.map((info) => {
+          const stepProps: { completed?: boolean } = {};
+          return (
+            <Step key={info.name} {...stepProps}>
+              <StepLabel>{info.name}</StepLabel>
+            </Step>
+          );
+        })}
       </Stepper>
 
-      { steps[activeStep].component }
+      {steps[activeStep].component}
 
-      <Box sx={{display: "flex", flexDirection: "row", pt: 2}}>
+      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
         <Button
           color="inherit"
-          disabled={ isFirstStep }
-          onClick={ handleBack }
+          disabled={isFirstStep}
+          onClick={handleBack}
           sx={{ mr: 1 }}
         >
           Back
         </Button>
 
-        <Box sx={{ flex: "1 1 auto" }}/>
+        <Box sx={{ flex: "1 1 auto" }} />
 
-        <Button onClick={ isLastStep ? handleSubmit : handleNext }>
-          { isLastStep ? "Submit" : "Next" }
+        <Button onClick={isLastStep ? handleSubmit : handleNext}>
+          {isLastStep ? "Submit" : "Next"}
         </Button>
       </Box>
     </Box>
   );
-}
+};
 
 export default LinearStepper;

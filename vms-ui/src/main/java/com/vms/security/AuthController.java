@@ -21,8 +21,18 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.jwt.*;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.oauth2.jwt.JwtException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -69,19 +79,19 @@ public class AuthController {
 
 			Instant now = Instant.now();
 			JwtClaimsSet claims = JwtClaimsSet.builder()
-				.issuer("com.vms")
-				.issuedAt(now)
-				.expiresAt(now.plusSeconds(expiry))
-				.subject(String.valueOf(user.getId()))
-				.claim("role", user.getRole().name())
-				.build();
+											  .issuer("com.vms")
+											  .issuedAt(now)
+											  .expiresAt(now.plusSeconds(expiry))
+											  .subject(String.valueOf(user.getId()))
+											  .claim("role", user.getRole().name())
+											  .build();
 
 			String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
 			log.info("Successfully authenticated {}", user.getUsername());
 			return ResponseEntity.ok()
-				.header(HttpHeaders.AUTHORIZATION, token)
-				.body(new AuthResponse(userMapper.toDTO(user)));
+								 .header(HttpHeaders.AUTHORIZATION, token)
+								 .body(new AuthResponse(userMapper.toDTO(user)));
 		} catch (BadCredentialsException ex) {
 			log.error("Unsuccessful authentication, bad credentials for {}", request.getUsername());
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

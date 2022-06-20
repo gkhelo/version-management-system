@@ -1,9 +1,6 @@
 import { Dispatch } from "react";
 import createDataContext from "./createDataContext";
-import {
-  ActionInterface,
-  AppState,
-} from "../types/ContextType";
+import { ActionInterface, AppState } from "../types/ContextType";
 
 const appReducer = (state: AppState, action: ActionInterface): AppState => {
   switch (action.type) {
@@ -23,5 +20,5 @@ const setCurrentPage = (dispatch: Dispatch<ActionInterface>) => {
 export const { Context, Provider } = createDataContext(
   appReducer,
   { setCurrentPage },
-  { currentPage: "" }
+  { currentPage: "" },
 );

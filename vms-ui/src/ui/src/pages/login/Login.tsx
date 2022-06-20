@@ -10,14 +10,14 @@ import Registration from "../registration/Registration";
 
 const Login = () => {
   const { setUser } = useContext(Context);
-  const [ isError, setIsError ] = useState(false);
-  const [ isRegistration, setRegistration ] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isRegistration, setRegistration] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     await ServerApi.login(data)
-      .then(response => {
+      .then((response) => {
         console.log("Successfully authenticated " + data.get("username"));
 
         localStorage.setItem("jwt", response.headers.authorization);
@@ -27,12 +27,12 @@ const Login = () => {
         console.error("Bad credentials for " + data.get("username"));
 
         setIsError(true);
-      })
+      });
   };
 
   const handleRegistration = () => {
     setRegistration(true);
-  }
+  };
 
   if (isRegistration) {
     return <Registration />;
@@ -40,32 +40,30 @@ const Login = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline/>
+      <CssBaseline />
       <Box
         sx={{
           marginTop: 8,
           display: "flex",
           flexDirection: "column",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOutlinedIcon/>
+          <LockOutlinedIcon />
         </Avatar>
 
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
 
-        {isError &&
-          (
-            <Alert severity="error">
-              <AlertTitle>Bad credentials</AlertTitle>
-            </Alert>
-          )
-        }
+        {isError && (
+          <Alert severity="error">
+            <AlertTitle>Bad credentials</AlertTitle>
+          </Alert>
+        )}
 
-        <Box component="form" onSubmit={ handleSubmit } noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
@@ -100,16 +98,19 @@ const Login = () => {
 
         <Grid container>
           <Grid item>
-            <Link onClick={ handleRegistration } component="button" variant="body2">
-              { "Don't have an account? Sign Up" }
+            <Link
+              onClick={handleRegistration}
+              component="button"
+              variant="body2"
+            >
+              {"Don't have an account? Sign Up"}
             </Link>
           </Grid>
         </Grid>
-
       </Box>
-      <Copyright sx={{ mt: 8, mb: 4 }}/>
+      <Copyright sx={{ mt: 8, mb: 4 }} />
     </Container>
-  )
+  );
 };
 
 export default Login;

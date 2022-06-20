@@ -14,8 +14,8 @@ const CompanyStep = (props: any) => {
           name="companyName"
           autoComplete="name"
           autoFocus
-          onChange={ formik.handleChange }
-          value={ formik.values.companyName }
+          onChange={formik.handleChange}
+          value={formik.values.companyName}
         />
 
         <TextField
@@ -27,12 +27,12 @@ const CompanyStep = (props: any) => {
           name="companyEmail"
           type="email"
           autoComplete="email"
-          onChange={ formik.handleChange }
-          value={ formik.values.companyEmail }
+          onChange={formik.handleChange}
+          value={formik.values.companyEmail}
         />
       </form>
     </Box>
   );
-}
+};
 
 export default CompanyStep;

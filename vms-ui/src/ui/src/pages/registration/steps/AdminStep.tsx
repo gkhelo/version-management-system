@@ -14,8 +14,8 @@ const AdminStep = (props: any) => {
           name="adminUsername"
           autoComplete="username"
           autoFocus
-          onChange={ formik.handleChange }
-          value={ formik.values.adminUsername }
+          onChange={formik.handleChange}
+          value={formik.values.adminUsername}
         />
 
         <TextField
@@ -27,8 +27,8 @@ const AdminStep = (props: any) => {
           name="adminPassword"
           type="password"
           autoComplete="password"
-          onChange={ formik.handleChange }
-          value={ formik.values.adminPassword }
+          onChange={formik.handleChange}
+          value={formik.values.adminPassword}
         />
 
         <TextField
@@ -39,8 +39,8 @@ const AdminStep = (props: any) => {
           label="Firstname"
           name="adminFirstname"
           autoComplete="firstname"
-          onChange={ formik.handleChange }
-          value={ formik.values.adminFirstname }
+          onChange={formik.handleChange}
+          value={formik.values.adminFirstname}
         />
 
         <TextField
@@ -51,8 +51,8 @@ const AdminStep = (props: any) => {
           label="Lastname"
           name="adminLastname"
           autoComplete="lastname"
-          onChange={ formik.handleChange }
-          value={ formik.values.adminLastname }
+          onChange={formik.handleChange}
+          value={formik.values.adminLastname}
         />
 
         <TextField
@@ -64,12 +64,12 @@ const AdminStep = (props: any) => {
           name="adminEmail"
           type="email"
           autoComplete="email"
-          onChange={ formik.handleChange }
-          value={ formik.values.adminEmail }
+          onChange={formik.handleChange}
+          value={formik.values.adminEmail}
         />
       </form>
     </Box>
-  )
-}
+  );
+};
 
 export default AdminStep;

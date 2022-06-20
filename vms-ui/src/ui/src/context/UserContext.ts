@@ -18,8 +18,8 @@ const setUser = (dispatch: Dispatch<ActionInterface>) => {
   };
 };
 
-export const {Context, Provider} = createDataContext(
+export const { Context, Provider } = createDataContext(
   userReducer,
   { setUser },
-  { user: null }
+  { user: null },
 );

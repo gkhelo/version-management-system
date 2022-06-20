@@ -26,13 +26,13 @@ const StyledBreadcrumbLink: React.FC<{
 
 const VMSBreadcrumbs: React.FC<{ links: BreadcrumbLink[] }> = (
   { links },
-  props
+  props,
 ) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const locationChangeHandler = (
     _: React.MouseEvent,
-    location: string | undefined
+    location: string | undefined,
   ) => {
     navigate({ to: location, replace: true });
   };

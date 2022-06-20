@@ -6,11 +6,7 @@ import useUsers from "../../hooks/useUsers";
 import usePagination from "../../hooks/usePagination";
 import VMSBreadcrumbs from "../../components/VMSBreadcrumbs";
 import { GridActionsCellItem, GridRowParams } from "@mui/x-data-grid";
-import {
-  Add as AddIcon,
-  Delete as DeleteIcon,
-  Edit as EditIcon,
-} from "@mui/icons-material";
+import { Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
 import { useNavigate } from "@tanstack/react-location";
 import useDeleteMutation from "../../hooks/useDeleteMutation";
 import { QueryKeyType } from "../../types/QueryKeyType";

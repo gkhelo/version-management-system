@@ -24,7 +24,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -109,8 +111,8 @@ public class UserServiceImplTest {
 		when(userRepository.findById(any(Long.class))).thenAnswer(invocationOnMock -> {
 			Long id = invocationOnMock.getArgument(0);
 			return users.stream()
-				.filter(user -> id.equals(user.getId()))
-				.findAny();
+						.filter(user -> id.equals(user.getId()))
+						.findAny();
 		});
 
 		when(passwordEncoder.encode(any())).then(invocationOnMock -> invocationOnMock.getArgument(0));

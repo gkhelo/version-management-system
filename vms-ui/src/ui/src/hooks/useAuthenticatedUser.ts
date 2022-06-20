@@ -3,13 +3,16 @@ import { useContext, useEffect } from "react";
 import { Context as UserContext } from "../context/UserContext";
 
 const useAuthenticatedUser = () => {
-  const { state: { user }, setUser } = useContext(UserContext);
+  const {
+    state: { user },
+    setUser,
+  } = useContext(UserContext);
   const jwt = localStorage.getItem("jwt");
 
   useEffect(() => {
     if (!user && jwt) {
       ServerApi.getAuthenticatedUser(jwt)
-        .then(response => {
+        .then((response) => {
           console.log("Successfully fetched authenticated user");
 
           setUser(response.data.user);
@@ -21,6 +24,6 @@ const useAuthenticatedUser = () => {
   }, []);
 
   return [];
-}
+};
 
 export default useAuthenticatedUser;

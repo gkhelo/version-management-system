@@ -4,7 +4,7 @@ import { ActionInterface, PermissionState } from "../types/ContextType";
 
 const permissionsReducer = (
   state: PermissionState,
-  action: ActionInterface
+  action: ActionInterface,
 ): PermissionState => {
   switch (action.type) {
     case "set_permissions":
@@ -23,5 +23,5 @@ const setPermissions = (dispatch: Dispatch<ActionInterface>) => {
 export const { Context, Provider } = createDataContext(
   permissionsReducer,
   { setPermissions },
-  { permissions: [] }
+  { permissions: [] },
 );

@@ -1,14 +1,10 @@
-import React, { Reducer, useReducer, ReactElement } from "react";
-import {
-  ActionInterface,
-  ActionsMapType,
-  BoundActionType,
-} from "../types/ContextType";
+import React, { ReactElement, Reducer, useReducer } from "react";
+import { ActionInterface, ActionsMapType, BoundActionType } from "../types/ContextType";
 
 const createDataContext = <DataState extends {}>(
   reducer: Reducer<DataState, ActionInterface>,
   actions: ActionsMapType,
-  initialDataState: DataState
+  initialDataState: DataState,
 ) => {
   type ContextValue<DataState> = {
     state: DataState;

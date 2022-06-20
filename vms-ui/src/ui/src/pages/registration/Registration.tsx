@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, CssBaseline, Box } from "@mui/material";
+import { Box, Container, CssBaseline } from "@mui/material";
 import { useFormik } from "formik";
 import LinearStepper from "./LinearStepper";
 import CompanyStep from "./steps/CompanyStep";
@@ -15,8 +15,8 @@ const Registration = () => {
       companyEmail: "",
     },
     onSubmit: () => {
-    }
-  })
+    },
+  });
 
   const adminFormik = useFormik({
     initialValues: {
@@ -24,21 +24,21 @@ const Registration = () => {
       adminPassword: "",
       adminFirstname: "",
       adminLastname: "",
-      adminEmail: ""
+      adminEmail: "",
     },
     onSubmit: () => {
-    }
+    },
   });
 
   const steps = [
-    { name: "Company", component: <CompanyStep formik={ companyFormik }/> },
-    { name: "Admin", component: <AdminStep formik={ adminFormik }/> }
+    { name: "Company", component: <CompanyStep formik={companyFormik} /> },
+    { name: "Admin", component: <AdminStep formik={adminFormik} /> },
   ];
 
   const handleSubmit = () => {
     const company: Company = {
       name: companyFormik.values.companyName,
-      email: companyFormik.values.companyEmail
+      email: companyFormik.values.companyEmail,
     };
 
     const admin: User = {
@@ -48,8 +48,8 @@ const Registration = () => {
       firstname: adminFormik.values.adminFirstname,
       lastname: adminFormik.values.adminLastname,
       email: adminFormik.values.adminEmail,
-      role: Role.ADMIN
-    }
+      role: Role.ADMIN,
+    };
 
     ServerApi.register(company, admin)
       .then(() => {
@@ -59,28 +59,28 @@ const Registration = () => {
         // TODO: show link/button "Go to login page"
         window.location.reload();
       })
-      .catch(error => {
+      .catch((error) => {
         // TODO: show errors
         console.log("Registration error", error);
       });
-  }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline/>
+      <CssBaseline />
       <Box
         sx={{
           marginTop: 8,
           display: "flex",
           flexDirection: "column",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <h1>Registration Form</h1>
-        <LinearStepper steps={ steps } handleSubmit={ handleSubmit }/>
+        <LinearStepper steps={steps} handleSubmit={handleSubmit} />
       </Box>
     </Container>
-  )
-}
+  );
+};
 
 export default Registration;

@@ -12,5 +12,4 @@ export const UPDATE_USER = "users/update";
 export const DELETE_USER = "users/delete";
 export const GET_ROLES = "users/roles";
 
-
 export const GET_COMPANIES = "companies/all";

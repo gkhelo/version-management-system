@@ -3,12 +3,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import {
-  createHashHistory,
-  Outlet,
-  ReactLocation,
-  Router,
-} from "@tanstack/react-location";
+import { createHashHistory, Outlet, ReactLocation, Router } from "@tanstack/react-location";
 import { rankRoutes } from "@tanstack/react-location-rank-routes";
 import { Provider as AppProvider } from "./context/AppContext";
 import { Provider as UserProvider } from "./context/UserContext";

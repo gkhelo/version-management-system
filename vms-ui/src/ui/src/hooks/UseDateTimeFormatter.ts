@@ -9,14 +9,14 @@ const dataGridValueFormatter = (params: GridValueFormatterParams<string>) => {
   return formatInTimeZone(
     parseISO(params.value),
     GEORGIA_LOCAL_DATE_TIME,
-    "UTC"
+    "UTC",
   );
 };
 
 const formatInTimeZone = (
   date: Date | string | number,
   fmt: string,
-  tz: string
+  tz: string,
 ) => TimeZoneFormat(utcToZonedTime(date, tz), fmt, { timeZone: tz });
 
 const toGeorgiaLocale = (date: any): string | undefined => {
