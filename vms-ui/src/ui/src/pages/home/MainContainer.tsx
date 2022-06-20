@@ -13,6 +13,7 @@ import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { Context as UserContext } from "../../context/UserContext";
 import Login from "../login/Login";
+import useAuthenticatedUser from "../../hooks/useAuthenticatedUser";
 // import Button from "@mui/material/Button";
 
 const useStyles = makeStyles(() => ({
@@ -62,6 +63,7 @@ const MainContainer: React.FC<{ children: React.ReactNode }> = ({
     setUser(null);
   };
 
+  useAuthenticatedUser();
   if (!user) {
     return <Login />;
   }

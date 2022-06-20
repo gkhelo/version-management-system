@@ -1,12 +1,14 @@
 import { apiAxiosInstance, authAxiosInstance } from "../utils/AxiosInstance";
 import {
   ADD_USER,
+  AUTHENTICATED,
   DELETE_USER,
   GET_COMPANIES,
   GET_ROLES,
   GET_USER,
   GET_USERS,
   LOGIN,
+  REGISTER,
   UPDATE_USER,
 } from "../constants/Endpoints";
 import { User } from "../types/User";
@@ -15,6 +17,17 @@ import { Company } from "../types/Company";
 
 const login = async (data: FormData) => {
   return await authAxiosInstance.post(LOGIN, data);
+};
+
+const register = async (company: Company, admin: User) => {
+  return await authAxiosInstance.post(REGISTER, {
+    "company": company,
+    "admin": admin
+  });
+};
+
+const getAuthenticatedUser = async (jwt: String) => {
+  return await authAxiosInstance.get(AUTHENTICATED + "/" + jwt);
 };
 
 const getUsers = async (pageable: Pageable) => {
@@ -56,6 +69,8 @@ const getCompanies = async () => {
 
 const ServerApi = {
   login,
+  register,
+  getAuthenticatedUser,
   getUsers,
   getUser,
   addUser,

@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, Avatar, Button, Container, CssBaseline, TextField } from "@mui/material";
+import { Alert, AlertTitle, Avatar, Button, Container, CssBaseline, Grid, Link, TextField } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -6,10 +6,12 @@ import Copyright from "../../components/Copyright";
 import ServerApi from "../../api/ServerApi";
 import { useContext, useState } from "react";
 import { Context } from "../../context/UserContext";
+import Registration from "../registration/Registration";
 
 const Login = () => {
   const { setUser } = useContext(Context);
   const [ isError, setIsError ] = useState(false);
+  const [ isRegistration, setRegistration ] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,6 +29,14 @@ const Login = () => {
         setIsError(true);
       })
   };
+
+  const handleRegistration = () => {
+    setRegistration(true);
+  }
+
+  if (isRegistration) {
+    return <Registration />;
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -87,6 +97,15 @@ const Login = () => {
             Sign In
           </Button>
         </Box>
+
+        <Grid container>
+          <Grid item>
+            <Link onClick={ handleRegistration } component="button" variant="body2">
+              { "Don't have an account? Sign Up" }
+            </Link>
+          </Grid>
+        </Grid>
+
       </Box>
       <Copyright sx={{ mt: 8, mb: 4 }}/>
     </Container>
