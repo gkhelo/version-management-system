@@ -10,8 +10,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CompanyMapper {
 
-	CompanyMapper INSTANCE = Mappers.getMapper(CompanyMapper.class);
-
 	CompanyDTO toDTO(Company company);
 
 	Company fromDTO(CompanyDTO dto);

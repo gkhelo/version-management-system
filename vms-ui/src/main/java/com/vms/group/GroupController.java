@@ -22,8 +22,11 @@ public class GroupController {
 	@Autowired
 	private GroupService groupService;
 
+	@Autowired
+	private GroupMapper groupMapper;
+
 	@GetMapping("/all")
 	public List<GroupDTO> getAllGroups() {
-		return GroupMapper.INSTANCE.toDTOs(groupService.getGroups());
+		return groupMapper.toDTOs(groupService.getGroups());
 	}
 }

@@ -3,6 +3,7 @@ package com.vms.user;
 import com.vms.exceptions.VMSException;
 import com.vms.model.user.User;
 import com.vms.user.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,13 +14,11 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
-	private final PasswordEncoder passwordEncoder;
-	private final UserRepository userRepository;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
-	public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-		this.userRepository = userRepository;
-		this.passwordEncoder = passwordEncoder;
-	}
+	@Autowired
+	private UserRepository userRepository;
 
 	@Override
 	public Page<User> getUsers(Pageable pageable) {

@@ -22,8 +22,11 @@ public class CompanyController {
 	@Autowired
 	private CompanyService companyService;
 
+	@Autowired
+	private CompanyMapper companyMapper;
+
 	@GetMapping("/all")
 	public List<CompanyDTO> getAllCompanies() {
-		return CompanyMapper.INSTANCE.toDTOs(companyService.getCompanies());
+		return companyMapper.toDTOs(companyService.getCompanies());
 	}
 }
