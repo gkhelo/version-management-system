@@ -48,7 +48,6 @@ public class CompanyServiceImpl implements CompanyService {
 			company = companyRepository.save(company);
 
 			admin.setCompany(company);
-			admin.setPassword(passwordEncoder.encode(admin.getPassword()));
 			userService.addUser(admin);
 
 			return company;
