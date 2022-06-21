@@ -1,23 +1,31 @@
+import { FC } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import {
+  createBrowserHistory,
+  Outlet,
+  ReactLocation,
+  Router,
+} from "@tanstack/react-location";
+import { rankRoutes } from "@tanstack/react-location-rank-routes";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
-import { createHashHistory, Outlet, ReactLocation, Router } from "@tanstack/react-location";
-import { rankRoutes } from "@tanstack/react-location-rank-routes";
 import { Provider as AppProvider } from "./context/AppContext";
 import { Provider as UserProvider } from "./context/UserContext";
-import MainContainer from "./pages/home/MainContainer";
+import Login from "./pages/login/Login";
+import Registration from "./pages/registration/Registration";
 import Homepage from "./pages/home/Homepage";
 import UsersPage from "./pages/user/UsersPage";
-import Applications from "./pages/application/Applications";
 import UserPage from "./pages/user/UserPage";
+import Applications from "./pages/application/Applications";
+import PathResolver from "./PathResolver";
 
 const queryClient = new QueryClient();
-const history = createHashHistory();
+const history = createBrowserHistory();
 const location = new ReactLocation({ history });
 
-const App = () => {
+const App: FC = () => {
   const theme = createTheme();
 
   return (
@@ -39,15 +47,24 @@ const App = () => {
                 path: "/applications",
                 element: <Applications />,
               },
-              { path: "/", element: <Homepage /> },
+              { path: "/login", element: <Login />, meta: { outer: true } },
+              {
+                path: "/register",
+                element: <Registration />,
+                meta: { outer: true },
+              },
+
+              { element: <Homepage /> },
             ]}
           >
             <ThemeProvider theme={theme}>
               <UserProvider>
-                <MainContainer>
-                  <Outlet />
+                <>
+                  <PathResolver>
+                    <Outlet />
+                  </PathResolver>
                   <ReactQueryDevtools initialIsOpen={false} />
-                </MainContainer>
+                </>
               </UserProvider>
             </ThemeProvider>
           </Router>

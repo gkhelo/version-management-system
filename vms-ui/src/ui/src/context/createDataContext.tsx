@@ -1,20 +1,24 @@
-import React, { ReactElement, Reducer, useReducer } from "react";
-import { ActionInterface, ActionsMapType, BoundActionType } from "../types/ContextType";
+import { FC, createContext, ReactElement, Reducer, useReducer } from "react";
+import {
+  ActionInterface,
+  ActionsMapType,
+  BoundActionType,
+} from "../types/ContextType";
 
 const createDataContext = <DataState extends {}>(
   reducer: Reducer<DataState, ActionInterface>,
   actions: ActionsMapType,
-  initialDataState: DataState,
+  initialDataState: DataState
 ) => {
   type ContextValue<DataState> = {
     state: DataState;
   } & BoundActionType;
 
-  const Context = React.createContext<ContextValue<DataState>>({
+  const Context = createContext<ContextValue<DataState>>({
     state: initialDataState,
   } as ContextValue<DataState>);
 
-  const Provider: React.FC<{ children: ReactElement }> = ({ children }) => {
+  const Provider: FC<{ children: ReactElement }> = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialDataState);
 
     const boundActions = {} as BoundActionType;

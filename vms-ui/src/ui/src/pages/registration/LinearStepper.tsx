@@ -1,16 +1,11 @@
-import * as React from "react";
+import { FC, MouseEventHandler, useState } from "react";
 import { Box, Button, Step, StepLabel, Stepper } from "@mui/material";
 
-type StepInfo = {
-  name: string;
-  component: React.ReactNode;
-};
-
-const LinearStepper = (props: any) => {
-  const steps: [StepInfo] = props.steps;
+const LinearStepper: FC<LinearStepperProps> = (props: LinearStepperProps) => {
+  const steps: StepInfo[] = props.steps;
   const handleSubmit = props.handleSubmit;
 
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState<number>(0);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -56,6 +51,16 @@ const LinearStepper = (props: any) => {
       </Box>
     </Box>
   );
+};
+
+type StepInfo = {
+  name: string;
+  component: JSX.Element;
+};
+
+type LinearStepperProps = {
+  steps: StepInfo[];
+  handleSubmit: MouseEventHandler;
 };
 
 export default LinearStepper;

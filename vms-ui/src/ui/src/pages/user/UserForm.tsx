@@ -1,7 +1,8 @@
-import { Button, Container, Paper, Stack } from "@mui/material";
+import { FC } from "react";
 import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import * as yup from "yup";
+import { Button, Container, Paper, Stack } from "@mui/material";
 import FormikSelect from "../../components/FormikSelect";
 import FormikTextfield from "../../components/FormikTextfield";
 import useCompanies from "../../hooks/useCompanies";
@@ -40,7 +41,7 @@ const validationSchema = yup.object({
     .oneOf([yup.ref("password")], "Passwords do not match"),
 });
 
-const UserForm: React.FC<{ user: User | null; onSubmitHandler: Function }> = ({
+const UserForm: FC<{ user: User | null; onSubmitHandler: Function }> = ({
   user,
   onSubmitHandler,
 }) => {

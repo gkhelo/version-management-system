@@ -21,8 +21,8 @@ const login = async (data: FormData) => {
 
 const register = async (company: Company, admin: User) => {
   return await authAxiosInstance.post(REGISTER, {
-    "company": company,
-    "admin": admin,
+    company: company,
+    admin: admin,
   });
 };
 

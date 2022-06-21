@@ -1,16 +1,16 @@
-import { Breadcrumbs, Link, styled, Typography } from "@mui/material";
-import React from "react";
-import { useNavigate } from "@tanstack/react-location";
-import { BreadcrumbLink } from "../types/Breadcrumbs";
+import { FC, MouseEvent, MouseEventHandler, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "@tanstack/react-location";
+import { Breadcrumbs, Link, styled, Typography } from "@mui/material";
+import { BreadcrumbLink } from "../types/Breadcrumbs";
 
 const StyledLink = styled(Link)(() => ({
   cursor: "pointer",
 }));
 
-const StyledBreadcrumbLink: React.FC<{
-  children: React.ReactNode;
-  onClickHandler: React.MouseEventHandler;
+const StyledBreadcrumbLink: FC<{
+  children: ReactNode;
+  onClickHandler: MouseEventHandler;
 }> = ({ children, onClickHandler }, props) => {
   return (
     <StyledLink
@@ -24,17 +24,14 @@ const StyledBreadcrumbLink: React.FC<{
   );
 };
 
-const VMSBreadcrumbs: React.FC<{ links: BreadcrumbLink[] }> = (
-  { links },
-  props,
-) => {
+const VMSBreadcrumbs: FC<{ links: BreadcrumbLink[] }> = ({ links }, props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const locationChangeHandler = (
-    _: React.MouseEvent,
-    location: string | undefined,
+    _: MouseEvent,
+    location: string | undefined
   ) => {
-    navigate({ to: location, replace: true });
+    navigate({ to: location });
   };
   return (
     <Breadcrumbs color="primary" sx={{ marginBottom: 1 }} {...props}>

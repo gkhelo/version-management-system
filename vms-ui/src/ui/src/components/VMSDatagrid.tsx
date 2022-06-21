@@ -1,12 +1,13 @@
+import { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { styled } from "@mui/styles";
 import { DataGrid, DataGridProps } from "@mui/x-data-grid";
-import { useTranslation } from "react-i18next";
 
 const Wrapper = styled("div")(() => ({
   height: "calc(100vh - 150px)",
 }));
 
-const VMSDatagrid: React.FC<DataGridProps> = (props) => {
+const VMSDatagrid: FC<DataGridProps> = (props) => {
   const { t } = useTranslation();
   return (
     <Wrapper>

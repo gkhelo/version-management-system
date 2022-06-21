@@ -11,7 +11,7 @@ i18n
     fallbackLng: "ka",
     debug: true,
     backend: {
-      loadPath: `locales/{{lng}}/{{ns}}.json`,
+      loadPath: `/locales/{{lng}}/{{ns}}.json`,
     },
     interpolation: {
       escapeValue: false,

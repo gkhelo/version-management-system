@@ -1,5 +1,5 @@
+import { useCallback, useContext, useEffect } from "react";
 import ServerApi from "../api/ServerApi";
-import { useContext, useEffect } from "react";
 import { Context as UserContext } from "../context/UserContext";
 
 const useAuthenticatedUser = () => {
@@ -9,19 +9,21 @@ const useAuthenticatedUser = () => {
   } = useContext(UserContext);
   const jwt = localStorage.getItem("jwt");
 
-  useEffect(() => {
+  const authenticateUser = useCallback(() => {
     if (!user && jwt) {
       ServerApi.getAuthenticatedUser(jwt)
         .then((response) => {
-          console.log("Successfully fetched authenticated user");
-
           setUser(response.data.user);
         })
         .catch(() => {
           localStorage.removeItem("jwt");
         });
     }
-  }, []);
+  }, [jwt, setUser, user]);
+
+  useEffect(() => {
+    authenticateUser();
+  }, [authenticateUser]);
 
   return [];
 };

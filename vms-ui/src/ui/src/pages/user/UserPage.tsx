@@ -1,13 +1,13 @@
+import { FC, useEffect, useState } from "react";
 import { useMatch } from "@tanstack/react-location";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ServerApi from "../../api/ServerApi";
 import VMSBreadcrumbs from "../../components/VMSBreadcrumbs";
 import usePageSelector from "../../hooks/usePageSelector";
-import { User } from "../../types/User";
 import UserForm from "./UserForm";
+import { User } from "../../types/User";
 
-const UserPage = () => {
+const UserPage: FC = () => {
   usePageSelector("users");
   const { t } = useTranslation();
   const {

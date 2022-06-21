@@ -1,7 +1,7 @@
-import { ActionInterface, UserState } from "../types/ContextType";
 import { Dispatch } from "react";
 import createDataContext from "./createDataContext";
 import { User } from "../types/User";
+import { ActionInterface, UserState } from "../types/ContextType";
 
 const userReducer = (state: UserState, action: ActionInterface): UserState => {
   switch (action.type) {
@@ -21,5 +21,5 @@ const setUser = (dispatch: Dispatch<ActionInterface>) => {
 export const { Context, Provider } = createDataContext(
   userReducer,
   { setUser },
-  { user: null },
+  { user: null }
 );

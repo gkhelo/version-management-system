@@ -1,18 +1,23 @@
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import VMSDatagrid from "../../components/VMSDatagrid";
-import useDateFormatter from "../../hooks/UseDateTimeFormatter";
-import usePageSelector from "../../hooks/usePageSelector";
-import useUsers from "../../hooks/useUsers";
-import usePagination from "../../hooks/usePagination";
-import VMSBreadcrumbs from "../../components/VMSBreadcrumbs";
-import { GridActionsCellItem, GridRowParams } from "@mui/x-data-grid";
-import { Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
 import { useNavigate } from "@tanstack/react-location";
-import useDeleteMutation from "../../hooks/useDeleteMutation";
-import { QueryKeyType } from "../../types/QueryKeyType";
 import { Button } from "@mui/material";
+import {
+  Add as AddIcon,
+  Delete as DeleteIcon,
+  Edit as EditIcon,
+} from "@mui/icons-material";
+import { GridActionsCellItem, GridRowParams } from "@mui/x-data-grid";
+import VMSDatagrid from "../../components/VMSDatagrid";
+import VMSBreadcrumbs from "../../components/VMSBreadcrumbs";
+import useDateFormatter from "../../hooks/UseDateTimeFormatter";
+import useDeleteMutation from "../../hooks/useDeleteMutation";
+import usePageSelector from "../../hooks/usePageSelector";
+import usePagination from "../../hooks/usePagination";
+import useUsers from "../../hooks/useUsers";
+import { QueryKeyType } from "../../types/QueryKeyType";
 
-const UsersPage: React.FC = () => {
+const UsersPage: FC = () => {
   usePageSelector("users");
   const { dataGridValueFormatter } = useDateFormatter();
   const { t } = useTranslation();
@@ -27,11 +32,11 @@ const UsersPage: React.FC = () => {
   });
 
   const navigateToUser = (userId: string | number) => {
-    navigate({ to: `/users/${userId}`, replace: true });
+    navigate({ to: `/users/${userId}` });
   };
 
   const navigateToNewUser = () => {
-    navigate({ to: `/users/new`, replace: true });
+    navigate({ to: `/users/new` });
   };
 
   return (

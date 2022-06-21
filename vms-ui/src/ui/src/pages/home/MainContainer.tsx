@@ -1,20 +1,21 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import CssBaseline from "@mui/material/CssBaseline";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import { AppBar } from "./AppBar";
-import Drawer from "../../components/drawer/Drawer";
-import Main from "./Main";
-import Typography from "@mui/material/Typography";
-import makeStyles from "@mui/styles/makeStyles";
-import { Button } from "@mui/material";
+import { FC, useContext, useState, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Context as UserContext } from "../../context/UserContext";
-import Login from "../login/Login";
+import {
+  Box,
+  Button,
+  CssBaseline,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import makeStyles from "@mui/styles/makeStyles";
 import useAuthenticatedUser from "../../hooks/useAuthenticatedUser";
-// import Button from "@mui/material/Button";
+import { Context as UserContext } from "../../context/UserContext";
+import Drawer from "../../components/drawer/Drawer";
+import Login from "../login/Login";
+import Main from "./Main";
+import { AppBar } from "./AppBar";
 
 const useStyles = makeStyles(() => ({
   "@global": {
@@ -45,14 +46,12 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const MainContainer: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+const MainContainer: FC<{ children: ReactNode }> = ({ children }) => {
   const {
     state: { user },
     setUser,
-  } = React.useContext(UserContext);
-  const [open, setOpen] = React.useState(false);
+  } = useContext(UserContext);
+  const [open, setOpen] = useState(false);
   const classes = useStyles(open);
   const { t } = useTranslation();
   const handleDrawerOpen = () => {

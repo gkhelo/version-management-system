@@ -1,6 +1,6 @@
-import { GridValueFormatterParams } from "@mui/x-data-grid";
 import { format, parseISO } from "date-fns";
 import { format as TimeZoneFormat, utcToZonedTime } from "date-fns-tz";
+import { GridValueFormatterParams } from "@mui/x-data-grid";
 
 const GEORGIA_LOCAL_DATE = "dd/MM/yyyy";
 const GEORGIA_LOCAL_DATE_TIME = "dd/MM/yyyy, HH:mm:ss";
@@ -9,14 +9,14 @@ const dataGridValueFormatter = (params: GridValueFormatterParams<string>) => {
   return formatInTimeZone(
     parseISO(params.value),
     GEORGIA_LOCAL_DATE_TIME,
-    "UTC",
+    "UTC"
   );
 };
 
 const formatInTimeZone = (
   date: Date | string | number,
   fmt: string,
-  tz: string,
+  tz: string
 ) => TimeZoneFormat(utcToZonedTime(date, tz), fmt, { timeZone: tz });
 
 const toGeorgiaLocale = (date: any): string | undefined => {

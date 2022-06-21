@@ -1,10 +1,9 @@
+import { FC } from "react";
 import { CSSObject, styled, Theme } from "@mui/material/styles";
-import MuiDrawer from "@mui/material/Drawer";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
+import { Drawer as MuiDrawer, Divider, IconButton } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import DrawerListItems from "./DrawerListItems";
-import { DrawerHeader } from "./DrawerHeader";
+import DrawerHeader from "./DrawerHeader";
 
 const drawerWidth = 240;
 
@@ -46,7 +45,7 @@ const StyledDrawer = styled(MuiDrawer, {
   }),
 }));
 
-const Drawer: React.FC<{ open: boolean; setOpen: Function }> = ({
+const Drawer: FC<{ open: boolean; setOpen: Function }> = ({
   open,
   setOpen,
 }) => {

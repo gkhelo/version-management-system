@@ -1,5 +1,5 @@
-import { GridSortModel } from "@mui/x-data-grid";
 import { useState } from "react";
+import { GridSortModel } from "@mui/x-data-grid";
 
 const usePagination = ([defaultPage = 0, defaultPageSize = 10]: [
   number?,

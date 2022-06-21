@@ -1,25 +1,32 @@
-import { Alert, AlertTitle, Avatar, Button, Container, CssBaseline, Grid, Link, TextField } from "@mui/material";
+import { FC, FormEvent, useContext, useState } from "react";
+import { useNavigate } from "@tanstack/react-location";
+import {
+  Alert,
+  AlertTitle,
+  Avatar,
+  Box,
+  Button,
+  CssBaseline,
+  Container,
+  Grid,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import Copyright from "../../components/Copyright";
 import ServerApi from "../../api/ServerApi";
-import { useContext, useState } from "react";
+import Copyright from "../../components/Copyright";
 import { Context } from "../../context/UserContext";
-import Registration from "../registration/Registration";
 
-const Login = () => {
+const Login: FC = () => {
   const { setUser } = useContext(Context);
   const [isError, setIsError] = useState(false);
-  const [isRegistration, setRegistration] = useState(false);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     await ServerApi.login(data)
       .then((response) => {
-        console.log("Successfully authenticated " + data.get("username"));
-
         localStorage.setItem("jwt", response.headers.authorization);
         setUser(response.data.user);
       })
@@ -29,14 +36,10 @@ const Login = () => {
         setIsError(true);
       });
   };
-
+  const navigate = useNavigate();
   const handleRegistration = () => {
-    setRegistration(true);
+    navigate({ to: "/register" });
   };
-
-  if (isRegistration) {
-    return <Registration />;
-  }
 
   return (
     <Container component="main" maxWidth="xs">

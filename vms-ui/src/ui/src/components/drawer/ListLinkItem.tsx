@@ -1,11 +1,14 @@
-import { useContext } from "react";
-import { useNavigate } from "@tanstack/react-location";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import { ListItemButton, Tooltip } from "@mui/material";
-import { Context } from "../../context/AppContext";
-import { makeStyles } from "@mui/styles";
+import { ElementType, FC, useContext } from "react";
 import { useQueryClient } from "react-query";
+import { useNavigate } from "@tanstack/react-location";
+import { makeStyles } from "@mui/styles";
+import {
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Tooltip,
+} from "@mui/material";
+import { Context } from "../../context/AppContext";
 import { QueryKeyType } from "../../types/QueryKeyType";
 
 const useStyles = makeStyles(() => ({
@@ -14,7 +17,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const ListLinkItem: React.FC<ListLinkItemType> = ({
+const ListLinkItem: FC<ListLinkItemType> = ({
   title,
   path,
   Icon,
@@ -50,7 +53,7 @@ const ListLinkItem: React.FC<ListLinkItemType> = ({
 type ListLinkItemType = {
   title: string;
   path: string;
-  Icon: React.ElementType;
+  Icon: ElementType;
   pageName: string;
   query?: QueryKeyType;
 };

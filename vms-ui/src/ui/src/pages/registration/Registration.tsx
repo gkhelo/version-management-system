@@ -1,12 +1,11 @@
-import * as React from "react";
-import { Box, Container, CssBaseline } from "@mui/material";
 import { useFormik } from "formik";
+import { Box, Container, CssBaseline } from "@mui/material";
+import ServerApi from "../../api/ServerApi";
 import LinearStepper from "./LinearStepper";
 import CompanyStep from "./steps/CompanyStep";
 import AdminStep from "./steps/AdminStep";
 import { Company } from "../../types/Company";
 import { Role, User } from "../../types/User";
-import ServerApi from "../../api/ServerApi";
 
 const Registration = () => {
   const companyFormik = useFormik({
@@ -14,8 +13,7 @@ const Registration = () => {
       companyName: "",
       companyEmail: "",
     },
-    onSubmit: () => {
-    },
+    onSubmit: () => {},
   });
 
   const adminFormik = useFormik({
@@ -26,8 +24,7 @@ const Registration = () => {
       adminLastname: "",
       adminEmail: "",
     },
-    onSubmit: () => {
-    },
+    onSubmit: () => {},
   });
 
   const steps = [
