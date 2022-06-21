@@ -12,4 +12,6 @@ public interface CompanyService {
 	Company findById(long id);
 
 	Company addCompany(Company company, User admin);
+
+	Company saveCompany(Company company);
 }
