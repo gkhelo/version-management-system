@@ -1,12 +1,12 @@
 import { FC, ReactNode, useContext, useState } from "react";
 import { Navigate, useMatches } from "@tanstack/react-location";
 import LinearProgress from "@mui/material/LinearProgress";
-import { Context as UserContext } from "./context/UserContext";
-import useAuthenticatedUser from "./hooks/useAuthenticatedUser";
-import useTimeout from "./hooks/useTimeout";
-import MainContainer from "./pages/home/MainContainer";
+import { Context as UserContext } from "../context/UserContext";
+import useAuthenticatedUser from "../hooks/useAuthenticatedUser";
+import useTimeout from "../hooks/useTimeout";
+import MainContainer from "../pages/home/MainContainer";
 
-const PathResolver: FC<{ children: ReactNode }> = ({ children }) => {
+const VMSRouter: FC<{ children: ReactNode }> = ({ children }) => {
   const {
     state: { user },
   } = useContext(UserContext);
@@ -33,4 +33,4 @@ const PathResolver: FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
-export default PathResolver;
+export default VMSRouter;

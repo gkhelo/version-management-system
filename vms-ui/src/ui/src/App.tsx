@@ -13,13 +13,15 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Provider as AppProvider } from "./context/AppContext";
 import { Provider as UserProvider } from "./context/UserContext";
+import { Provider as ErrorProvider } from "./context/ErrorContext";
 import Login from "./pages/login/Login";
 import Registration from "./pages/registration/Registration";
 import Homepage from "./pages/home/Homepage";
 import UsersPage from "./pages/user/UsersPage";
 import UserPage from "./pages/user/UserPage";
 import Applications from "./pages/application/Applications";
-import PathResolver from "./PathResolver";
+import VMSRouter from "./router/VMSRouter";
+import WithAxios from "./error/WithAxios";
 
 const queryClient = new QueryClient();
 const history = createBrowserHistory();
@@ -58,14 +60,16 @@ const App: FC = () => {
             ]}
           >
             <ThemeProvider theme={theme}>
-              <UserProvider>
-                <>
-                  <PathResolver>
-                    <Outlet />
-                  </PathResolver>
-                  <ReactQueryDevtools initialIsOpen={false} />
-                </>
-              </UserProvider>
+              <ErrorProvider>
+                <UserProvider>
+                  <WithAxios>
+                    <VMSRouter>
+                      <Outlet />
+                    </VMSRouter>
+                    <ReactQueryDevtools initialIsOpen={false} />
+                  </WithAxios>
+                </UserProvider>
+              </ErrorProvider>
             </ThemeProvider>
           </Router>
         </AppProvider>
