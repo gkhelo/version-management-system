@@ -17,6 +17,13 @@ const DrawerListItems: FC = () => {
         query={QueryKeyType.USERS}
       />
       <ListLinkItem
+        path="/vendors"
+        title={t("Vendors")}
+        Icon={WorkIcon}
+        pageName="vendors"
+        query={QueryKeyType.VENDORS}
+      />
+      <ListLinkItem
         path="/applications"
         title={t("Applications")}
         Icon={WorkIcon}

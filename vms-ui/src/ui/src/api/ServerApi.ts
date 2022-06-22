@@ -10,6 +10,7 @@ import {
   LOGIN,
   REGISTER,
   UPDATE_USER,
+  GET_VENDORS,
 } from "../constants/Endpoints";
 import { User } from "../types/User";
 import { Pageable, PageImpl } from "../types/Pageable";
@@ -67,6 +68,11 @@ const getCompanies = async () => {
   return response.data;
 };
 
+const getVendors = async () => {
+  const response = await apiAxiosInstance.get<Company[]>(GET_VENDORS);
+  return response.data;
+}
+
 const ServerApi = {
   login,
   register,
@@ -78,6 +84,7 @@ const ServerApi = {
   deleteUser,
   getRoles,
   getCompanies,
+  getVendors,
 };
 
 export default ServerApi;

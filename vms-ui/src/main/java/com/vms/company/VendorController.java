@@ -3,6 +3,8 @@ package com.vms.company;
 import com.vms.company.dto.CompanyDTO;
 import com.vms.company.mapper.CompanyMapper;
 import com.vms.model.company.Company;
+import com.vms.model.user.User;
+import com.vms.security.AuthService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +22,27 @@ import java.util.List;
 public class VendorController {
 
 	@Autowired
+	private AuthService authService;
+
+	@Autowired
 	private VendorService vendorService;
 
 	@Autowired
 	private CompanyMapper companyMapper;
 
 	@GetMapping("/all")
-	public List<CompanyDTO> getVendors(@RequestParam long companyId) {
-		return companyMapper.toDTOs(vendorService.getVendors(companyId));
+	public List<CompanyDTO> getVendors() {
+		return companyMapper.toDTOs(vendorService.getVendors(getCompanyId()));
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<CompanyDTO> addVendor(@RequestParam long companyId,
-												@RequestParam long vendorId) {
-		Company company = vendorService.addVendor(companyId, vendorId);
+	public ResponseEntity<CompanyDTO> addVendor(@RequestParam long vendorId) {
+		Company company = vendorService.addVendor(getCompanyId(), vendorId);
 		return ResponseEntity.ok(companyMapper.toDTO(company));
+	}
+
+	private long getCompanyId() {
+		User user = authService.getAuthenticatedUser();
+		return user.getCompany().getId();
 	}
 }

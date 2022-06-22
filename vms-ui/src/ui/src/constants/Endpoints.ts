@@ -13,3 +13,5 @@ export const DELETE_USER = "/users/delete";
 export const GET_ROLES = "/users/roles";
 
 export const GET_COMPANIES = "/companies/all";
+
+export const GET_VENDORS = "/vendors/all";
