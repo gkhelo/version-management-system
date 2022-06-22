@@ -32,5 +32,7 @@
   "Passwords do not match": "Passwords do not match",
   "Role is required": "Role is required",
   "Vendors": "Vendors",
+  "vendor": "Vendor",
+  "addVendor": "Add Vendor",
   "name": "Name"
 }

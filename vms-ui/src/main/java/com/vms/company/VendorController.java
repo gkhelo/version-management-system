@@ -35,8 +35,8 @@ public class VendorController {
 		return companyMapper.toDTOs(vendorService.getVendors(getCompanyId()));
 	}
 
-	@PostMapping("/add")
-	public ResponseEntity<CompanyDTO> addVendor(@RequestParam long vendorId) {
+	@PostMapping("/add/{vendorId}")
+	public ResponseEntity<CompanyDTO> addVendor(@PathVariable("vendorId") long vendorId) {
 		Company company = vendorService.addVendor(getCompanyId(), vendorId);
 		return ResponseEntity.ok(companyMapper.toDTO(company));
 	}

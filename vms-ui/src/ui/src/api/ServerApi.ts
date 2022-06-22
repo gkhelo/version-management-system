@@ -11,6 +11,7 @@ import {
   REGISTER,
   UPDATE_USER,
   GET_VENDORS,
+  ADD_VENDOR,
 } from "../constants/Endpoints";
 import { User } from "../types/User";
 import { Pageable, PageImpl } from "../types/Pageable";
@@ -73,6 +74,11 @@ const getVendors = async () => {
   return response.data;
 }
 
+const addVendor = async (vendorId: number) => {
+  const response = await apiAxiosInstance.post(`${ADD_VENDOR}/${vendorId}`);
+  return response.data;
+};
+
 const ServerApi = {
   login,
   register,
@@ -85,6 +91,7 @@ const ServerApi = {
   getRoles,
   getCompanies,
   getVendors,
+  addVendor,
 };
 
 export default ServerApi;

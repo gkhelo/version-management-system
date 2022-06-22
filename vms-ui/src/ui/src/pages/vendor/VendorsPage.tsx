@@ -6,11 +6,17 @@ import VMSDatagrid from "../../components/VMSDatagrid";
 import VMSBreadcrumbs from "../../components/VMSBreadcrumbs";
 import usePageSelector from "../../hooks/usePageSelector";
 import useVendors from "../../hooks/useVendors";
+import { useNavigate } from "@tanstack/react-location";
 
 const VendorsPage: FC = () => {
   usePageSelector("vendors");
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const vendorData = useVendors();
+
+  const navigateToVendor = () => {
+    navigate({ to: `/vendors/add` });
+  };
 
   return (
     <>
@@ -26,8 +32,9 @@ const VendorsPage: FC = () => {
               startIcon={<AddIcon/>}
               size="small"
               sx={{ marginBottom: 0.5 }}
+              onClick={navigateToVendor}
             >
-              {t("Add Vendor")}
+              {t("addVendor")}
             </Button>
             <VMSDatagrid
               columns={[
@@ -36,6 +43,7 @@ const VendorsPage: FC = () => {
                 { field: "email", headerName: t("email"), flex: 2 },
               ]}
               rows={vendorData.data}
+              paginationMode="client"
             />
           </>
         )
