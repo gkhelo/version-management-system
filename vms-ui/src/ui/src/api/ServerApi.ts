@@ -12,6 +12,7 @@ import {
   UPDATE_USER,
   GET_VENDORS,
   ADD_VENDOR,
+  DELETE_VENDOR,
 } from "../constants/Endpoints";
 import { User } from "../types/User";
 import { Pageable, PageImpl } from "../types/Pageable";
@@ -79,6 +80,11 @@ const addVendor = async (vendorId: number) => {
   return response.data;
 };
 
+const deleteVendor = async (id: string | number) => {
+  const response = await apiAxiosInstance.delete(`${DELETE_VENDOR}/${id}`);
+  return response.data;
+};
+
 const ServerApi = {
   login,
   register,
@@ -92,6 +98,7 @@ const ServerApi = {
   getCompanies,
   getVendors,
   addVendor,
+  deleteVendor,
 };
 
 export default ServerApi;

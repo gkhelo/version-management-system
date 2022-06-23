@@ -34,4 +34,16 @@ public class VendorServiceImpl implements VendorService {
 
 		return company;
 	}
+
+	@Override
+	public void deleteVendor(long companyId, long vendorId) {
+		Company company = companyService.findById(companyId);
+		Company vendor = companyService.findById(vendorId);
+
+		vendor.getClients().removeIf(client -> client.getId() == companyId);
+		companyService.saveCompany(vendor);
+
+		company.getVendors().removeIf(v -> v.getId() == vendorId);
+		companyService.saveCompany(company);
+	}
 }

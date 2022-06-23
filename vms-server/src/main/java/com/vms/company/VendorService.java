@@ -9,4 +9,6 @@ public interface VendorService {
 	List<Company> getVendors(long companyId);
 
 	Company addVendor(long companyId, long vendorId);
+
+	void deleteVendor(long companyId, long vendorId);
 }

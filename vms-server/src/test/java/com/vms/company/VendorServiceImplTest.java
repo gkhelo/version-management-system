@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -113,5 +114,53 @@ public class VendorServiceImplTest {
 
 		assertEquals(2L, company.getVendors().get(0).getId());
 		assertEquals(1L, vendor.getClients().get(0).getId());
+	}
+
+	@Test
+	public void test_delete_vendor_with_invalid_company_id() {
+		when(companyService.findById(1L)).thenThrow(new VMSException("Company with id 1 does not exist"));
+
+		VMSException exception = assertThrows(VMSException.class, () -> service.deleteVendor(1L, 2L));
+		assertEquals("Company with id 1 does not exist", exception.getMessage());
+	}
+
+	@Test
+	public void test_delete_vendor_with_invalid_vendor_id() {
+		when(companyService.findById(1L)).thenReturn(new Company());
+		when(companyService.findById(2L)).thenThrow(new VMSException("Company with id 1 does not exist"));
+
+		VMSException exception = assertThrows(VMSException.class, () -> service.deleteVendor(1L, 2L));
+		assertEquals("Company with id 1 does not exist", exception.getMessage());
+	}
+
+	@Test
+	public void test_delete_vendor() {
+		Company company = new Company();
+		Company vendor1 = new Company();
+		Company vendor2 = new Company();
+
+		company.setId(0L);
+		vendor1.setId(1L);
+		vendor2.setId(2L);
+
+		company.setVendors(new ArrayList<>(List.of(vendor1, vendor2)));
+		vendor1.setClients(new ArrayList<>(List.of(company)));
+		vendor2.setClients(new ArrayList<>(List.of(company)));
+
+		when(companyService.findById(0L)).thenReturn(company);
+		when(companyService.findById(1L)).thenReturn(vendor1);
+		when(companyService.findById(2L)).thenReturn(vendor2);
+
+		when(companyService.saveCompany(any())).thenAnswer(returnsFirstArg());
+
+		service.deleteVendor(0L, 1L);
+		assertEquals(1, company.getVendors().size());
+		assertEquals(0, vendor1.getClients().size());
+		assertEquals(1, vendor2.getClients().size());
+
+		service.deleteVendor(0L, 2L);
+		assertEquals(0, company.getVendors().size());
+		assertEquals(0, vendor1.getClients().size());
+		assertEquals(0, vendor2.getClients().size());
 	}
 }

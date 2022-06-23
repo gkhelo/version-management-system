@@ -9,6 +9,8 @@ const useDeleteMutation = (type: QueryKeyType) => {
     switch (type) {
       case QueryKeyType.USERS:
         return ServerApi.deleteUser(id);
+      case QueryKeyType.VENDORS:
+        return ServerApi.deleteVendor(id);
       default:
         throw new Error("Incorrect delete type");
     }

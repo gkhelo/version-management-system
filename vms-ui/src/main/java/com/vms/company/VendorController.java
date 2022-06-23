@@ -41,6 +41,12 @@ public class VendorController {
 		return ResponseEntity.ok(companyMapper.toDTO(company));
 	}
 
+	@DeleteMapping("/delete/{vendorId}")
+	public ResponseEntity<?> deleteVendor(@PathVariable("vendorId") long vendorId) {
+		vendorService.deleteVendor(getCompanyId(), vendorId);
+		return ResponseEntity.ok().build();
+	}
+
 	private long getCompanyId() {
 		User user = authService.getAuthenticatedUser();
 		return user.getCompany().getId();
