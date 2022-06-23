@@ -30,5 +30,11 @@
   "Password should be of minimum min characters length": "პაროლი უნდა შეიცავდეს მინიმუმ {{min}} სიმბოლოს",
   "Password is required": "პაროლის შევსება აუცილებელია",
   "Passwords do not match": "პაროლები ერთმანეთს არ ემთხვევა",
-  "Role is required": "როლის შევსება აუცილებელია"
+  "Role is required": "როლის შევსება აუცილებელია",
+  "Vendors": "ვენდორები",
+  "vendor": "ვენდორი",
+  "addVendor": "ვენდორის დამატება",
+  "deleteVendor": "ვენდორის წაშლა",
+  "name": "სახელი",
+  "Clients": "კლიენტები"
 }

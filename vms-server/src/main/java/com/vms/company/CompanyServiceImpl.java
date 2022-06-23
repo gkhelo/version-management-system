@@ -55,4 +55,9 @@ public class CompanyServiceImpl implements CompanyService {
 			throw new VMSException(String.format("Company with name %s already exists", company.getName()));
 		}
 	}
+
+	@Override
+	public Company saveCompany(Company company) {
+		return companyRepository.save(company);
+	}
 }

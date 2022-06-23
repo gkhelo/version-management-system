@@ -10,6 +10,10 @@ import {
   LOGIN,
   REGISTER,
   UPDATE_USER,
+  GET_VENDORS,
+  ADD_VENDOR,
+  DELETE_VENDOR,
+  GET_CLIENTS,
 } from "../constants/Endpoints";
 import { User } from "../types/User";
 import { Pageable, PageImpl } from "../types/Pageable";
@@ -67,6 +71,26 @@ const getCompanies = async () => {
   return response.data;
 };
 
+const getVendors = async () => {
+  const response = await apiAxiosInstance.get<Company[]>(GET_VENDORS);
+  return response.data;
+}
+
+const addVendor = async (vendorId: number) => {
+  const response = await apiAxiosInstance.post(`${ADD_VENDOR}/${vendorId}`);
+  return response.data;
+};
+
+const deleteVendor = async (id: string | number) => {
+  const response = await apiAxiosInstance.delete(`${DELETE_VENDOR}/${id}`);
+  return response.data;
+};
+
+const getClients = async () => {
+  const response = await apiAxiosInstance.get<Company[]>(GET_CLIENTS);
+  return response.data;
+}
+
 const ServerApi = {
   login,
   register,
@@ -78,6 +102,10 @@ const ServerApi = {
   deleteUser,
   getRoles,
   getCompanies,
+  getVendors,
+  addVendor,
+  deleteVendor,
+  getClients,
 };
 
 export default ServerApi;
