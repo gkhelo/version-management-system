@@ -16,3 +16,6 @@ export const GET_COMPANIES = "/companies/all";
 
 export const GET_VENDORS = "/vendors/all";
 export const ADD_VENDOR = "/vendors/add";
+export const DELETE_VENDOR = "/vendors/delete";
+
+export const GET_CLIENTS = "/clients/all";

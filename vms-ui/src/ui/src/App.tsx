@@ -24,6 +24,7 @@ import VMSRouter from "./router/VMSRouter";
 import WithAxios from "./error/WithAxios";
 import VendorsPage from "./pages/vendor/VendorsPage";
 import VendorPage from "./pages/vendor/VendorPage";
+import ClientsPage from "./pages/client/ClientsPage";
 
 const queryClient = new QueryClient();
 const history = createBrowserHistory();
@@ -57,6 +58,10 @@ const App: FC = () => {
                   { path: "/", element: <VendorsPage /> },
                   { path: "/add", element: <VendorPage/> }
                 ],
+              },
+              {
+                path: "/clients",
+                element: <ClientsPage />,
               },
               { path: "/login", element: <Login />, meta: { outer: true } },
               {

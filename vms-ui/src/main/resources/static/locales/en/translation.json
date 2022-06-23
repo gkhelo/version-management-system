@@ -35,5 +35,6 @@
   "vendor": "Vendor",
   "addVendor": "Add Vendor",
   "deleteVendor": "Delete Vendor",
-  "name": "Name"
+  "name": "Name",
+  "Clients": "Clients"
 }
