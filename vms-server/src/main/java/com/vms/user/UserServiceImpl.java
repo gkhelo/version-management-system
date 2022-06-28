@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -61,6 +62,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteUser(long userId) {
 		userRepository.deleteById(userId);
+	}
+
+	@Override
+	public List<User> getUsersByCompanyAndIds(long companyId, List<Long> userIds) {
+		return userRepository.findUsersByCompanyAndIds(companyId, userIds);
 	}
 
 	private boolean passwordIsFilled(String password) {

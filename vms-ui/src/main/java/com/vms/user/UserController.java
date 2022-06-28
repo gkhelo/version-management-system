@@ -75,5 +75,4 @@ public class UserController {
 	public RoleDTO[] getAllRoles() {
 		return RoleDTO.values();
 	}
-
 }
