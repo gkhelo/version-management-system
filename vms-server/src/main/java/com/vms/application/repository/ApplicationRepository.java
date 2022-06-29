@@ -18,6 +18,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 	@Query
 	List<Application> findAllByVendor(Company vendor);
 
+	@Query("SELECT a FROM Application a JOIN FETCH a.users u WHERE u.id = (:userId)")
+	List<Application> findAllByUserId(@Param("userId") long userId);
+
 	@Query("SELECT a FROM Application a WHERE a.id = :applicationId AND (a.company.id = :companyId OR a.vendor.id = :companyId)")
 	Application findByIdAndCompanyOrVendor(@Param("applicationId") long applicationId, @Param("companyId") long companyId);
 
