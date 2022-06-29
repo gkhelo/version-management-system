@@ -1,11 +1,13 @@
 package com.vms.model.user;
 
+import com.vms.model.application.Application;
 import com.vms.model.company.Company;
 import com.vms.model.configurable.Configurable;
 import com.vms.model.group.Group;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -29,6 +31,7 @@ import java.util.List;
 })
 public class User extends Configurable {
 
+	@Column(unique = true)
 	private String username;
 
 	@NotBlank(message = "Password cannot be blank")
@@ -40,6 +43,7 @@ public class User extends Configurable {
 
 	private String lastname;
 
+	@Column(unique = true)
 	@Email
 	private String email;
 
@@ -59,4 +63,7 @@ public class User extends Configurable {
 		inverseJoinColumns = @JoinColumn(name = "group_id")
 	)
 	private List<Group> groups;
+
+	@ManyToMany(mappedBy = "users")
+	private List<Application> applications;
 }
