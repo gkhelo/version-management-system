@@ -9,6 +9,8 @@ import com.vms.model.user.Role;
 import com.vms.model.user.User;
 import com.vms.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,13 +38,11 @@ public class ApplicationServiceImpl implements ApplicationService {
 	}
 
 	@Override
-	public List<Application> getApplications(User user) {
+	public Page<Application> getApplications(User user, Pageable pageable) {
 		if (user.getRole() == Role.ADMIN) {
-			List<Application> companyApplications = applicationRepository.findAllByCompany(user.getCompany());
-			List<Application> vendorApplications = applicationRepository.findAllByVendor(user.getCompany());
-			return Stream.concat(companyApplications.stream(), vendorApplications.stream()).collect(Collectors.toList());
+			return applicationRepository.findAllByCompanyOrVendor(user.getCompany().getId(), pageable);
 		}
-		return getUserApplications(user.getId());
+		return applicationRepository.getUserApplications(user.getId(), pageable);
 	}
 
 	@Override
@@ -67,15 +67,13 @@ public class ApplicationServiceImpl implements ApplicationService {
 	@Override
 	public Application getApplication(long applicationId, User user) {
 		if (user.getRole() == Role.ADMIN) {
-			return findById(applicationId);
+			return applicationRepository.findByIdAndCompanyOrVendor(applicationId, user.getCompany().getId());
 		}
-		Optional<Application> optionalApplication = getUserApplications(user.getId()).stream()
-															   .filter(application -> application.getId() == applicationId)
-															   .findAny();
-		if (optionalApplication.isEmpty()) {
+		Application application = applicationRepository.findByApplicationIdAndUser(applicationId, user.getId());
+		if (application == null) {
 			throw new VMSException(String.format("User has not access to application with id %s", applicationId));
 		}
-		return optionalApplication.get();
+		return application;
 	}
 
 	@Override
@@ -113,9 +111,5 @@ public class ApplicationServiceImpl implements ApplicationService {
 		List<User> users = Stream.concat(companyUsers.stream(), vendorUsers.stream()).collect(Collectors.toList());
 		application.setUsers(users);
 		return applicationRepository.save(application);
-	}
-
-	private List<Application> getUserApplications(long userId) {
-		return applicationRepository.findAllByUserId(userId);
 	}
 }
