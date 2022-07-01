@@ -42,7 +42,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 			List<Application> vendorApplications = applicationRepository.findAllByVendor(user.getCompany());
 			return Stream.concat(companyApplications.stream(), vendorApplications.stream()).collect(Collectors.toList());
 		}
-		return user.getApplications();
+		return getUserApplications(user.getId());
 	}
 
 	@Override
@@ -53,12 +53,14 @@ public class ApplicationServiceImpl implements ApplicationService {
 	}
 
 	@Override
+	@Transactional
 	public Application updateApplication(Application application, long companyId) {
 		Application existingApplication = applicationRepository.findByIdAndCompanyOrVendor(application.getId(), companyId);
 		if (existingApplication == null) {
 			throw new VMSException("Incorrect parameters for updating application");
 		}
 		application.setUsers(existingApplication.getUsers());
+		application.setVersion(existingApplication.getVersion());
 		return applicationRepository.save(application);
 	}
 
@@ -67,9 +69,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 		if (user.getRole() == Role.ADMIN) {
 			return findById(applicationId);
 		}
-		Optional<Application> optionalApplication = user.getApplications().stream()
-														.filter(application -> application.getId() == applicationId)
-														.findAny();
+		Optional<Application> optionalApplication = getUserApplications(user.getId()).stream()
+															   .filter(application -> application.getId() == applicationId)
+															   .findAny();
 		if (optionalApplication.isEmpty()) {
 			throw new VMSException(String.format("User has not access to application with id %s", applicationId));
 		}
@@ -81,8 +83,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	}
 
-	@Transactional
 	@Override
+	@Transactional
 	public Application updateVendorUsers(List<Long> vendorUserIds, long applicationId, long vendorId) {
 		Application application = applicationRepository.findByIdAndVendor(applicationId, vendorId);
 		if (application == null) {
@@ -97,8 +99,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 		return applicationRepository.save(application);
 	}
 
-	@Transactional
 	@Override
+	@Transactional
 	public Application updateCompanyUsers(List<Long> companyUserIds, long applicationId, long companyId) {
 		Application application = applicationRepository.findByIdAndCompany(applicationId, companyId);
 		if (application == null) {
@@ -111,5 +113,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 		List<User> users = Stream.concat(companyUsers.stream(), vendorUsers.stream()).collect(Collectors.toList());
 		application.setUsers(users);
 		return applicationRepository.save(application);
+	}
+
+	private List<Application> getUserApplications(long userId) {
+		return applicationRepository.findAllByUserId(userId);
 	}
 }
