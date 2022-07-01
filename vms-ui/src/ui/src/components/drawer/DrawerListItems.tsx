@@ -42,6 +42,13 @@ const DrawerListItems: FC = () => {
         pageName="applications"
         query={QueryKeyType.APPLICATIONS}
       />
+      <ListLinkItem
+        path="/versions"
+        title={t("Versions")}
+        Icon={WorkIcon}
+        pageName="versions"
+        query={QueryKeyType.VERSIONS}
+      />
     </List>
   );
 };

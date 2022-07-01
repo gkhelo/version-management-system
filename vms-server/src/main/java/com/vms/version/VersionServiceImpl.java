@@ -7,6 +7,8 @@ import com.vms.model.user.User;
 import com.vms.model.version.Version;
 import com.vms.version.repository.VersionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,13 +24,14 @@ public class VersionServiceImpl implements VersionService {
 	private ApplicationService applicationService;
 
 	@Override
-	public List<Version> getVersions(User user) {
+	public Page<Version> getVersions(User user, Pageable pageable) {
 		List<Application> applications = applicationService.getApplications(user);
 		List<Long> applicationIds = applications
 			.stream()
 			.map(Configurable::getId)
 			.collect(Collectors.toList());
 
-		return versionRepository.findByApplicationIdIn(applicationIds);
+		Page<Version> result = versionRepository.findByApplicationIdIn(applicationIds, pageable);
+		return result != null ? result : Page.empty();
 	}
 }

@@ -14,10 +14,12 @@ import {
   ADD_VENDOR,
   DELETE_VENDOR,
   GET_CLIENTS,
+  GET_VERSIONS,
 } from "../constants/Endpoints";
 import { User } from "../types/User";
 import { Pageable, PageImpl } from "../types/Pageable";
 import { Company } from "../types/Company";
+import { Version } from "../types/Version";
 
 const login = async (data: FormData) => {
   return await authAxiosInstance.post(LOGIN, data);
@@ -91,6 +93,13 @@ const getClients = async () => {
   return response.data;
 }
 
+const getVersions = async (pageable: Pageable) => {
+  const response = await apiAxiosInstance.get<PageImpl<Version>>(GET_VERSIONS, {
+    params: { ...pageable },
+  });
+  return response.data;
+};
+
 const ServerApi = {
   login,
   register,
@@ -106,6 +115,7 @@ const ServerApi = {
   addVendor,
   deleteVendor,
   getClients,
+  getVersions,
 };
 
 export default ServerApi;

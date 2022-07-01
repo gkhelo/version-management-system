@@ -25,6 +25,7 @@ import WithAxios from "./error/WithAxios";
 import VendorsPage from "./pages/vendor/VendorsPage";
 import VendorPage from "./pages/vendor/VendorPage";
 import ClientsPage from "./pages/client/ClientsPage";
+import VersionsPage from "./pages/version/VersionsPage";
 
 const queryClient = new QueryClient();
 const history = createBrowserHistory();
@@ -62,6 +63,10 @@ const App: FC = () => {
               {
                 path: "/clients",
                 element: <ClientsPage />,
+              },
+              {
+                path: "/versions",
+                element: <VersionsPage />,
               },
               { path: "/login", element: <Login />, meta: { outer: true } },
               {

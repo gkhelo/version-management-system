@@ -10,6 +10,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +26,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class VersionServiceImplTest {
+
+	private static final Pageable PAGING = PageRequest.of(0, 5);
 
 	@Mock
 	private VersionRepository versionRepository;
@@ -36,7 +42,7 @@ public class VersionServiceImplTest {
 	public void test_empty_versions_when_applications_empty() {
 		when(applicationService.getApplications(any())).thenReturn(Collections.emptyList());
 
-		List<Version> result = service.getVersions(new User());
+		Page<Version> result = service.getVersions(new User(), PAGING);
 		assertTrue(result.isEmpty());
 	}
 
@@ -54,9 +60,11 @@ public class VersionServiceImplTest {
 		version.setApplication(application);
 
 		List<Version> versions = List.of(version);
-		when(versionRepository.findByApplicationIdIn(List.of(1L))).thenReturn(versions);
+		Page<Version> page = new PageImpl<>(versions);
+		when(versionRepository.findByApplicationIdIn(List.of(1L), PAGING)).thenReturn(page);
 
-		List<Version> result = service.getVersions(new User());
+		Page<Version> resultPage = service.getVersions(new User(), PAGING);
+		List<Version> result = resultPage.getContent();
 		assertEquals(1, result.size());
 
 		Version actual = result.get(0);
@@ -81,9 +89,11 @@ public class VersionServiceImplTest {
 		version.setApplication(application1);
 
 		List<Version> versions = List.of(version);
-		when(versionRepository.findByApplicationIdIn(List.of(1L, 2L))).thenReturn(versions);
+		Page<Version> page = new PageImpl<>(versions);
+		when(versionRepository.findByApplicationIdIn(List.of(1L, 2L), PAGING)).thenReturn(page);
 
-		List<Version> result = service.getVersions(new User());
+		Page<Version> resultPage = service.getVersions(new User(), PAGING);
+		List<Version> result = resultPage.getContent();
 		assertEquals(1, result.size());
 
 		Version actual = result.get(0);
@@ -110,9 +120,11 @@ public class VersionServiceImplTest {
 
 			versions.add(version);
 		}
-		when(versionRepository.findByApplicationIdIn(List.of(1L))).thenReturn(versions);
+		Page<Version> page = new PageImpl<>(versions);
+		when(versionRepository.findByApplicationIdIn(List.of(1L), PAGING)).thenReturn(page);
 
-		List<Version> result = service.getVersions(new User());
+		Page<Version> resultPage = service.getVersions(new User(), PAGING);
+		List<Version> result = resultPage.getContent();
 		assertEquals(numVersions, result.size());
 
 		for (int i = 0; i < numVersions; i++) {
@@ -148,9 +160,12 @@ public class VersionServiceImplTest {
 		}
 
 		when(applicationService.getApplications(any())).thenReturn(applications);
-		when(versionRepository.findByApplicationIdIn(any())).thenReturn(versions);
 
-		List<Version> result = service.getVersions(new User());
+		Page<Version> page = new PageImpl<>(versions);
+		when(versionRepository.findByApplicationIdIn(any(), any())).thenReturn(page);
+
+		Page<Version> resultPage = service.getVersions(new User(), PAGING);
+		List<Version> result = resultPage.getContent();
 		assertEquals(numApplications * numVersions, result.size());
 
 		for (int i = 0; i < numApplications; i++) {
