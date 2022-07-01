@@ -14,11 +14,14 @@ import {
   ADD_VENDOR,
   DELETE_VENDOR,
   GET_CLIENTS,
+  GET_APPLICATIONS,
   GET_VERSIONS,
+  ADD_VERSION,
 } from "../constants/Endpoints";
 import { User } from "../types/User";
 import { Pageable, PageImpl } from "../types/Pageable";
 import { Company } from "../types/Company";
+import { Application } from "../types/Application";
 import { Version } from "../types/Version";
 
 const login = async (data: FormData) => {
@@ -93,10 +96,20 @@ const getClients = async () => {
   return response.data;
 }
 
+const getApplications = async () => {
+  const response = await apiAxiosInstance.get<Application[]>(GET_APPLICATIONS);
+  return response.data;
+}
+
 const getVersions = async (pageable: Pageable) => {
   const response = await apiAxiosInstance.get<PageImpl<Version>>(GET_VERSIONS, {
     params: { ...pageable },
   });
+  return response.data;
+};
+
+const addVersion = async (version: Version) => {
+  const response = await apiAxiosInstance.post<Version>(ADD_VERSION, version);
   return response.data;
 };
 
@@ -115,7 +128,9 @@ const ServerApi = {
   addVendor,
   deleteVendor,
   getClients,
+  getApplications,
   getVersions,
+  addVersion,
 };
 
 export default ServerApi;

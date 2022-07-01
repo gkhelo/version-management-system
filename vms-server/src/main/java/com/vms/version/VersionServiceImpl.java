@@ -34,4 +34,9 @@ public class VersionServiceImpl implements VersionService {
 		Page<Version> result = versionRepository.findByApplicationIdIn(applicationIds, pageable);
 		return result != null ? result : Page.empty();
 	}
+
+	@Override
+	public Version addVersion(Version version) {
+		return versionRepository.save(version);
+	}
 }

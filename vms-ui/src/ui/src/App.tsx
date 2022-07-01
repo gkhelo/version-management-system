@@ -26,6 +26,7 @@ import VendorsPage from "./pages/vendor/VendorsPage";
 import VendorPage from "./pages/vendor/VendorPage";
 import ClientsPage from "./pages/client/ClientsPage";
 import VersionsPage from "./pages/version/VersionsPage";
+import VersionPage from "./pages/version/VersionPage";
 
 const queryClient = new QueryClient();
 const history = createBrowserHistory();
@@ -66,7 +67,10 @@ const App: FC = () => {
               },
               {
                 path: "/versions",
-                element: <VersionsPage />,
+                children: [
+                  { path: "/", element: <VersionsPage /> },
+                  { path: "/:action/:versionId", element: <VersionPage /> }
+                ],
               },
               { path: "/login", element: <Login />, meta: { outer: true } },
               {

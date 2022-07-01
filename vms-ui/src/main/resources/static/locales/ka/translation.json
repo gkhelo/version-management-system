@@ -38,5 +38,9 @@
   "name": "სახელი",
   "Clients": "კლიენტები",
   "Versions": "ვერსიები",
-  "description": "აღწერა"
+  "description": "აღწერა",
+  "application": "აპლიკაცია",
+  "addVersion": "ვერსიის დამატება",
+  "viewVersion": "ვერსიის დათვალიერება",
+  "editVersion": "ვერსიის რედაქტირება"
 }

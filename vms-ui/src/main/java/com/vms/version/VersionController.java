@@ -8,11 +8,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/versions")
@@ -38,5 +37,11 @@ public class VersionController {
 		Pageable paging = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
 		Page<Version> result = versionService.getVersions(authService.getAuthenticatedUser(), paging);
 		return new PageImpl<>(versionMapper.toDTOs(result.getContent()), paging, result.getTotalElements());
+	}
+
+	@PostMapping("/add")
+	public ResponseEntity<VersionDTO> addVersion(@RequestBody VersionDTO versionDTO) {
+		Version version = versionMapper.fromDTO(versionDTO);
+		return new ResponseEntity<>(versionMapper.toDTO(versionService.addVersion(version)), HttpStatus.OK);
 	}
 }

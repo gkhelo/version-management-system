@@ -8,4 +8,6 @@ import org.springframework.data.domain.Pageable;
 public interface VersionService {
 
 	Page<Version> getVersions(User user, Pageable pageable);
+
+	Version addVersion(Version version);
 }

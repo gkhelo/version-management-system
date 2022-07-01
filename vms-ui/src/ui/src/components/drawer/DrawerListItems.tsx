@@ -30,7 +30,7 @@ const DrawerListItems: FC = () => {
       />
       <ListLinkItem
         path="/clients"
-        title={t("clients")}
+        title={t("Clients")}
         Icon={GroupsIcon}
         pageName="clients"
         query={QueryKeyType.CLIENTS}

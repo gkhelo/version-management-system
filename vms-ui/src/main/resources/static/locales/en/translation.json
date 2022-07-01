@@ -38,5 +38,9 @@
   "name": "Name",
   "Clients": "Clients",
   "Versions": "Versions",
-  "description": "description"
+  "description": "Description",
+  "application": "Application",
+  "addVersion": "Add Version",
+  "viewVersion": "View Version",
+  "editVersion": "Edit Version"
 }
