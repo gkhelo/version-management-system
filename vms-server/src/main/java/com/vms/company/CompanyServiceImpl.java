@@ -48,7 +48,7 @@ public class CompanyServiceImpl implements CompanyService {
 			company = companyRepository.save(company);
 
 			admin.setCompany(company);
-			userService.addUser(admin);
+			userService.addUser(admin, company);
 
 			return company;
 		} catch (DataIntegrityViolationException ex) {

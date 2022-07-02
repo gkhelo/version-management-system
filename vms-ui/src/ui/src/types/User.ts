@@ -11,7 +11,6 @@ export type User = {
   confirmPassword?: string | null;
   passwordChangeRequired?: boolean;
   role?: Role | null;
-  companyId?: number | null;
 };
 
 export enum Role {

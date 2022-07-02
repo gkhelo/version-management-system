@@ -28,7 +28,6 @@ const UserPage: FC = () => {
       password: "",
       confirmPassword: "",
       email: null,
-      companyId: null,
       role: null,
     });
   };
