@@ -3,6 +3,7 @@ export type Application = {
   createTime?: string | null;
   updateTime?: string | null;
   version?: number;
+  name?: string | null;
   companyId?: number | null;
   companyName?: string | null;
   vendorId?: number | null;
