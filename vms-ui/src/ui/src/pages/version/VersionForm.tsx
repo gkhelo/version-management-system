@@ -15,7 +15,9 @@ const validationSchema = yup.object({
   application: yup.object().required("Application is required").nullable(),
 });
 
-const VersionForm: FC<{ onSubmitHandler: Function }> = ({
+const VersionForm: FC<{ action: string, version: Version | null, onSubmitHandler: Function }> = ({
+  action,
+  version,
   onSubmitHandler,
 }) => {
   const { t } = useTranslation();
@@ -23,16 +25,14 @@ const VersionForm: FC<{ onSubmitHandler: Function }> = ({
     state: { user },
   } = useContext(UserContext);
 
+  const initialValues: Version = version ? { ...version } : { id: 0 };
   const applications = useApplications();
 
   return (
     <Container maxWidth={false} disableGutters>
       <Paper variant="outlined" sx={{ p: 2, m: 0 }}>
         <Formik
-          initialValues={{
-            "description": null,
-            "application": null
-          }}
+          initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={values => {
             onSubmitHandler(values);
@@ -41,10 +41,19 @@ const VersionForm: FC<{ onSubmitHandler: Function }> = ({
           {(props) => (
             <form onSubmit={props.handleSubmit}>
               <Stack direction="column" spacing={2}>
-                <FormikTextfield<Version> name="description" label={t("description")} />
+                <FormikTextfield<Version>
+                  name="description"
+                  label={t("description")}
+                  inputProps={
+                    { readOnly: action === "view", }
+                  }
+                />
                 <FormikSelect<Version>
                   name="application"
                   label={t("application")}
+                  inputProps={
+                    { readOnly: action === "view", }
+                  }
                   getValue={(application: Application) => application}
                   renderValue={(application: Application) => application.name}
                   data={
@@ -53,6 +62,7 @@ const VersionForm: FC<{ onSubmitHandler: Function }> = ({
                     }) : []
                   }
                 />
+                {action !== "view" &&
                 <Button
                   color="primary"
                   variant="contained"
@@ -61,6 +71,7 @@ const VersionForm: FC<{ onSubmitHandler: Function }> = ({
                 >
                   {t("save")}
                 </Button>
+                }
               </Stack>
             </form>
           )}

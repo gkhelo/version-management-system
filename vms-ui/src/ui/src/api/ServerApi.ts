@@ -16,6 +16,7 @@ import {
   GET_CLIENTS,
   GET_APPLICATIONS,
   GET_VERSIONS,
+  GET_VERSION,
   ADD_VERSION,
 } from "../constants/Endpoints";
 import { User } from "../types/User";
@@ -108,6 +109,11 @@ const getVersions = async (pageable: Pageable) => {
   return response.data;
 };
 
+const getVersion = async (id: string | number) => {
+  const response = await apiAxiosInstance.get<Version>(`${GET_VERSION}/${id}`);
+  return response.data;
+};
+
 const addVersion = async (version: Version) => {
   const response = await apiAxiosInstance.post<Version>(ADD_VERSION, version);
   return response.data;
@@ -130,6 +136,7 @@ const ServerApi = {
   getClients,
   getApplications,
   getVersions,
+  getVersion,
   addVersion,
 };
 

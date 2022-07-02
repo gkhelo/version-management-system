@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import usePageSelector from "../../hooks/usePageSelector";
 import { useTranslation } from "react-i18next";
 import VMSBreadcrumbs from "../../components/VMSBreadcrumbs";
@@ -14,9 +14,25 @@ const VersionPage: FC = () => {
     params: { action, versionId },
   } = useMatch();
 
+  const fetchVersion = async (versionId: number | string) => {
+    const fetchedVersion = await ServerApi.getVersion(versionId);
+    setVersion(fetchedVersion);
+  };
+
   const versionSubmitHandler = async (version: Version) => {
     await ServerApi.addVersion(version);
   };
+
+  const [version, setVersion] = useState<Version>();
+
+  useEffect(() => {
+    if (action !== "add") {
+      fetchVersion(versionId)
+        .catch(err => {
+          console.error("Version fetch error", err);
+        });
+    }
+  }, [versionId]);
 
   return (
     <>
@@ -27,7 +43,10 @@ const VersionPage: FC = () => {
         ]}
       />
       {
-        <VersionForm onSubmitHandler={versionSubmitHandler} />
+        action === "add" ?
+          <VersionForm action={action} version={null} onSubmitHandler={versionSubmitHandler}/>
+          :
+          version && <VersionForm action={action} version={version} onSubmitHandler={versionSubmitHandler}/>
       }
     </>
   );

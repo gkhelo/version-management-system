@@ -36,6 +36,11 @@ public class VersionServiceImpl implements VersionService {
 	}
 
 	@Override
+	public Version getVersion(long versionId) {
+		return versionRepository.findById(versionId).orElse(null);
+	}
+
+	@Override
 	public Version addVersion(Version version) {
 		return versionRepository.save(version);
 	}

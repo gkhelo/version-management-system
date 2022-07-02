@@ -39,6 +39,11 @@ public class VersionController {
 		return new PageImpl<>(versionMapper.toDTOs(result.getContent()), paging, result.getTotalElements());
 	}
 
+	@GetMapping("/{versionId}")
+	public VersionDTO getVersion(@PathVariable("versionId") long versionId) {
+		return versionMapper.toDTO(versionService.getVersion(versionId));
+	}
+
 	@PostMapping("/add")
 	public ResponseEntity<VersionDTO> addVersion(@RequestBody VersionDTO versionDTO) {
 		Version version = versionMapper.fromDTO(versionDTO);

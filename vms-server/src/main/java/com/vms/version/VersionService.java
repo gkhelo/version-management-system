@@ -9,5 +9,7 @@ public interface VersionService {
 
 	Page<Version> getVersions(User user, Pageable pageable);
 
+	Version getVersion(long versionId);
+
 	Version addVersion(Version version);
 }
