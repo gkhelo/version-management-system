@@ -16,7 +16,7 @@ import usePageSelector from "../../hooks/usePageSelector";
 import usePagination from "../../hooks/usePagination";
 import { QueryKeyType } from "../../types/QueryKeyType";
 
-const Applications = () => {
+const ApplicationsPage = () => {
   usePageSelector("applications");
   const { dataGridValueFormatter } = useDateFormatter();
   const { t } = useTranslation();
@@ -31,13 +31,11 @@ const Applications = () => {
   });
 
   const navigateToApplication = (applicationId: string | number) => {
-    console.log(`Navigate to application ${applicationId}`);
-    // navigate({ to: `/users/${userId}` });
+    navigate({ to: `/applications/${applicationId}` });
   };
 
   const navigateToNewApplication = () => {
-    console.log(`Navigate to new application`);
-    // navigate({ to: `/users/new` });
+    navigate({ to: `/applications/new` });
   };
 
   return (
@@ -106,4 +104,4 @@ const Applications = () => {
   );
 };
 
-export default Applications;
+export default ApplicationsPage;

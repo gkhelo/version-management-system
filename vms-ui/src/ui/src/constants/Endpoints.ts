@@ -21,4 +21,7 @@ export const DELETE_VENDOR = "/vendors/delete";
 export const GET_CLIENTS = "/clients/all";
 
 export const GET_APPLICATIONS = "/applications/all";
+export const GET_APPLICATION = "/applications/get";
+export const ADD_APPLICATION = "/applications/add";
+export const UPDATE_APPLICATION = "/applications/update";
 
