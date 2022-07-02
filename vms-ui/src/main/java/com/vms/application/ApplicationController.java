@@ -5,6 +5,8 @@ import com.vms.application.mapper.ApplicationMapper;
 import com.vms.model.application.Application;
 import com.vms.model.user.User;
 import com.vms.security.AuthService;
+import com.vms.user.dto.UserDTO;
+import com.vms.user.mapper.UserMapper;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +42,9 @@ public class ApplicationController {
 	@Autowired
 	private ApplicationMapper applicationMapper;
 
+	@Autowired
+	private UserMapper userMapper;
+
 	@Secured({"ADMIN", "USER"})
 	@GetMapping("/all")
 	public Page<ApplicationDTO> getAllApplications(@RequestParam(defaultValue = "0") Integer page,
@@ -49,6 +55,12 @@ public class ApplicationController {
 		Page<Application> applicationsResult = applicationService.getApplications(authService.getAuthenticatedUser(), paging);
 		return new PageImpl<>(applicationMapper.toDTOs(applicationsResult.getContent()), paging, applicationsResult.getTotalElements());
 
+	}
+
+	@Secured({"ADMIN", "USER"})
+	@GetMapping("/get/{applicationId}")
+	public ApplicationDTO getApplication(@PathVariable("applicationId") long applicationId) {
+		return applicationMapper.toDTO(applicationService.getApplication(applicationId, authService.getAuthenticatedUser()));
 	}
 
 	@Secured({"ADMIN"})
@@ -66,15 +78,15 @@ public class ApplicationController {
 	}
 
 	@Secured({"ADMIN"})
-	@PutMapping("/update/company-users")
+	@PutMapping("/users/update")
 	public ApplicationDTO updateCompanyUsers(@RequestParam long applicationId, @RequestBody List<Long> companyUserIds) {
-		return applicationMapper.toDTO(applicationService.updateCompanyUsers(companyUserIds, applicationId, getCompanyId()));
+		return applicationMapper.toDTO(applicationService.updateApplicationUsersForCompany(companyUserIds, applicationId, getCompanyId()));
 	}
 
 	@Secured({"ADMIN"})
-	@PutMapping("/update/vendor-users")
-	public ApplicationDTO updateVendorUsers(@RequestParam long applicationId, @RequestBody List<Long> vendorUserIds) {
-		return applicationMapper.toDTO(applicationService.updateVendorUsers(vendorUserIds, applicationId, getCompanyId()));
+	@GetMapping("/users/all")
+	public List<UserDTO> getApplicationUsers(@RequestParam long applicationId) {
+		return userMapper.toDTOs(applicationService.getApplicationUsers(applicationId, getCompanyId()));
 	}
 
 	private long getCompanyId() {

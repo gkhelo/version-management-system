@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -83,33 +82,23 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	@Override
 	@Transactional
-	public Application updateVendorUsers(List<Long> vendorUserIds, long applicationId, long vendorId) {
-		Application application = applicationRepository.findByIdAndVendor(applicationId, vendorId);
+	public Application updateApplicationUsersForCompany(List<Long> userIds, long applicationId, long companyId) {
+		Application application = applicationRepository.findByIdAndCompanyOrVendorFetchUsers(applicationId, companyId);
 		if (application == null) {
-			throw new VMSException(String.format("Error updating vendor users for application with id %s", applicationId));
+			throw new VMSException(String.format("Error updating users for application with id %s", applicationId));
 		}
-		List<User> companyUsers = application.getUsers().stream()
-											 .filter(user -> user.getCompany().equals(application.getCompany()))
+
+		List<User> otherCompanyUsers = application.getUsers().stream()
+											 .filter(user -> user.getCompany().getId() != companyId)
 											 .collect(Collectors.toList());
-		List<User> vendorUsers = userService.getUsersByCompanyAndIds(vendorId, vendorUserIds);
-		List<User> users = Stream.concat(companyUsers.stream(), vendorUsers.stream()).collect(Collectors.toList());
+		List<User> updatedUsers = userService.getUsersByCompanyAndIds(companyId, userIds);
+		List<User> users = Stream.concat(otherCompanyUsers.stream(), updatedUsers.stream()).collect(Collectors.toList());
 		application.setUsers(users);
 		return applicationRepository.save(application);
 	}
 
 	@Override
-	@Transactional
-	public Application updateCompanyUsers(List<Long> companyUserIds, long applicationId, long companyId) {
-		Application application = applicationRepository.findByIdAndCompany(applicationId, companyId);
-		if (application == null) {
-			throw new VMSException(String.format("Error updating vendor users for application with id %s", applicationId));
-		}
-		List<User> vendorUsers = application.getUsers().stream()
-											.filter(user -> user.getCompany().equals(application.getVendor()))
-											.collect(Collectors.toList());
-		List<User> companyUsers = userService.getUsersByCompanyAndIds(companyId, companyUserIds);
-		List<User> users = Stream.concat(companyUsers.stream(), vendorUsers.stream()).collect(Collectors.toList());
-		application.setUsers(users);
-		return applicationRepository.save(application);
+	public List<User> getApplicationUsers(long applicationId, long companyId) {
+		return applicationRepository.getUsersByApplicationAndCompanyId(applicationId, companyId);
 	}
 }

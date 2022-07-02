@@ -21,7 +21,7 @@ public interface ApplicationService {
 
 	void deleteApplication(long applicationId, long companyId);
 
-	Application updateVendorUsers(List<Long> vendorUserIds, long applicationId, long vendorId);
+	Application updateApplicationUsersForCompany(List<Long> userIds, long applicationId, long companyId);
 
-	Application updateCompanyUsers(List<Long> companyUserIds, long applicationId, long companyId);
+	List<User> getApplicationUsers(long applicationId, long companyId);
 }
