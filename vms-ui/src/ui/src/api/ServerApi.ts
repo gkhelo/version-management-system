@@ -114,8 +114,8 @@ const getVersion = async (id: string | number) => {
   return response.data;
 };
 
-const addVersion = async (version: Version) => {
-  const response = await apiAxiosInstance.post<Version>(ADD_VERSION, version);
+const addVersion = async (data: FormData) => {
+  const response = await apiAxiosInstance.post<Version>(ADD_VERSION, data);
   return response.data;
 };
 

@@ -7,5 +7,6 @@ export type Version = {
   version?: number;
   description?: string | null;
   application?: Application;
-  files?: [string]
+  filenames?: [string];
+  files?: [Blob];
 };

@@ -1,16 +1,22 @@
 package com.vms.version;
 
 import com.vms.application.ApplicationService;
+import com.vms.exceptions.VMSException;
 import com.vms.model.application.Application;
 import com.vms.model.configurable.Configurable;
 import com.vms.model.user.User;
 import com.vms.model.version.Version;
+import com.vms.storage.StorageService;
 import com.vms.version.repository.VersionRepository;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,10 +24,16 @@ import java.util.stream.Collectors;
 public class VersionServiceImpl implements VersionService {
 
 	@Autowired
+	private Logger log;
+
+	@Autowired
 	private VersionRepository versionRepository;
 
 	@Autowired
 	private ApplicationService applicationService;
+
+	@Autowired
+	private StorageService storageService;
 
 	@Override
 	public Page<Version> getVersions(User user, Pageable pageable) {
@@ -41,7 +53,18 @@ public class VersionServiceImpl implements VersionService {
 	}
 
 	@Override
-	public Version addVersion(Version version) {
-		return versionRepository.save(version);
+	@Transactional
+	public Version addVersion(Version version, MultipartFile[] files) {
+		try {
+			Version result = versionRepository.save(version);
+
+			List<String> filenames = storageService.saveFiles(result.getId(), files);
+			result.setFilenames(filenames);
+
+			return result;
+		} catch (IOException ex) {
+			log.error("Error occurred while saving files", ex);
+			throw new VMSException("filesUploadError");
+		}
 	}
 }

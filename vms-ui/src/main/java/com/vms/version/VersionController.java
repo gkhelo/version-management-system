@@ -9,9 +9,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/versions")
@@ -44,9 +46,10 @@ public class VersionController {
 		return versionMapper.toDTO(versionService.getVersion(versionId));
 	}
 
-	@PostMapping("/add")
-	public ResponseEntity<VersionDTO> addVersion(@RequestBody VersionDTO versionDTO) {
+	@PostMapping(value = "/add", consumes = {MediaType.ALL_VALUE})
+	public ResponseEntity<VersionDTO> addVersion(@RequestPart("version") VersionDTO versionDTO,
+												 @RequestPart("files") MultipartFile[] files) {
 		Version version = versionMapper.fromDTO(versionDTO);
-		return new ResponseEntity<>(versionMapper.toDTO(versionService.addVersion(version)), HttpStatus.OK);
+		return new ResponseEntity<>(versionMapper.toDTO(versionService.addVersion(version, files)), HttpStatus.OK);
 	}
 }

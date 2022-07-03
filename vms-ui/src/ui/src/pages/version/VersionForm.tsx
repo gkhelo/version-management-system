@@ -62,6 +62,12 @@ const VersionForm: FC<{ action: string, version: Version | null, onSubmitHandler
                     }) : []
                   }
                 />
+
+                <input name="files" type="file" multiple onChange={(event) => {
+                  const files = (event.target as HTMLInputElement).files || [];
+                  props.setFieldValue("files", files);
+                }}/>
+
                 {action !== "view" &&
                 <Button
                   color="primary"

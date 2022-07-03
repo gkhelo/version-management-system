@@ -20,7 +20,16 @@ const VersionPage: FC = () => {
   };
 
   const versionSubmitHandler = async (version: Version) => {
-    await ServerApi.addVersion(version);
+    if (version && version.files) {
+      const formData = new FormData();
+      formData.append("version", new Blob([JSON.stringify(version)], {
+        type: "application/json"
+      }));
+      for (const file of version.files) {
+        formData.append("files", file);
+      }
+      await ServerApi.addVersion(formData);
+    }
   };
 
   const [version, setVersion] = useState<Version>();

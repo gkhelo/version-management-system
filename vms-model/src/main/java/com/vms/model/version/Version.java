@@ -22,6 +22,6 @@ public class Version extends Configurable {
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "version_files", joinColumns = @JoinColumn(name = "version_id"))
-	@Column(name = "filepath")
-	private List<String> files;
+	@Column(name = "filename")
+	private List<String> filenames;
 }
