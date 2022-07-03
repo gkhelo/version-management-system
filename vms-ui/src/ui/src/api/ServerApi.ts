@@ -14,10 +14,15 @@ import {
   ADD_VENDOR,
   DELETE_VENDOR,
   GET_CLIENTS,
+  GET_APPLICATIONS,
+  GET_APPLICATION,
+  ADD_APPLICATION,
+  UPDATE_APPLICATION,
 } from "../constants/Endpoints";
 import { User } from "../types/User";
 import { Pageable, PageImpl } from "../types/Pageable";
 import { Company } from "../types/Company";
+import { Application } from "../types/Application";
 
 const login = async (data: FormData) => {
   return await authAxiosInstance.post(LOGIN, data);
@@ -74,7 +79,7 @@ const getCompanies = async () => {
 const getVendors = async () => {
   const response = await apiAxiosInstance.get<Company[]>(GET_VENDORS);
   return response.data;
-}
+};
 
 const addVendor = async (vendorId: number) => {
   const response = await apiAxiosInstance.post(`${ADD_VENDOR}/${vendorId}`);
@@ -89,7 +94,40 @@ const deleteVendor = async (id: string | number) => {
 const getClients = async () => {
   const response = await apiAxiosInstance.get<Company[]>(GET_CLIENTS);
   return response.data;
-}
+};
+
+const getApplications = async (pageable: Pageable) => {
+  const response = await apiAxiosInstance.get<PageImpl<Application>>(
+    GET_APPLICATIONS,
+    {
+      params: { ...pageable },
+    }
+  );
+  return response.data;
+};
+
+const getApplication = async (id: string | number) => {
+  const response = await apiAxiosInstance.get<Application>(
+    `${GET_APPLICATION}/${id}`
+  );
+  return response.data;
+};
+
+const addApplication = async (application: Application) => {
+  const response = await apiAxiosInstance.post<Application>(
+    ADD_APPLICATION,
+    application
+  );
+  return response.data;
+};
+
+const updateApplication = async (application: Application) => {
+  const response = await apiAxiosInstance.put<Application>(
+    UPDATE_APPLICATION,
+    application
+  );
+  return response.data;
+};
 
 const ServerApi = {
   login,
@@ -106,6 +144,10 @@ const ServerApi = {
   addVendor,
   deleteVendor,
   getClients,
+  getApplications,
+  getApplication,
+  addApplication,
+  updateApplication,
 };
 
 export default ServerApi;

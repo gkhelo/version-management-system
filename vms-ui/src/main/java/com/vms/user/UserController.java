@@ -1,6 +1,8 @@
 package com.vms.user;
 
+import com.vms.model.company.Company;
 import com.vms.model.user.User;
+import com.vms.security.AuthService;
 import com.vms.user.dto.RoleDTO;
 import com.vms.user.dto.UserDTO;
 import com.vms.user.mapper.UserMapper;
@@ -33,6 +35,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
 	@Autowired
+	private AuthService authService;
+
+	@Autowired
 	private UserService userService;
 
 	@Autowired
@@ -44,35 +49,40 @@ public class UserController {
 									 @RequestParam(defaultValue = "id") String sortBy,
 									 @RequestParam(defaultValue = "asc") String sortDirection) {
 		Pageable paging = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
-		Page<User> userResult = userService.getUsers(paging);
+		Page<User> userResult = userService.getUsers(getCompany().getId(), paging);
 		return new PageImpl<>(userMapper.toDTOs(userResult.getContent()), paging, userResult.getTotalElements());
 	}
 
 	@PostMapping("/add")
 	public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO userDTO) {
 		User user = userMapper.fromDTO(userDTO);
-		return new ResponseEntity<>(userMapper.toDTO(userService.addUser(user)), HttpStatus.OK);
+		return new ResponseEntity<>(userMapper.toDTO(userService.addUser(user, getCompany())), HttpStatus.OK);
 	}
 
 	@PutMapping("/update")
 	public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO) {
 		User user = userMapper.fromDTO(userDTO);
-		return new ResponseEntity<>(userMapper.toDTO(userService.updateUser(user)), HttpStatus.OK);
+		return new ResponseEntity<>(userMapper.toDTO(userService.updateUser(user, getCompany().getId())), HttpStatus.OK);
 	}
 
 	@GetMapping("/get/{userId}")
 	public UserDTO getUser(@PathVariable("userId") long userId) {
-		return userMapper.toDTO(userService.getUser(userId));
+		return userMapper.toDTO(userService.getUser(userId, getCompany().getId()));
 	}
 
 	@DeleteMapping("/delete/{userId}")
 	public ResponseEntity<?> deleteUser(@PathVariable("userId") long userId) {
-		userService.deleteUser(userId);
+		userService.deleteUser(userId, getCompany().getId());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@GetMapping("/roles")
 	public RoleDTO[] getAllRoles() {
 		return RoleDTO.values();
+	}
+
+	private Company getCompany() {
+		User user = authService.getAuthenticatedUser();
+		return user.getCompany();
 	}
 }

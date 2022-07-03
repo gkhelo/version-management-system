@@ -21,6 +21,4 @@ public class UserDTO extends ConfigurableDTO {
 	private boolean passwordChangeRequired;
 
 	private RoleDTO role;
-
-	private Long companyId;
 }

@@ -12,5 +12,9 @@ public class ApplicationDTO extends ConfigurableDTO {
 
 	private Long companyId;
 
+	private String companyName;
+
 	private Long vendorId;
+
+	private String vendorName;
 }

@@ -5,5 +5,7 @@ export type Application = {
   version?: number;
   name?: string | null;
   companyId?: number | null;
+  companyName?: string | null;
   vendorId?: number | null;
+  vendorName?: string | null;
 };
