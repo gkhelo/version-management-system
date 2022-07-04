@@ -18,6 +18,7 @@ import {
   GET_VERSIONS,
   GET_VERSION,
   ADD_VERSION,
+  GET_VERSION_FILE,
 } from "../constants/Endpoints";
 import { User } from "../types/User";
 import { Pageable, PageImpl } from "../types/Pageable";
@@ -119,6 +120,13 @@ const addVersion = async (data: FormData) => {
   return response.data;
 };
 
+const getVersionFile = async (versionId: number, filename: string) => {
+  const response = await apiAxiosInstance.get(`${GET_VERSION_FILE}/${versionId}/${filename}`, {
+    responseType: "blob"
+  });
+  return response.data;
+}
+
 const ServerApi = {
   login,
   register,
@@ -138,6 +146,7 @@ const ServerApi = {
   getVersions,
   getVersion,
   addVersion,
+  getVersionFile,
 };
 
 export default ServerApi;

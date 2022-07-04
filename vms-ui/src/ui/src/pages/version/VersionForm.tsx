@@ -1,7 +1,7 @@
 import { FC, useContext } from "react";
 import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
-import { Button, Container, Paper, Stack } from "@mui/material";
+import { Button, Container, List, ListItem, ListItemText, Paper, Stack } from "@mui/material";
 import FormikSelect from "../../components/FormikSelect";
 import { Version } from "../../types/Version";
 import { Application } from "../../types/Application";
@@ -9,6 +9,8 @@ import useApplications from "../../hooks/useApplications";
 import { Context as UserContext } from "../../context/UserContext";
 import FormikTextfield from "../../components/FormikTextfield";
 import * as yup from "yup";
+import ServerApi from "../../api/ServerApi";
+import { saveAs } from "file-saver";
 
 const validationSchema = yup.object({
   description: yup.string().required("Description is required").nullable(),
@@ -63,10 +65,28 @@ const VersionForm: FC<{ action: string, version: Version | null, onSubmitHandler
                   }
                 />
 
-                <input name="files" type="file" multiple onChange={(event) => {
-                  const files = (event.target as HTMLInputElement).files || [];
-                  props.setFieldValue("files", files);
-                }}/>
+                <List>
+                  {version?.filenames?.map((filename: string) => (
+                    <ListItem key={filename}>
+                      <ListItemText>{filename}</ListItemText>
+                      <Button onClick={() => {
+                        if (version.id) {
+                          ServerApi.getVersionFile(version?.id, filename)
+                            .then((data: Blob) => {
+                              saveAs(data, filename);
+                            });
+                        }
+                      }}>{t("download")}</Button>
+                    </ListItem>
+                  ))}
+                </List>
+
+                {action !== "view" &&
+                  <input name="files" type="file" multiple onChange={(event) => {
+                    const files = (event.target as HTMLInputElement).files || [];
+                    props.setFieldValue("files", files);
+                  }}/>
+                }
 
                 {action !== "view" &&
                 <Button

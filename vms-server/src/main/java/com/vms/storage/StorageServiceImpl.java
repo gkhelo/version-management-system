@@ -1,10 +1,13 @@
 package com.vms.storage;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,6 +35,16 @@ public class StorageServiceImpl implements StorageService {
 		}
 
 		return names;
+	}
+
+	@Override
+	public Resource getFile(long versionId, String filename) throws IOException {
+		File versionFolder = getVersionFolder(versionId);
+		File versionFile = new File(Path.of(versionFolder.getAbsolutePath(), filename).toUri());
+		if (!versionFile.exists()) {
+			throw new FileNotFoundException(filename + " not exists");
+		}
+		return new UrlResource(Path.of(versionFolder.getAbsolutePath(), filename).toUri());
 	}
 
 	private File getVersionFolder(long versionId) throws IOException {

@@ -10,6 +10,7 @@ import com.vms.storage.StorageService;
 import com.vms.version.repository.VersionRepository;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,16 @@ public class VersionServiceImpl implements VersionService {
 		} catch (IOException ex) {
 			log.error("Error occurred while saving files", ex);
 			throw new VMSException("filesUploadError");
+		}
+	}
+
+	@Override
+	public Resource getVersionFile(long versionId, String filename) {
+		try {
+			return storageService.getFile(versionId, filename);
+		} catch (IOException ex) {
+			log.error("Error occurred while downloading file", ex);
+			throw new VMSException("fileDownloadError");
 		}
 	}
 }
