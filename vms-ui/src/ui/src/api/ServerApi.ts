@@ -18,6 +18,7 @@ import {
   GET_APPLICATION,
   ADD_APPLICATION,
   UPDATE_APPLICATION,
+  GET_APPLICATION_USERS,
 } from "../constants/Endpoints";
 import { User } from "../types/User";
 import { Pageable, PageImpl } from "../types/Pageable";
@@ -129,6 +130,13 @@ const updateApplication = async (application: Application) => {
   return response.data;
 };
 
+const getApplicationUsers = async (applicationId: number) => {
+  const response = await apiAxiosInstance.get<User[]>(GET_APPLICATION_USERS, {
+    params: { applicationId: applicationId },
+  });
+  return response.data;
+};
+
 const ServerApi = {
   login,
   register,
@@ -148,6 +156,7 @@ const ServerApi = {
   getApplication,
   addApplication,
   updateApplication,
+  getApplicationUsers,
 };
 
 export default ServerApi;
