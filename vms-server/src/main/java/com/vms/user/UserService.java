@@ -11,6 +11,8 @@ public interface UserService {
 
 	Page<User> getUsers(long companyId, Pageable pageable);
 
+	List<User> searchUsersNotInApplication(long companyId, long applicationId, String search, long maxResults);
+
 	User addUser(User user, Company company);
 
 	User updateUser(User user, long companyId);

@@ -4,14 +4,17 @@ import com.vms.exceptions.VMSException;
 import com.vms.model.company.Company;
 import com.vms.model.user.User;
 import com.vms.user.repository.UserRepository;
+import com.vms.user.repository.UserSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -25,6 +28,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Page<User> getUsers(long companyId, Pageable pageable) {
 		return userRepository.findAllByCompany(companyId, pageable);
+	}
+
+	@Override
+	@Transactional
+	public List<User> searchUsersNotInApplication(long companyId, long applicationId, String search, long maxResults) {
+		List<User> users = userRepository.findAll(UserSpecification.searchUserSpecification(companyId, search));
+		return users.stream()
+					.filter(user -> !isApplicationUser(user, applicationId))
+					.limit(maxResults)
+					.collect(Collectors.toList());
 	}
 
 	@Override
@@ -84,5 +97,10 @@ public class UserServiceImpl implements UserService {
 
 	private boolean passwordIsFilled(String password) {
 		return password != null && !password.isEmpty() && !password.isBlank();
+	}
+
+	private boolean isApplicationUser(User user, long applicationId) {
+		return user.getApplications().stream()
+				   .anyMatch(app -> app.getId() == applicationId);
 	}
 }

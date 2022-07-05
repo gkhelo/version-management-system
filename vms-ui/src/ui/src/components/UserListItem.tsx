@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, MouseEvent } from "react";
 import {
   Avatar,
   IconButton,
@@ -6,6 +6,7 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@mui/material";
+import { styled } from "@mui/system";
 import { PersonRemove as PersonRemoveIcon } from "@mui/icons-material";
 import { User } from "../types/User";
 
@@ -36,14 +37,34 @@ const stringAvatar = (name: string) => {
   };
 };
 
-const UserListItem: FC<User> = (user) => {
+const StyledListItem = styled(ListItem)(() => ({
+  "&:hover": {
+    backgroundColor: "rgb(7, 177, 77, 0.42)",
+  },
+  cursor: "pointer",
+}));
+
+const UserListItem: FC<UserListItemProps> = ({
+  user,
+  removable = true,
+  onRemove,
+  ...rest
+}) => {
   return (
-    <ListItem
+    <StyledListItem
       secondaryAction={
-        <IconButton edge="end" aria-label="delete" color="error">
-          <PersonRemoveIcon />
-        </IconButton>
+        removable && (
+          <IconButton
+            edge="end"
+            aria-label="delete"
+            color="error"
+            onClick={onRemove}
+          >
+            <PersonRemoveIcon />
+          </IconButton>
+        )
       }
+      {...rest}
     >
       <ListItemAvatar>
         {user.username && <Avatar {...stringAvatar(user.username)} />}
@@ -52,8 +73,15 @@ const UserListItem: FC<User> = (user) => {
         primary={user.username}
         secondary={user.firstname + " " + user.lastname}
       />
-    </ListItem>
+    </StyledListItem>
   );
+};
+
+type UserListItemProps = {
+  user: User;
+  removable?: boolean;
+  onRemove?: (event: MouseEvent) => void;
+  [rest: string]: any;
 };
 
 export default UserListItem;

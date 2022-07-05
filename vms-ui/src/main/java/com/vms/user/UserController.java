@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/users")
 @Secured("ADMIN")
@@ -51,6 +53,14 @@ public class UserController {
 		Pageable paging = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), sortBy));
 		Page<User> userResult = userService.getUsers(getCompany().getId(), paging);
 		return new PageImpl<>(userMapper.toDTOs(userResult.getContent()), paging, userResult.getTotalElements());
+	}
+
+	@GetMapping("/search")
+	public List<UserDTO> searchUsersNotInApplication(@RequestParam(defaultValue = "5") Integer maxResults,
+									 @RequestParam long applicationId,
+									 @RequestParam(defaultValue = "") String search) {
+		List<User> userResult = userService.searchUsersNotInApplication(getCompany().getId(), applicationId, search, maxResults);
+		return userMapper.toDTOs(userResult);
 	}
 
 	@PostMapping("/add")
