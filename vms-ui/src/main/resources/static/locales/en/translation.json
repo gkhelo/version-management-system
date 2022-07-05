@@ -14,6 +14,7 @@
   "role": "Role",
   "save": "save",
   "download": "download",
+  "delete": "delete",
   "Applications": "Applications",
   "editUser": "Edit user",
   "addUser": "Add User",

@@ -18,8 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.lang.String.format;
 
 @Service
 public class VersionServiceImpl implements VersionService {
@@ -63,6 +67,34 @@ public class VersionServiceImpl implements VersionService {
 			result.setFilenames(filenames);
 
 			return result;
+		} catch (IOException ex) {
+			log.error("Error occurred while saving files", ex);
+			throw new VMSException("filesUploadError");
+		}
+	}
+
+	@Override
+	@Transactional
+	public Version updateVersion(Version version, MultipartFile[] files) {
+		try {
+			long id = version.getId();
+			Version oldVersion = versionRepository
+				.findById(id)
+				.orElseThrow(() -> new VMSException(format("Version with ID %s not exists", id)));
+			List<String> oldFilenames = new ArrayList<>(oldVersion.getFilenames());
+
+			version = versionRepository.save(version);
+			List<String> filenames = files != null ? storageService.saveFiles(version.getId(), files) : Collections.emptyList();
+			version.getFilenames().addAll(filenames);
+
+			for (String filename : oldFilenames) {
+				if (!version.getFilenames().contains(filename)) {
+					storageService.deleteFile(id, filename);
+					log.info("Deleted {} for version with ID {}", filename, id);
+				}
+			}
+
+			return version;
 		} catch (IOException ex) {
 			log.error("Error occurred while saving files", ex);
 			throw new VMSException("filesUploadError");

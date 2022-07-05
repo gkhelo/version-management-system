@@ -1,4 +1,4 @@
-import { FC, useContext } from "react";
+import { FC, useContext, useState } from "react";
 import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import { Button, Container, List, ListItem, ListItemText, Paper, Stack } from "@mui/material";
@@ -27,17 +27,20 @@ const VersionForm: FC<{ action: string, version: Version | null, onSubmitHandler
     state: { user },
   } = useContext(UserContext);
 
-  const initialValues: Version = version ? { ...version } : { id: 0 };
+  const initialValues: Version = version ? { ...version } : { id: 0, description: null, application: null };
   const applications = useApplications();
 
+  const [filenames, setFilenames] = useState(version && version.filenames ? version.filenames : []);
   return (
     <Container maxWidth={false} disableGutters>
       <Paper variant="outlined" sx={{ p: 2, m: 0 }}>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={values => {
-            onSubmitHandler(values);
+          onSubmit={(values) => {
+            // @ts-ignore
+            values.filenames = filenames;
+            onSubmitHandler(action, values);
           }}
         >
           {(props) => (
@@ -65,21 +68,29 @@ const VersionForm: FC<{ action: string, version: Version | null, onSubmitHandler
                   }
                 />
 
-                <List>
-                  {version?.filenames?.map((filename: string) => (
-                    <ListItem key={filename}>
-                      <ListItemText>{filename}</ListItemText>
-                      <Button onClick={() => {
-                        if (version.id) {
-                          ServerApi.getVersionFile(version?.id, filename)
-                            .then((data: Blob) => {
-                              saveAs(data, filename);
-                            });
+                {version &&
+                  <List>
+                    {filenames.map((filename: string, index: number) => (
+                      <ListItem key={index}>
+                        <ListItemText>{filename}</ListItemText>
+                        <Button onClick={() => {
+                          if (version.id) {
+                            ServerApi.getVersionFile(version.id, filename)
+                              .then((data: Blob) => {
+                                saveAs(data, filename);
+                              });
+                          }
+                        }}>{t("download")}</Button>
+                        {action !== "view" &&
+                          <Button onClick={() => {
+                            const updatedNames = filenames.filter((cur) => cur != filename);
+                            setFilenames(updatedNames as [string]);
+                          }}>{t("delete")}</Button>
                         }
-                      }}>{t("download")}</Button>
-                    </ListItem>
-                  ))}
-                </List>
+                      </ListItem>
+                    ))}
+                  </List>
+                }
 
                 {action !== "view" &&
                   <input name="files" type="file" multiple onChange={(event) => {

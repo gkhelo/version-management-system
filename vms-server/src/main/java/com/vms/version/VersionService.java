@@ -15,5 +15,7 @@ public interface VersionService {
 
 	Version addVersion(Version version, MultipartFile[] files);
 
+	Version updateVersion(Version version, MultipartFile[] files);
+
 	Resource getVersionFile(long versionId, String filename);
 }

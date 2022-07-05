@@ -18,6 +18,7 @@ import {
   GET_VERSIONS,
   GET_VERSION,
   ADD_VERSION,
+  UPDATE_VERSION,
   GET_VERSION_FILE,
 } from "../constants/Endpoints";
 import { User } from "../types/User";
@@ -120,6 +121,11 @@ const addVersion = async (data: FormData) => {
   return response.data;
 };
 
+const updateVersion = async (data: FormData) => {
+  const response = await apiAxiosInstance.put<Version>(UPDATE_VERSION, data);
+  return response.data;
+};
+
 const getVersionFile = async (versionId: number, filename: string) => {
   const response = await apiAxiosInstance.get(`${GET_VERSION_FILE}/${versionId}/${filename}`, {
     responseType: "blob"
@@ -146,6 +152,7 @@ const ServerApi = {
   getVersions,
   getVersion,
   addVersion,
+  updateVersion,
   getVersionFile,
 };
 

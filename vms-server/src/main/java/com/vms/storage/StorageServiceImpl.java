@@ -47,6 +47,12 @@ public class StorageServiceImpl implements StorageService {
 		return new UrlResource(Path.of(versionFolder.getAbsolutePath(), filename).toUri());
 	}
 
+	@Override
+	public void deleteFile(long versionId, String filename) throws IOException {
+		File versionFolder = getVersionFolder(versionId);
+		Files.deleteIfExists(Path.of(versionFolder.getAbsolutePath(), filename));
+	}
+
 	private File getVersionFolder(long versionId) throws IOException {
 		Path versionPath = Path.of(versionsFolder, "v" + versionId);
 		File versionFolder = new File(versionPath.toString());

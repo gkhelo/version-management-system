@@ -19,16 +19,26 @@ const VersionPage: FC = () => {
     setVersion(fetchedVersion);
   };
 
-  const versionSubmitHandler = async (version: Version) => {
-    if (version && version.files) {
+  const versionSubmitHandler = async (action: string, updatedVersion: Version) => {
+    if (updatedVersion) {
+      updatedVersion.version = version?.version;
+
       const formData = new FormData();
-      formData.append("version", new Blob([JSON.stringify(version)], {
+      formData.append("version", new Blob([JSON.stringify(updatedVersion)], {
         type: "application/json"
       }));
-      for (const file of version.files) {
-        formData.append("files", file);
+
+      if (updatedVersion.files) {
+        for (const file of updatedVersion.files) {
+          formData.append("files", file);
+        }
       }
-      await ServerApi.addVersion(formData);
+
+      if (action === "add") {
+        setVersion(await ServerApi.addVersion(formData));
+      } else {
+        setVersion(await ServerApi.updateVersion(formData));
+      }
     }
   };
 

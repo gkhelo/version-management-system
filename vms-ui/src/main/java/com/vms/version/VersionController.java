@@ -57,6 +57,13 @@ public class VersionController {
 		return new ResponseEntity<>(versionMapper.toDTO(versionService.addVersion(version, files)), HttpStatus.OK);
 	}
 
+	@PutMapping("/update")
+	public ResponseEntity<VersionDTO> updateVersion(@RequestPart("version") VersionDTO versionDTO,
+													@RequestPart(value = "files", required = false) MultipartFile[] files) {
+		Version version = versionMapper.fromDTO(versionDTO);
+		return new ResponseEntity<>(versionMapper.toDTO(versionService.updateVersion(version, files)), HttpStatus.OK);
+	}
+
 	@GetMapping(value = "/{versionId}/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public ResponseEntity<Resource> getVersionFile(@PathVariable("versionId") long versionId,
 												   @PathVariable("filename") String filename) {

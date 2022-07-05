@@ -25,4 +25,5 @@ export const GET_APPLICATIONS = "/applications/all";
 export const GET_VERSION = "/versions";
 export const GET_VERSIONS = "/versions/all";
 export const ADD_VERSION = "/versions/add";
+export const UPDATE_VERSION = "/versions/update";
 export const GET_VERSION_FILE = "/versions";
