@@ -1,6 +1,6 @@
 import { Dispatch } from "react";
 import { User } from "./User";
-import { VMSError } from "./VMSError";
+import { SnackbarMessage } from "./SnackbarMessage";
 
 export interface AppState {
   currentPage: string;
@@ -14,8 +14,8 @@ export interface UserState {
   user: User | null;
 }
 
-export interface ErrorState {
-  error: VMSError | null;
+export interface SnackbarState {
+  message: SnackbarMessage | null;
 }
 
 export interface ActionInterface {

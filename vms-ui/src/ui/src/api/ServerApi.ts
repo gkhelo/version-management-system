@@ -15,6 +15,13 @@ import {
   DELETE_VENDOR,
   GET_CLIENTS,
   GET_APPLICATIONS,
+  GET_APPLICATION,
+  ADD_APPLICATION,
+  UPDATE_APPLICATION,
+  GET_APPLICATION_USERS,
+  SEARCH_USERS,
+  ADD_APPLICATION_USER,
+  DELETE_APPLICATION_USER,
   GET_VERSIONS,
   GET_VERSION,
   ADD_VERSION,
@@ -82,7 +89,7 @@ const getCompanies = async () => {
 const getVendors = async () => {
   const response = await apiAxiosInstance.get<Company[]>(GET_VENDORS);
   return response.data;
-}
+};
 
 const addVendor = async (vendorId: number) => {
   const response = await apiAxiosInstance.post(`${ADD_VENDOR}/${vendorId}`);
@@ -97,12 +104,76 @@ const deleteVendor = async (id: string | number) => {
 const getClients = async () => {
   const response = await apiAxiosInstance.get<Company[]>(GET_CLIENTS);
   return response.data;
-}
+};
 
-const getApplications = async () => {
-  const response = await apiAxiosInstance.get<Application[]>(GET_APPLICATIONS);
+const getApplications = async (pageable: Pageable) => {
+  const response = await apiAxiosInstance.get<PageImpl<Application>>(
+    GET_APPLICATIONS,
+    {
+      params: { ...pageable },
+    }
+  );
   return response.data;
-}
+};
+
+const getApplication = async (id: string | number) => {
+  const response = await apiAxiosInstance.get<Application>(
+    `${GET_APPLICATION}/${id}`
+  );
+  return response.data;
+};
+
+const addApplication = async (application: Application) => {
+  const response = await apiAxiosInstance.post<Application>(
+    ADD_APPLICATION,
+    application
+  );
+  return response.data;
+};
+
+const updateApplication = async (application: Application) => {
+  const response = await apiAxiosInstance.put<Application>(
+    UPDATE_APPLICATION,
+    application
+  );
+  return response.data;
+};
+
+const getApplicationUsers = async (applicationId: number) => {
+  const response = await apiAxiosInstance.get<User[]>(GET_APPLICATION_USERS, {
+    params: { applicationId: applicationId },
+  });
+  return response.data;
+};
+
+const searchUsers = async (search: string, applicationId: number, maxResults: number) => {
+  const response = await apiAxiosInstance.get<User[]>(SEARCH_USERS, {
+    params: { search: search, applicationId: applicationId,  maxResults: maxResults },
+  });
+  return response.data;
+};
+
+const addApplicationUser = async (applicationId: number, userId: number) => {
+  const response = await apiAxiosInstance.put<Application>(
+    ADD_APPLICATION_USER,
+    {},
+    {
+      params: { applicationId: applicationId, userId: userId },
+    }
+  );
+  return response.data;
+};
+
+const deleteApplicationUser = async (applicationId: number, userId: number) => {
+  const response = await apiAxiosInstance.put<Application>(
+    DELETE_APPLICATION_USER,
+    {},
+    {
+      params: { applicationId: applicationId, userId: userId },
+    }
+  );
+  return response.data;
+};
 
 const getVersions = async (pageable: Pageable) => {
   const response = await apiAxiosInstance.get<PageImpl<Version>>(GET_VERSIONS, {
@@ -149,6 +220,13 @@ const ServerApi = {
   deleteVendor,
   getClients,
   getApplications,
+  getApplication,
+  addApplication,
+  updateApplication,
+  getApplicationUsers,
+  searchUsers,
+  addApplicationUser,
+  deleteApplicationUser,
   getVersions,
   getVersion,
   addVersion,

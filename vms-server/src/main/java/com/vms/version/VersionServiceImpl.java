@@ -42,7 +42,7 @@ public class VersionServiceImpl implements VersionService {
 
 	@Override
 	public Page<Version> getVersions(User user, Pageable pageable) {
-		List<Application> applications = applicationService.getApplications(user);
+		List<Application> applications = applicationService.getApplications(user, Pageable.unpaged()).getContent();
 		List<Long> applicationIds = applications
 			.stream()
 			.map(Configurable::getId)

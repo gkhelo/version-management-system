@@ -20,6 +20,6 @@ public class AuthServiceImpl implements AuthService {
 		Jwt jwt = (Jwt) authentication.getPrincipal();
 
 		long userId = Long.parseLong(jwt.getSubject());
-		return userService.getUser(userId);
+		return userService.findUserById(userId);
 	}
 }

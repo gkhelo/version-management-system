@@ -1,11 +1,13 @@
-import { FC, useEffect, useState } from "react";
-import { useMatch } from "@tanstack/react-location";
+import { FC, useContext, useEffect, useState } from "react";
+import { useMatch, useNavigate } from "@tanstack/react-location";
 import { useTranslation } from "react-i18next";
 import ServerApi from "../../api/ServerApi";
+import { Context as SnackbarContext } from "../../context/SnackbarContext";
 import VMSBreadcrumbs from "../../components/VMSBreadcrumbs";
 import usePageSelector from "../../hooks/usePageSelector";
 import UserForm from "./UserForm";
 import { User } from "../../types/User";
+import { Severity } from "../../types/SnackbarMessage";
 
 const UserPage: FC = () => {
   usePageSelector("users");
@@ -13,6 +15,8 @@ const UserPage: FC = () => {
   const {
     params: { userId },
   } = useMatch();
+  const navigate = useNavigate();
+  const { setSnackbarMessage } = useContext(SnackbarContext);
 
   const fetchUser = async (userId: number | string) => {
     const fetchedUser = await ServerApi.getUser(userId);
@@ -28,15 +32,29 @@ const UserPage: FC = () => {
       password: "",
       confirmPassword: "",
       email: null,
-      companyId: null,
       role: null,
     });
   };
 
   const userSubmitHandler = async (user: User) => {
     userId === "new"
-      ? await ServerApi.addUser(user)
-      : await ServerApi.updateUser(user);
+      ? await ServerApi.addUser(user).then((data) => {
+          setSnackbarMessage({
+            message: "Successfully added user",
+            status: 200,
+            severity: Severity.SUCCESS,
+          });
+          return data;
+        })
+      : await ServerApi.updateUser(user).then((data) => {
+          setSnackbarMessage({
+            message: "Successfully updated user",
+            status: 200,
+            severity: Severity.SUCCESS,
+          });
+          return data;
+        });
+    navigate({ to: "/users" });
   };
 
   const [user, setUser] = useState<User>();

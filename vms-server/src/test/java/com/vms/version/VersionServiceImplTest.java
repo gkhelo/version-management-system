@@ -52,7 +52,7 @@ public class VersionServiceImplTest {
 
 	@Test
 	public void test_empty_versions_when_applications_empty() {
-		when(applicationService.getApplications(any())).thenReturn(Collections.emptyList());
+		when(applicationService.getApplications(any(), any())).thenReturn(new PageImpl<>(Collections.emptyList()));
 
 		Page<Version> result = service.getVersions(new User(), PAGING);
 		assertTrue(result.isEmpty());
@@ -64,7 +64,7 @@ public class VersionServiceImplTest {
 		application.setId(1L);
 
 		List<Application> applications = List.of(application);
-		when(applicationService.getApplications(any())).thenReturn(applications);
+		when(applicationService.getApplications(any(), any())).thenReturn(new PageImpl<>(applications));
 
 		Version version = new Version();
 		version.setId(1L);
@@ -93,7 +93,7 @@ public class VersionServiceImplTest {
 		application2.setId(2L);
 
 		List<Application> applications = List.of(application1, application2);
-		when(applicationService.getApplications(any())).thenReturn(applications);
+		when(applicationService.getApplications(any(), any())).thenReturn(new PageImpl<>(applications));
 
 		Version version = new Version();
 		version.setId(1L);
@@ -121,7 +121,7 @@ public class VersionServiceImplTest {
 		application.setId(1L);
 
 		List<Application> applications = List.of(application);
-		when(applicationService.getApplications(any())).thenReturn(applications);
+		when(applicationService.getApplications(any(), any())).thenReturn(new PageImpl<>(applications));
 
 		List<Version> versions = new ArrayList<>();
 		for (int i = 0; i < numVersions; i++) {
@@ -171,7 +171,7 @@ public class VersionServiceImplTest {
 			applications.add(application);
 		}
 
-		when(applicationService.getApplications(any())).thenReturn(applications);
+		when(applicationService.getApplications(any(), any())).thenReturn(new PageImpl<>(applications));
 
 		Page<Version> page = new PageImpl<>(versions);
 		when(versionRepository.findByApplicationIdIn(any(), any())).thenReturn(page);

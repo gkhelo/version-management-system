@@ -1,6 +1,7 @@
 package com.vms.user;
 
 import com.vms.exceptions.VMSException;
+import com.vms.model.company.Company;
 import com.vms.model.user.User;
 import com.vms.user.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
@@ -44,9 +45,9 @@ public class UserServiceImplTest {
 
 	@Test
 	public void test_empty_getUsers() {
-		when(userRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(Collections.emptyList()));
+		when(userRepository.findAllByCompany(any(Long.class), any(Pageable.class))).thenReturn(new PageImpl<>(Collections.emptyList()));
 
-		Page<User> result = service.getUsers(PageRequest.of(0, 10));
+		Page<User> result = service.getUsers(1L, PageRequest.of(0, 10));
 		assertEquals(0, result.getTotalElements());
 	}
 
@@ -54,18 +55,16 @@ public class UserServiceImplTest {
 	public void test_getUsers() {
 		int numUsers = 5;
 		String usernamePrefix = "Username_";
-
 		List<User> users = new ArrayList<>();
 		for (int i = 0; i < numUsers; i++) {
 			User user = new User();
 			user.setId(i);
 			user.setUsername(usernamePrefix + i);
-
 			users.add(user);
 		}
 
-		when(userRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(users));
-		Page<User> result = service.getUsers(PageRequest.of(0, numUsers));
+		when(userRepository.findAllByCompany(any(Long.class),any(Pageable.class))).thenReturn(new PageImpl<>(users));
+		Page<User> result = service.getUsers(0L, PageRequest.of(0, numUsers));
 
 		assertEquals(numUsers, result.getTotalElements());
 		for (int i = 0; i < numUsers; i++) {
@@ -97,6 +96,8 @@ public class UserServiceImplTest {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
 		List<User> users = new ArrayList<>();
+		Company company = new Company();
+		company.setId(1L);
 
 		when(userRepository.save(any(User.class))).then(invocationOnMock -> {
 			User user = invocationOnMock.getArgument(0);
@@ -117,15 +118,15 @@ public class UserServiceImplTest {
 
 		when(passwordEncoder.encode(any())).then(invocationOnMock -> invocationOnMock.getArgument(0));
 
-		service.addUser(createTestUser(0, "User_1", "123"));
+		service.addUser(createTestUser(0, "User_1", "123"), company);
 		assertEquals(1, users.size());
 		Set<ConstraintViolation<User>> violations = validator.validate(users.get(0));
 		assertTrue(violations.isEmpty());
-		service.updateUser(createTestUser(users.get(0).getId(), "User_1_updated", null));
+		service.updateUser(createTestUser(users.get(0).getId(), "User_1_updated", null), 1);
 		assertEquals(1, users.size());
 		assertEquals("User_1_updated", users.get(0).getUsername());
 		assertEquals("123", users.get(0).getPassword());
-		Throwable exception = Assertions.assertThrows(VMSException.class, () -> service.updateUser(createTestUser(12, "test", "test")));
+		Throwable exception = Assertions.assertThrows(VMSException.class, () -> service.updateUser(createTestUser(12, "test", "test"), 1));
 		assertEquals(String.format("User with id %s does not exist", 12), exception.getMessage());
 	}
 

@@ -13,18 +13,19 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Provider as AppProvider } from "./context/AppContext";
 import { Provider as UserProvider } from "./context/UserContext";
-import { Provider as ErrorProvider } from "./context/ErrorContext";
+import { Provider as SnackbarProvider } from "./context/SnackbarContext";
 import Login from "./pages/login/Login";
 import Registration from "./pages/registration/Registration";
 import Homepage from "./pages/home/Homepage";
 import UsersPage from "./pages/user/UsersPage";
 import UserPage from "./pages/user/UserPage";
-import Applications from "./pages/application/Applications";
+import ApplicationsPage from "./pages/application/ApplicationsPage";
 import VMSRouter from "./router/VMSRouter";
 import WithAxios from "./error/WithAxios";
 import VendorsPage from "./pages/vendor/VendorsPage";
 import VendorPage from "./pages/vendor/VendorPage";
 import ClientsPage from "./pages/client/ClientsPage";
+import ApplicationPage from "./pages/application/ApplicationPage";
 import VersionsPage from "./pages/version/VersionsPage";
 import VersionPage from "./pages/version/VersionPage";
 
@@ -52,13 +53,16 @@ const App: FC = () => {
               },
               {
                 path: "/applications",
-                element: <Applications />,
+                children: [
+                  { path: "/", element: <ApplicationsPage /> },
+                  { path: "/:applicationId", element: <ApplicationPage /> },
+                ],
               },
               {
                 path: "/vendors",
                 children: [
                   { path: "/", element: <VendorsPage /> },
-                  { path: "/add", element: <VendorPage/> }
+                  { path: "/add", element: <VendorPage /> },
                 ],
               },
               {
@@ -83,7 +87,7 @@ const App: FC = () => {
             ]}
           >
             <ThemeProvider theme={theme}>
-              <ErrorProvider>
+              <SnackbarProvider>
                 <UserProvider>
                   <WithAxios>
                     <VMSRouter>
@@ -92,7 +96,7 @@ const App: FC = () => {
                     <ReactQueryDevtools initialIsOpen={false} />
                   </WithAxios>
                 </UserProvider>
-              </ErrorProvider>
+              </SnackbarProvider>
             </ThemeProvider>
           </Router>
         </AppProvider>

@@ -1,63 +1,65 @@
 import { FC, ReactNode, SyntheticEvent, useContext, useMemo } from "react";
-import { apiAxiosInstance, authAxiosInstance } from "../utils/AxiosInstance";
-import { Context as ErrorContext } from "../context/ErrorContext";
 import { Snackbar } from "@mui/material";
+import { apiAxiosInstance, authAxiosInstance } from "../utils/AxiosInstance";
+import { Context as SnackbarContext } from "../context/SnackbarContext";
 import SnackbarAlert from "../components/SnackbarAlert";
+import { Severity } from "../types/SnackbarMessage";
 
 const WithAxios: FC<{ children: ReactNode }> = ({ children }) => {
   const {
-    state: { error },
-    setError,
-  } = useContext(ErrorContext);
+    state: { message },
+    setSnackbarMessage,
+  } = useContext(SnackbarContext);
 
   const handleClose = (_: SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
-
-    setError(null);
+    setSnackbarMessage(null);
   };
 
   useMemo(() => {
     authAxiosInstance.interceptors.response.use(
       (response) => response,
       async (error) => {
-        setError({
+        setSnackbarMessage({
           message: error.response.data.message || error.response.statusText,
           status: error.response.status,
+          severity: Severity.ERROR,
         });
       }
     );
-  }, [setError]);
+  }, [setSnackbarMessage]);
 
   useMemo(() => {
     apiAxiosInstance.interceptors.response.use(
       (response) => response,
       async (error) => {
-        setError({
+        setSnackbarMessage({
           message: error.response.data.message || error.response.statusText,
           status: error.response.status,
+          severity: Severity.ERROR,
         });
       }
     );
-  }, [setError]);
+  }, [setSnackbarMessage]);
 
   return (
     <>
       {children}
-      {error && (
+      {message && (
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          open={error !== null}
+          open={message !== null}
           autoHideDuration={5000}
           onClose={handleClose}
         >
           <SnackbarAlert
             onClose={handleClose}
-            severity="error"
+            severity={message.severity}
             sx={{ width: "100%" }}
           >
-            {error?.message}
+            {message?.message}
           </SnackbarAlert>
         </Snackbar>
       )}

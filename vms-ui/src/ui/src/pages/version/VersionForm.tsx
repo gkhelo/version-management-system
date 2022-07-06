@@ -28,7 +28,10 @@ const VersionForm: FC<{ action: string, version: Version | null, onSubmitHandler
   } = useContext(UserContext);
 
   const initialValues: Version = version ? { ...version } : { id: 0, description: null, application: null };
-  const applications = useApplications();
+  const applications = useApplications({
+    page: 0,
+    size: 10,
+  });
 
   const [filenames, setFilenames] = useState(version && version.filenames ? version.filenames : []);
   return (
@@ -62,7 +65,7 @@ const VersionForm: FC<{ action: string, version: Version | null, onSubmitHandler
                   getValue={(application: Application) => application}
                   renderValue={(application: Application) => application.name}
                   data={
-                    applications.data ? applications.data.filter(app => {
+                    applications.data ? applications.data.content.filter(app => {
                       return user != null && app.vendorId === user.companyId;
                     }) : []
                   }

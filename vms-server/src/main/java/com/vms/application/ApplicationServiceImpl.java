@@ -9,11 +9,12 @@ import com.vms.model.user.Role;
 import com.vms.model.user.User;
 import com.vms.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -36,13 +37,11 @@ public class ApplicationServiceImpl implements ApplicationService {
 	}
 
 	@Override
-	public List<Application> getApplications(User user) {
+	public Page<Application> getApplications(User user, Pageable pageable) {
 		if (user.getRole() == Role.ADMIN) {
-			List<Application> companyApplications = applicationRepository.findAllByCompany(user.getCompany());
-			List<Application> vendorApplications = applicationRepository.findAllByVendor(user.getCompany());
-			return Stream.concat(companyApplications.stream(), vendorApplications.stream()).collect(Collectors.toList());
+			return applicationRepository.findAllByCompanyOrVendor(user.getCompany().getId(), pageable);
 		}
-		return getUserApplications(user.getId());
+		return applicationRepository.getUserApplications(user.getId(), pageable);
 	}
 
 	@Override
@@ -67,15 +66,13 @@ public class ApplicationServiceImpl implements ApplicationService {
 	@Override
 	public Application getApplication(long applicationId, User user) {
 		if (user.getRole() == Role.ADMIN) {
-			return findById(applicationId);
+			return applicationRepository.findByIdAndCompanyOrVendor(applicationId, user.getCompany().getId());
 		}
-		Optional<Application> optionalApplication = getUserApplications(user.getId()).stream()
-															   .filter(application -> application.getId() == applicationId)
-															   .findAny();
-		if (optionalApplication.isEmpty()) {
+		Application application = applicationRepository.findByApplicationIdAndUser(applicationId, user.getId());
+		if (application == null) {
 			throw new VMSException(String.format("User has not access to application with id %s", applicationId));
 		}
-		return optionalApplication.get();
+		return application;
 	}
 
 	@Override
@@ -85,37 +82,29 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	@Override
 	@Transactional
-	public Application updateVendorUsers(List<Long> vendorUserIds, long applicationId, long vendorId) {
-		Application application = applicationRepository.findByIdAndVendor(applicationId, vendorId);
-		if (application == null) {
-			throw new VMSException(String.format("Error updating vendor users for application with id %s", applicationId));
+	public Application addApplicationUser(Long applicationId, long userId, User user) {
+		Application application = getApplication(applicationId, user);
+		User newUser = userService.getUser(userId, user.getCompany().getId());
+		if (application.getUsers().contains(newUser)) {
+			return application;
 		}
-		List<User> companyUsers = application.getUsers().stream()
-											 .filter(user -> user.getCompany().equals(application.getCompany()))
-											 .collect(Collectors.toList());
-		List<User> vendorUsers = userService.getUsersByCompanyAndIds(vendorId, vendorUserIds);
-		List<User> users = Stream.concat(companyUsers.stream(), vendorUsers.stream()).collect(Collectors.toList());
-		application.setUsers(users);
-		return applicationRepository.save(application);
+		application.getUsers().add(newUser);
+		newUser.getApplications().add(application);
+		return application;
 	}
 
 	@Override
 	@Transactional
-	public Application updateCompanyUsers(List<Long> companyUserIds, long applicationId, long companyId) {
-		Application application = applicationRepository.findByIdAndCompany(applicationId, companyId);
-		if (application == null) {
-			throw new VMSException(String.format("Error updating vendor users for application with id %s", applicationId));
-		}
-		List<User> vendorUsers = application.getUsers().stream()
-											.filter(user -> user.getCompany().equals(application.getVendor()))
-											.collect(Collectors.toList());
-		List<User> companyUsers = userService.getUsersByCompanyAndIds(companyId, companyUserIds);
-		List<User> users = Stream.concat(companyUsers.stream(), vendorUsers.stream()).collect(Collectors.toList());
-		application.setUsers(users);
-		return applicationRepository.save(application);
+	public Application deleteApplicationUser(Long applicationId, long userId, User user) {
+		Application application = getApplication(applicationId, user);
+		User newUser = userService.getUser(userId, user.getCompany().getId());
+		application.getUsers().remove(newUser);
+		newUser.getApplications().remove(application);
+		return application;
 	}
 
-	private List<Application> getUserApplications(long userId) {
-		return applicationRepository.findAllByUserId(userId);
+	@Override
+	public List<User> getApplicationUsers(long applicationId, long companyId) {
+		return applicationRepository.getUsersByApplicationAndCompanyId(applicationId, companyId);
 	}
 }
