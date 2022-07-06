@@ -13,6 +13,8 @@
   "password": "პაროლი",
   "confirmPassword": "პაროლის დადასტურება",
   "save": "შენახვა",
+  "download": "გადმოწერა",
+  "delete": "წაშლა",
   "Applications": "აპლიკაციები",
   "editUser": "მომხმარებლის რედაქტირება",
   "addUser": "მომხმარებლის დამატება",
@@ -36,5 +38,11 @@
   "addVendor": "ვენდორის დამატება",
   "deleteVendor": "ვენდორის წაშლა",
   "name": "სახელი",
-  "Clients": "კლიენტები"
+  "Clients": "კლიენტები",
+  "Versions": "ვერსიები",
+  "description": "აღწერა",
+  "application": "აპლიკაცია",
+  "addVersion": "ვერსიის დამატება",
+  "viewVersion": "ვერსიის დათვალიერება",
+  "editVersion": "ვერსიის რედაქტირება"
 }

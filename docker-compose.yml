@@ -23,3 +23,5 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://vms-db:5432/vms
       - SPRING_DATASOURCE_USERNAME=vms
       - SPRING_DATASOURCE_PASSWORD=vms
+    volumes:
+      - /home/gio/versions:/opt/versions

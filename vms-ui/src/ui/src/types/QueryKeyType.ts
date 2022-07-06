@@ -3,4 +3,5 @@ export enum QueryKeyType {
   VENDORS = "query-vendors",
   CLIENTS = "query-clients",
   APPLICATIONS = "query-applications",
+  VERSIONS = "query-verions",
 }

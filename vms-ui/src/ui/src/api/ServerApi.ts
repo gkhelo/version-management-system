@@ -22,11 +22,17 @@ import {
   SEARCH_USERS,
   ADD_APPLICATION_USER,
   DELETE_APPLICATION_USER,
+  GET_VERSIONS,
+  GET_VERSION,
+  ADD_VERSION,
+  UPDATE_VERSION,
+  GET_VERSION_FILE,
 } from "../constants/Endpoints";
 import { User } from "../types/User";
 import { Pageable, PageImpl } from "../types/Pageable";
 import { Company } from "../types/Company";
 import { Application } from "../types/Application";
+import { Version } from "../types/Version";
 
 const login = async (data: FormData) => {
   return await authAxiosInstance.post(LOGIN, data);
@@ -169,6 +175,35 @@ const deleteApplicationUser = async (applicationId: number, userId: number) => {
   return response.data;
 };
 
+const getVersions = async (pageable: Pageable) => {
+  const response = await apiAxiosInstance.get<PageImpl<Version>>(GET_VERSIONS, {
+    params: { ...pageable },
+  });
+  return response.data;
+};
+
+const getVersion = async (id: string | number) => {
+  const response = await apiAxiosInstance.get<Version>(`${GET_VERSION}/${id}`);
+  return response.data;
+};
+
+const addVersion = async (data: FormData) => {
+  const response = await apiAxiosInstance.post<Version>(ADD_VERSION, data);
+  return response.data;
+};
+
+const updateVersion = async (data: FormData) => {
+  const response = await apiAxiosInstance.put<Version>(UPDATE_VERSION, data);
+  return response.data;
+};
+
+const getVersionFile = async (versionId: number, filename: string) => {
+  const response = await apiAxiosInstance.get(`${GET_VERSION_FILE}/${versionId}/${filename}`, {
+    responseType: "blob"
+  });
+  return response.data;
+}
+
 const ServerApi = {
   login,
   register,
@@ -192,6 +227,11 @@ const ServerApi = {
   searchUsers,
   addApplicationUser,
   deleteApplicationUser,
+  getVersions,
+  getVersion,
+  addVersion,
+  updateVersion,
+  getVersionFile,
 };
 
 export default ServerApi;

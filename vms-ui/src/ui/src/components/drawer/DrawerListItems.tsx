@@ -6,6 +6,7 @@ import {
   Work as WorkIcon,
   Toc as TocIcon,
   Groups as GroupsIcon,
+  Assignment as AssignmentIcon,
 } from "@mui/icons-material";
 import ListLinkItem from "./ListLinkItem";
 import { QueryKeyType } from "../../types/QueryKeyType";
@@ -30,7 +31,7 @@ const DrawerListItems: FC = () => {
       />
       <ListLinkItem
         path="/clients"
-        title={t("clients")}
+        title={t("Clients")}
         Icon={GroupsIcon}
         pageName="clients"
         query={QueryKeyType.CLIENTS}
@@ -41,6 +42,13 @@ const DrawerListItems: FC = () => {
         Icon={WorkIcon}
         pageName="applications"
         query={QueryKeyType.APPLICATIONS}
+      />
+      <ListLinkItem
+        path="/versions"
+        title={t("Versions")}
+        Icon={AssignmentIcon}
+        pageName="versions"
+        query={QueryKeyType.VERSIONS}
       />
     </List>
   );

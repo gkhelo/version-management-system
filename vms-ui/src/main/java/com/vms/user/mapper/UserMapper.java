@@ -10,15 +10,22 @@ import org.mapstruct.Named;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {CompanyService.class})
 public interface UserMapper {
 
+	@Mapping(target = "companyId", source = "company", qualifiedByName = "companyToId")
 	@Mapping(target = "password", ignore = true)
 	UserDTO toDTO(User user);
 
+	@Mapping(target = "company", source = "companyId")
 	User fromDTO(UserDTO dto);
 
 	List<UserDTO> toDTOs(List<User> users);
 
 	List<User> fromDTOs(List<UserDTO> dtos);
+
+	@Named("companyToId")
+	default long companyToId(Company company) {
+		return company.getId();
+	}
 }

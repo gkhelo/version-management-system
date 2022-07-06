@@ -30,3 +30,8 @@ export const GET_APPLICATION_USERS = "/applications/users/all";
 export const ADD_APPLICATION_USER = "/applications/user/add";
 export const DELETE_APPLICATION_USER = "/applications/user/delete";
 
+export const GET_VERSION = "/versions";
+export const GET_VERSIONS = "/versions/all";
+export const ADD_VERSION = "/versions/add";
+export const UPDATE_VERSION = "/versions/update";
+export const GET_VERSION_FILE = "/versions";
