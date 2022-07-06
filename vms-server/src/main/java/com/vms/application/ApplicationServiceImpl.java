@@ -82,19 +82,25 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	@Override
 	@Transactional
-	public Application updateApplicationUsersForCompany(List<Long> userIds, long applicationId, long companyId) {
-		Application application = applicationRepository.findByIdAndCompanyOrVendorFetchUsers(applicationId, companyId);
-		if (application == null) {
-			throw new VMSException(String.format("Error updating users for application with id %s", applicationId));
+	public Application addApplicationUser(Long applicationId, long userId, User user) {
+		Application application = getApplication(applicationId, user);
+		User newUser = userService.getUser(userId, user.getCompany().getId());
+		if (application.getUsers().contains(newUser)) {
+			return application;
 		}
+		application.getUsers().add(newUser);
+		newUser.getApplications().add(application);
+		return application;
+	}
 
-		List<User> otherCompanyUsers = application.getUsers().stream()
-											 .filter(user -> user.getCompany().getId() != companyId)
-											 .collect(Collectors.toList());
-		List<User> updatedUsers = userService.getUsersByCompanyAndIds(companyId, userIds);
-		List<User> users = Stream.concat(otherCompanyUsers.stream(), updatedUsers.stream()).collect(Collectors.toList());
-		application.setUsers(users);
-		return applicationRepository.save(application);
+	@Override
+	@Transactional
+	public Application deleteApplicationUser(Long applicationId, long userId, User user) {
+		Application application = getApplication(applicationId, user);
+		User newUser = userService.getUser(userId, user.getCompany().getId());
+		application.getUsers().remove(newUser);
+		newUser.getApplications().remove(application);
+		return application;
 	}
 
 	@Override

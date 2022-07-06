@@ -78,9 +78,15 @@ public class ApplicationController {
 	}
 
 	@Secured({"ADMIN"})
-	@PutMapping("/users/update")
-	public ApplicationDTO updateCompanyUsers(@RequestParam long applicationId, @RequestBody List<Long> companyUserIds) {
-		return applicationMapper.toDTO(applicationService.updateApplicationUsersForCompany(companyUserIds, applicationId, getCompanyId()));
+	@PutMapping("/user/add")
+	public ApplicationDTO addApplicationUser(@RequestParam long applicationId, @RequestParam long userId) {
+		return applicationMapper.toDTO(applicationService.addApplicationUser(applicationId, userId, authService.getAuthenticatedUser()));
+	}
+
+	@Secured({"ADMIN"})
+	@PutMapping("/user/delete")
+	public ApplicationDTO deleteApplicationUser(@RequestParam long applicationId, @RequestParam long userId) {
+		return applicationMapper.toDTO(applicationService.deleteApplicationUser(applicationId, userId, authService.getAuthenticatedUser()));
 	}
 
 	@Secured({"ADMIN"})

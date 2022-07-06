@@ -18,6 +18,10 @@ import {
   GET_APPLICATION,
   ADD_APPLICATION,
   UPDATE_APPLICATION,
+  GET_APPLICATION_USERS,
+  SEARCH_USERS,
+  ADD_APPLICATION_USER,
+  DELETE_APPLICATION_USER,
 } from "../constants/Endpoints";
 import { User } from "../types/User";
 import { Pageable, PageImpl } from "../types/Pageable";
@@ -129,6 +133,42 @@ const updateApplication = async (application: Application) => {
   return response.data;
 };
 
+const getApplicationUsers = async (applicationId: number) => {
+  const response = await apiAxiosInstance.get<User[]>(GET_APPLICATION_USERS, {
+    params: { applicationId: applicationId },
+  });
+  return response.data;
+};
+
+const searchUsers = async (search: string, applicationId: number, maxResults: number) => {
+  const response = await apiAxiosInstance.get<User[]>(SEARCH_USERS, {
+    params: { search: search, applicationId: applicationId,  maxResults: maxResults },
+  });
+  return response.data;
+};
+
+const addApplicationUser = async (applicationId: number, userId: number) => {
+  const response = await apiAxiosInstance.put<Application>(
+    ADD_APPLICATION_USER,
+    {},
+    {
+      params: { applicationId: applicationId, userId: userId },
+    }
+  );
+  return response.data;
+};
+
+const deleteApplicationUser = async (applicationId: number, userId: number) => {
+  const response = await apiAxiosInstance.put<Application>(
+    DELETE_APPLICATION_USER,
+    {},
+    {
+      params: { applicationId: applicationId, userId: userId },
+    }
+  );
+  return response.data;
+};
+
 const ServerApi = {
   login,
   register,
@@ -148,6 +188,10 @@ const ServerApi = {
   getApplication,
   addApplication,
   updateApplication,
+  getApplicationUsers,
+  searchUsers,
+  addApplicationUser,
+  deleteApplicationUser,
 };
 
 export default ServerApi;

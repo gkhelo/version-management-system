@@ -1,6 +1,7 @@
 import { FC, useContext, useEffect, useState } from "react";
 import { useMatch, useNavigate } from "@tanstack/react-location";
 import { useTranslation } from "react-i18next";
+import { Container, Paper } from "@mui/material";
 import ServerApi from "../../api/ServerApi";
 import { Context as SnackbarContext } from "../../context/SnackbarContext";
 import VMSBreadcrumbs from "../../components/VMSBreadcrumbs";
@@ -8,6 +9,7 @@ import usePageSelector from "../../hooks/usePageSelector";
 import { Application } from "../../types/Application";
 import { Severity } from "../../types/SnackbarMessage";
 import ApplicationForm from "./ApplicationForm";
+import ApplicationEdit from "./ApplicationEdit";
 
 const ApplicationPage: FC = () => {
   usePageSelector("applications");
@@ -52,6 +54,7 @@ const ApplicationPage: FC = () => {
             status: 200,
             severity: Severity.SUCCESS,
           });
+          setApplication(data);
           return data;
         });
     applicationId === "new" && navigate({ to: "/applications" });
@@ -75,12 +78,26 @@ const ApplicationPage: FC = () => {
           },
         ]}
       />
-      {applicationId === "new" && application && (
-        <ApplicationForm
-          application={application}
-          onSubmitHandler={applicationSubmitHandler}
-        />
-      )}
+      <Container
+        maxWidth={false}
+        disableGutters
+        sx={{ mr: "auto", ml: "auto" }}
+      >
+        <Paper variant="outlined" sx={{ p: 2, m: 0 }}>
+          {application &&
+            (applicationId === "new" ? (
+              <ApplicationForm
+                application={application}
+                onSubmitHandler={applicationSubmitHandler}
+              />
+            ) : (
+              <ApplicationEdit
+                application={application}
+                onSubmitHandler={applicationSubmitHandler}
+              />
+            ))}
+        </Paper>
+      </Container>
     </>
   );
 };

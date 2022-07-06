@@ -6,6 +6,7 @@ export const REGISTER = "/register";
 export const AUTHENTICATED = "/authenticated";
 
 export const GET_USERS = "/users/all";
+export const SEARCH_USERS = "/users/search";
 export const GET_USER = "/users/get";
 export const ADD_USER = "/users/add";
 export const UPDATE_USER = "/users/update";
@@ -24,4 +25,8 @@ export const GET_APPLICATIONS = "/applications/all";
 export const GET_APPLICATION = "/applications/get";
 export const ADD_APPLICATION = "/applications/add";
 export const UPDATE_APPLICATION = "/applications/update";
+
+export const GET_APPLICATION_USERS = "/applications/users/all";
+export const ADD_APPLICATION_USER = "/applications/user/add";
+export const DELETE_APPLICATION_USER = "/applications/user/delete";
 
