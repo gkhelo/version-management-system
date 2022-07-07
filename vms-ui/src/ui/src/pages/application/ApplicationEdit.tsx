@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Box, Tab, Typography } from "@mui/material";
 import { Application } from "../../types/Application";
 import { styled } from "@mui/system";
@@ -7,6 +7,7 @@ import {
   Groups as GroupsIcon,
   AdminPanelSettings as AdminPanelSettingsIcon,
 } from "@mui/icons-material";
+import useCompanyId from "../../hooks/useCompanyId";
 import ApplicationForm from "./ApplicationForm";
 import ApplicationUsersTab from "./ApplicationUsersTab";
 
@@ -27,10 +28,21 @@ const ApplicationEdit: FC<{
   application: Application;
   onSubmitHandler: Function;
 }> = ({ application, onSubmitHandler }) => {
-  const [currentTab, setCurrentTab] = useState<string>("0");
+  const [isVendor, setVendor] = useState<boolean>(true);
+  const [companyId] = useCompanyId();
+  const [currentTab, setCurrentTab] = useState<string>(isVendor ? "1" : "0");
   const tabChangeHandler = (_: React.SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
   };
+
+  useEffect(() => {
+    setVendor(companyId !== application.companyId);
+  }, [companyId, application.companyId]);
+
+  useEffect(() => {
+    setCurrentTab(isVendor ? "1" : "0");
+  }, [isVendor]);
+
   return (
     <>
       <ApplicationTitle variant="h5" color="primary">
@@ -43,12 +55,14 @@ const ApplicationEdit: FC<{
             textColor="inherit"
             indicatorColor="secondary"
           >
-            <StyledTab
-              label="Settings"
-              value="0"
-              icon={<AdminPanelSettingsIcon />}
-              iconPosition="start"
-            />
+            {!isVendor && (
+              <StyledTab
+                label="Settings"
+                value="0"
+                icon={<AdminPanelSettingsIcon />}
+                iconPosition="start"
+              />
+            )}
             <StyledTab
               label="Users"
               value="1"
@@ -57,12 +71,14 @@ const ApplicationEdit: FC<{
             />
           </TabList>
         </Box>
-        <TabPanel value="0">
-          <ApplicationForm
-            application={application}
-            onSubmitHandler={onSubmitHandler}
-          />
-        </TabPanel>
+        {!isVendor && (
+          <TabPanel value="0">
+            <ApplicationForm
+              application={application}
+              onSubmitHandler={onSubmitHandler}
+            />
+          </TabPanel>
+        )}
         <TabPanel value="1">
           {application.id && (
             <ApplicationUsersTab applicationId={application.id} />

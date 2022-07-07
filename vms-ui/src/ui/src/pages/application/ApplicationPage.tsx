@@ -5,11 +5,13 @@ import { Container, Paper } from "@mui/material";
 import ServerApi from "../../api/ServerApi";
 import { Context as SnackbarContext } from "../../context/SnackbarContext";
 import VMSBreadcrumbs from "../../components/VMSBreadcrumbs";
+import usePermissions from "../../hooks/usePermissions";
 import usePageSelector from "../../hooks/usePageSelector";
 import { Application } from "../../types/Application";
 import { Severity } from "../../types/SnackbarMessage";
 import ApplicationForm from "./ApplicationForm";
 import ApplicationEdit from "./ApplicationEdit";
+import { Role } from "../../types/User";
 
 const ApplicationPage: FC = () => {
   usePageSelector("applications");
@@ -19,6 +21,7 @@ const ApplicationPage: FC = () => {
   } = useMatch();
   const { setSnackbarMessage } = useContext(SnackbarContext);
   const navigate = useNavigate();
+  const { hasPermission } = usePermissions();
 
   const [application, setApplication] = useState<Application | null>(null);
 
@@ -61,10 +64,14 @@ const ApplicationPage: FC = () => {
   };
 
   useEffect(() => {
-    applicationId === "new"
+    !hasPermission([Role.ADMIN])
+      ? navigate({ to: "/applications" })
+      : applicationId === "new"
       ? createNewApplication()
       : fetchApplication(applicationId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [applicationId]);
+
   return (
     <>
       <VMSBreadcrumbs

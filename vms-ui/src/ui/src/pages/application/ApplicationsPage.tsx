@@ -12,6 +12,7 @@ import VMSDatagrid from "../../components/VMSDatagrid";
 import useApplications from "../../hooks/useApplications";
 import useDateFormatter from "../../hooks/UseDateTimeFormatter";
 import usePermissions from "../../hooks/usePermissions";
+import useCompanyId from "../../hooks/useCompanyId";
 import useDeleteMutation from "../../hooks/useDeleteMutation";
 import usePageSelector from "../../hooks/usePageSelector";
 import usePagination from "../../hooks/usePagination";
@@ -23,6 +24,7 @@ const ApplicationsPage = () => {
   const { dataGridValueFormatter } = useDateFormatter();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [companyId] = useCompanyId();
   const { hasPermission } = usePermissions();
   const deleteUser = useDeleteMutation(QueryKeyType.APPLICATIONS);
   const pagination = usePagination([]);
@@ -86,18 +88,28 @@ const ApplicationsPage = () => {
                   flex: 1,
                   hide: !hasPermission([Role.ADMIN]),
                   hideable: false,
-                  getActions: (params: GridRowParams) => [
-                    <GridActionsCellItem
-                      icon={<EditIcon />}
-                      label={t("editUser")}
-                      onClick={() => navigateToApplication(params.id)}
-                    />,
-                    <GridActionsCellItem
-                      icon={<DeleteIcon />}
-                      label={t("deleteUser")}
-                      onClick={() => deleteUser(params.id)}
-                    />,
-                  ],
+                  getActions: (params: GridRowParams) => {
+                    return companyId === params.row.companyId
+                      ? [
+                          <GridActionsCellItem
+                            icon={<EditIcon />}
+                            label={t("editUser")}
+                            onClick={() => navigateToApplication(params.id)}
+                          />,
+                          <GridActionsCellItem
+                            icon={<DeleteIcon />}
+                            label={t("deleteUser")}
+                            onClick={() => deleteUser(params.id)}
+                          />,
+                        ]
+                      : [
+                          <GridActionsCellItem
+                            icon={<EditIcon />}
+                            label={t("editUser")}
+                            onClick={() => navigateToApplication(params.id)}
+                          />,
+                        ];
+                  },
                 },
               ]}
               rows={applicationsData.data.content}
