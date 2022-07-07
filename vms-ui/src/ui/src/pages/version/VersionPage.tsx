@@ -6,6 +6,7 @@ import { useMatch } from "@tanstack/react-location";
 import VersionForm from "./VersionForm";
 import { Version } from "../../types/Version";
 import ServerApi from "../../api/ServerApi";
+import CommentsSection from "../../components/CommentsSection";
 
 const VersionPage: FC = () => {
   usePageSelector("versions");
@@ -67,6 +68,8 @@ const VersionPage: FC = () => {
           :
           version && <VersionForm action={action} version={version} onSubmitHandler={versionSubmitHandler}/>
       }
+
+      { version && version.id && <CommentsSection versionId={version.id} /> }
     </>
   );
 };

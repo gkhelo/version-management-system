@@ -35,3 +35,8 @@ export const GET_VERSIONS = "/versions/all";
 export const ADD_VERSION = "/versions/add";
 export const UPDATE_VERSION = "/versions/update";
 export const GET_VERSION_FILE = "/versions";
+
+export const GET_COMMENTS = "/comments";
+export const ADD_COMMENT = "/comments/add";
+export const UPDATE_COMMENT = "/comments/update"
+export const DELETE_COMMENT = "/comments/delete"
