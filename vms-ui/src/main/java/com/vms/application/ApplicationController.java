@@ -89,12 +89,6 @@ public class ApplicationController {
 		return applicationMapper.toDTO(applicationService.deleteApplicationUser(applicationId, userId, authService.getAuthenticatedUser()));
 	}
 
-	@Secured({"ADMIN"})
-	@GetMapping("/users/all")
-	public List<UserDTO> getApplicationUsers(@RequestParam long applicationId) {
-		return userMapper.toDTOs(applicationService.getApplicationUsers(applicationId, getCompanyId()));
-	}
-
 	private long getCompanyId() {
 		User user = authService.getAuthenticatedUser();
 		return user.getCompany().getId();

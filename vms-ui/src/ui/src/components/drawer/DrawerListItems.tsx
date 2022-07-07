@@ -10,6 +10,7 @@ import {
 } from "@mui/icons-material";
 import ListLinkItem from "./ListLinkItem";
 import { QueryKeyType } from "../../types/QueryKeyType";
+import { Role } from "../../types/User";
 
 const DrawerListItems: FC = () => {
   const { t } = useTranslation();
@@ -21,6 +22,7 @@ const DrawerListItems: FC = () => {
         Icon={PersonIcon}
         pageName="users"
         query={QueryKeyType.USERS}
+        secured={[Role.ADMIN]}
       />
       <ListLinkItem
         path="/vendors"
@@ -28,6 +30,7 @@ const DrawerListItems: FC = () => {
         Icon={TocIcon}
         pageName="vendors"
         query={QueryKeyType.VENDORS}
+        secured={[Role.ADMIN]}
       />
       <ListLinkItem
         path="/clients"
@@ -35,6 +38,7 @@ const DrawerListItems: FC = () => {
         Icon={GroupsIcon}
         pageName="clients"
         query={QueryKeyType.CLIENTS}
+        secured={[Role.ADMIN]}
       />
       <ListLinkItem
         path="/applications"
@@ -42,6 +46,7 @@ const DrawerListItems: FC = () => {
         Icon={WorkIcon}
         pageName="applications"
         query={QueryKeyType.APPLICATIONS}
+        secured={[Role.ADMIN, Role.USER]}
       />
       <ListLinkItem
         path="/versions"
@@ -49,6 +54,7 @@ const DrawerListItems: FC = () => {
         Icon={AssignmentIcon}
         pageName="versions"
         query={QueryKeyType.VERSIONS}
+        secured={[Role.ADMIN, Role.USER]}
       />
     </List>
   );

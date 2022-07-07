@@ -91,6 +91,13 @@ public class UserController {
 		return RoleDTO.values();
 	}
 
+
+	@Secured({"ADMIN"})
+	@GetMapping("/application/{applicationId}")
+	public List<UserDTO> getApplicationUsers(@PathVariable("applicationId") long applicationId) {
+		return userMapper.toDTOs(userService.getApplicationUsers(applicationId, getCompany().getId()));
+	}
+
 	private Company getCompany() {
 		User user = authService.getAuthenticatedUser();
 		return user.getCompany();

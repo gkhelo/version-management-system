@@ -1,5 +1,6 @@
 import { FC, useContext, useState, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
+import { useQueryClient } from "react-query";
 import {
   Box,
   Button,
@@ -12,6 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import makeStyles from "@mui/styles/makeStyles";
 import useAuthenticatedUser from "../../hooks/useAuthenticatedUser";
 import { Context as UserContext } from "../../context/UserContext";
+import { Context as AppContext } from "../../context/AppContext";
 import Drawer from "../../components/drawer/Drawer";
 import Login from "../login/Login";
 import Main from "./Main";
@@ -51,7 +53,9 @@ const MainContainer: FC<{ children: ReactNode }> = ({ children }) => {
     state: { user },
     setUser,
   } = useContext(UserContext);
+  const { setCurrentPage } = useContext(AppContext);
   const [open, setOpen] = useState(false);
+  const queryClient = useQueryClient();
   const classes = useStyles(open);
   const { t } = useTranslation();
   const handleDrawerOpen = () => {
@@ -59,6 +63,8 @@ const MainContainer: FC<{ children: ReactNode }> = ({ children }) => {
   };
   const handleLogout = () => {
     localStorage.removeItem("jwt");
+    queryClient.invalidateQueries();
+    setCurrentPage("");
     setUser(null);
   };
 
