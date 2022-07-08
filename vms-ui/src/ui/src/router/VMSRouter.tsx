@@ -5,6 +5,7 @@ import { Context as UserContext } from "../context/UserContext";
 import useAuthenticatedUser from "../hooks/useAuthenticatedUser";
 import useTimeout from "../hooks/useTimeout";
 import MainContainer from "../pages/home/MainContainer";
+import OuterContainer from "../pages/home/OuterContainer";
 
 const VMSRouter: FC<{ children: ReactNode }> = ({ children }) => {
   const {
@@ -27,7 +28,7 @@ const VMSRouter: FC<{ children: ReactNode }> = ({ children }) => {
       <MainContainer>{children}</MainContainer>
     )
   ) : isOuter ? (
-    <>{children}</>
+    <OuterContainer>{children}</OuterContainer>
   ) : (
     <Navigate to="/login" />
   );

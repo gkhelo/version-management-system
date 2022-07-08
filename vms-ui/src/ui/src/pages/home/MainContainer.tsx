@@ -2,8 +2,8 @@ import { FC, useContext, useState, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "react-query";
 import {
+  Avatar,
   Box,
-  Button,
   CssBaseline,
   IconButton,
   Toolbar,
@@ -18,6 +18,8 @@ import Drawer from "../../components/drawer/Drawer";
 import Login from "../login/Login";
 import Main from "./Main";
 import { AppBar } from "./AppBar";
+import SettingsDrawer from "../../components/drawer/SettingsDrawer";
+import { stringAvatar } from "../../components/UserListItem";
 
 const useStyles = makeStyles(() => ({
   "@global": {
@@ -55,6 +57,7 @@ const MainContainer: FC<{ children: ReactNode }> = ({ children }) => {
   } = useContext(UserContext);
   const { setCurrentPage } = useContext(AppContext);
   const [open, setOpen] = useState(false);
+  const [settingsDrawerOpen, setSettingsDrawerOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const classes = useStyles(open);
   const { t } = useTranslation();
@@ -63,9 +66,9 @@ const MainContainer: FC<{ children: ReactNode }> = ({ children }) => {
   };
   const handleLogout = () => {
     localStorage.removeItem("jwt");
+    setUser(null);
     queryClient.invalidateQueries();
     setCurrentPage("");
-    setUser(null);
   };
 
   useAuthenticatedUser();
@@ -94,17 +97,19 @@ const MainContainer: FC<{ children: ReactNode }> = ({ children }) => {
           >
             {t("Version Management System")}
           </Typography>
-
-          <Button
-            disableElevation
-            className={classes.logoutButton}
-            onClick={handleLogout}
-          >
-            {t("logout")}
-          </Button>
+          <Avatar
+            style={{ cursor: "pointer" }}
+            onClick={() => setSettingsDrawerOpen(true)}
+            {...stringAvatar(user.username || "Unknown")}
+          />
         </Toolbar>
       </AppBar>
       <Drawer open={open} setOpen={setOpen} />
+      <SettingsDrawer
+        open={settingsDrawerOpen}
+        setOpen={setSettingsDrawerOpen}
+        logout={handleLogout}
+      />
       <Main>{children}</Main>
     </Box>
   );
