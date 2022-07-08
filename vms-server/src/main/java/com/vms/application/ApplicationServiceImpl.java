@@ -102,9 +102,4 @@ public class ApplicationServiceImpl implements ApplicationService {
 		newUser.getApplications().remove(application);
 		return application;
 	}
-
-	@Override
-	public List<User> getApplicationUsers(long applicationId, long companyId) {
-		return applicationRepository.getUsersByApplicationAndCompanyId(applicationId, companyId);
-	}
 }

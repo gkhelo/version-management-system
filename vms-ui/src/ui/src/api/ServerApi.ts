@@ -140,9 +140,7 @@ const updateApplication = async (application: Application) => {
 };
 
 const getApplicationUsers = async (applicationId: number) => {
-  const response = await apiAxiosInstance.get<User[]>(GET_APPLICATION_USERS, {
-    params: { applicationId: applicationId },
-  });
+  const response = await apiAxiosInstance.get<User[]>(`${GET_APPLICATION_USERS}/${applicationId}`);
   return response.data;
 };
 

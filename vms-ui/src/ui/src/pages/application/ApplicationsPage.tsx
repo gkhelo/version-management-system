@@ -11,16 +11,21 @@ import VMSBreadcrumbs from "../../components/VMSBreadcrumbs";
 import VMSDatagrid from "../../components/VMSDatagrid";
 import useApplications from "../../hooks/useApplications";
 import useDateFormatter from "../../hooks/UseDateTimeFormatter";
+import usePermissions from "../../hooks/usePermissions";
+import useCompanyId from "../../hooks/useCompanyId";
 import useDeleteMutation from "../../hooks/useDeleteMutation";
 import usePageSelector from "../../hooks/usePageSelector";
 import usePagination from "../../hooks/usePagination";
 import { QueryKeyType } from "../../types/QueryKeyType";
+import { Role } from "../../types/User";
 
 const ApplicationsPage = () => {
   usePageSelector("applications");
   const { dataGridValueFormatter } = useDateFormatter();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [companyId] = useCompanyId();
+  const { hasPermission } = usePermissions();
   const deleteUser = useDeleteMutation(QueryKeyType.APPLICATIONS);
   const pagination = usePagination([]);
   const applicationsData = useApplications({
@@ -49,15 +54,17 @@ const ApplicationsPage = () => {
       ) : (
         applicationsData.data && (
           <>
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              size="small"
-              sx={{ marginBottom: 0.5 }}
-              onClick={navigateToNewApplication}
-            >
-              {t("Add Application")}
-            </Button>
+            {hasPermission([Role.ADMIN]) && (
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                size="small"
+                sx={{ marginBottom: 0.5 }}
+                onClick={navigateToNewApplication}
+              >
+                {t("Add Application")}
+              </Button>
+            )}
             <VMSDatagrid
               columns={[
                 { field: "name", headerName: t("name"), flex: 2 },
@@ -79,18 +86,30 @@ const ApplicationsPage = () => {
                   field: "actions",
                   type: "actions",
                   flex: 1,
-                  getActions: (params: GridRowParams) => [
-                    <GridActionsCellItem
-                      icon={<EditIcon />}
-                      label={t("editUser")}
-                      onClick={() => navigateToApplication(params.id)}
-                    />,
-                    <GridActionsCellItem
-                      icon={<DeleteIcon />}
-                      label={t("deleteUser")}
-                      onClick={() => deleteUser(params.id)}
-                    />,
-                  ],
+                  hide: !hasPermission([Role.ADMIN]),
+                  hideable: false,
+                  getActions: (params: GridRowParams) => {
+                    return companyId === params.row.companyId
+                      ? [
+                          <GridActionsCellItem
+                            icon={<EditIcon />}
+                            label={t("editUser")}
+                            onClick={() => navigateToApplication(params.id)}
+                          />,
+                          <GridActionsCellItem
+                            icon={<DeleteIcon />}
+                            label={t("deleteUser")}
+                            onClick={() => deleteUser(params.id)}
+                          />,
+                        ]
+                      : [
+                          <GridActionsCellItem
+                            icon={<EditIcon />}
+                            label={t("editUser")}
+                            onClick={() => navigateToApplication(params.id)}
+                          />,
+                        ];
+                  },
                 },
               ]}
               rows={applicationsData.data.content}
