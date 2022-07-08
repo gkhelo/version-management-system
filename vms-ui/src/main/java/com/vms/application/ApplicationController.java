@@ -5,7 +5,6 @@ import com.vms.application.mapper.ApplicationMapper;
 import com.vms.model.application.Application;
 import com.vms.model.user.User;
 import com.vms.security.AuthService;
-import com.vms.user.dto.UserDTO;
 import com.vms.user.mapper.UserMapper;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,8 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/applications")

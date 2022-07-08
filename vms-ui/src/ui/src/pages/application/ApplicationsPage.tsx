@@ -1,7 +1,11 @@
 import { Button } from "@mui/material";
 import { useNavigate } from "@tanstack/react-location";
 import { useTranslation } from "react-i18next";
-import { GridActionsCellItem, GridRowParams } from "@mui/x-data-grid";
+import {
+  GridActionsCellItem,
+  GridRowParams,
+  GridValueGetterParams,
+} from "@mui/x-data-grid";
 import {
   Add as AddIcon,
   Delete as DeleteIcon,
@@ -68,8 +72,20 @@ const ApplicationsPage = () => {
             <VMSDatagrid
               columns={[
                 { field: "name", headerName: t("name"), flex: 2 },
-                { field: "companyName", headerName: t("companyName"), flex: 2 },
-                { field: "vendorName", headerName: t("vendorName"), flex: 2 },
+                {
+                  field: "company.name",
+                  headerName: t("companyName"),
+                  flex: 2,
+                  valueGetter: (params: GridValueGetterParams) =>
+                    params.row.companyName,
+                },
+                {
+                  field: "vendor.name",
+                  headerName: t("vendorName"),
+                  flex: 2,
+                  valueGetter: (params: GridValueGetterParams) =>
+                    params.row.vendorName,
+                },
                 {
                   field: "createTime",
                   headerName: t("createTime"),
