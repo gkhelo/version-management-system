@@ -26,10 +26,4 @@ public interface ApplicationRepository extends PagingAndSortingRepository<Applic
 
 	@Query("SELECT a FROM Application a WHERE a.id = :applicationId AND (a.company.id = :companyId OR a.vendor.id = :companyId)")
 	Application findByIdAndCompanyOrVendor(@Param("applicationId") long applicationId, @Param("companyId") long companyId);
-
-	@Query("SELECT a FROM Application a LEFT JOIN FETCH a.users u WHERE a.id = :applicationId AND (a.company.id = :companyId OR a.vendor.id = :companyId)")
-	Application findByIdAndCompanyOrVendorFetchUsers(@Param("applicationId") long applicationId, @Param("companyId") long companyId);
-
-	@Query("SELECT u FROM Application a LEFT JOIN a.users u WHERE a.id = :applicationId AND u.company.id = :companyId")
-	List<User> getUsersByApplicationAndCompanyId(@Param("applicationId") long applicationId, @Param("companyId") long companyId);
 }

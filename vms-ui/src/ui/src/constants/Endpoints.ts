@@ -12,6 +12,8 @@ export const ADD_USER = "/users/add";
 export const UPDATE_USER = "/users/update";
 export const DELETE_USER = "/users/delete";
 export const GET_ROLES = "/users/roles";
+export const GET_APPLICATION_USERS = "/users/application";
+
 
 export const GET_COMPANIES = "/companies/all";
 
@@ -26,7 +28,6 @@ export const GET_APPLICATION = "/applications/get";
 export const ADD_APPLICATION = "/applications/add";
 export const UPDATE_APPLICATION = "/applications/update";
 
-export const GET_APPLICATION_USERS = "/applications/users/all";
 export const ADD_APPLICATION_USER = "/applications/user/add";
 export const DELETE_APPLICATION_USER = "/applications/user/delete";
 

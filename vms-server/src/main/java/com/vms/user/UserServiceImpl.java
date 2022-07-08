@@ -1,5 +1,6 @@
 package com.vms.user;
 
+import com.vms.application.repository.ApplicationRepository;
 import com.vms.exceptions.VMSException;
 import com.vms.model.company.Company;
 import com.vms.model.user.User;
@@ -91,8 +92,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getUsersByCompanyAndIds(long companyId, List<Long> userIds) {
-		return userRepository.findUsersByCompanyAndIds(companyId, userIds);
+	public List<User> getApplicationUsers(long applicationId, long companyId) {
+		return userRepository.getUsersByApplicationAndCompanyId(applicationId, companyId);
 	}
 
 	private boolean passwordIsFilled(String password) {

@@ -1,4 +1,4 @@
-import { ElementType, FC, useContext } from "react";
+import { ElementType, FC, useContext, useEffect } from "react";
 import { useQueryClient } from "react-query";
 import { useNavigate } from "@tanstack/react-location";
 import { makeStyles } from "@mui/styles";
@@ -9,7 +9,9 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Context } from "../../context/AppContext";
+import usePermissions from "../../hooks/usePermissions";
 import { QueryKeyType } from "../../types/QueryKeyType";
+import { Role } from "../../types/User";
 
 const useStyles = makeStyles(() => ({
   selected: {
@@ -23,10 +25,12 @@ const ListLinkItem: FC<ListLinkItemType> = ({
   Icon,
   pageName,
   query,
+  secured = [],
 }) => {
   const {
     state: { currentPage },
   } = useContext(Context);
+  const { hasPermission } = usePermissions();
   const classes = useStyles();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -35,7 +39,12 @@ const ListLinkItem: FC<ListLinkItemType> = ({
     query && queryClient.invalidateQueries(query);
   };
 
-  return (
+  useEffect(() => {
+    !hasPermission(secured) && navigate({ to: "/" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return hasPermission(secured) ? (
     <ListItemButton onClick={NavigationHandler}>
       <ListItemIcon>
         <Tooltip title={title} placement="right">
@@ -47,6 +56,8 @@ const ListLinkItem: FC<ListLinkItemType> = ({
         classes={currentPage === title ? { primary: classes.selected } : {}}
       />
     </ListItemButton>
+  ) : (
+    <></>
   );
 };
 
@@ -56,6 +67,7 @@ type ListLinkItemType = {
   Icon: ElementType;
   pageName: string;
   query?: QueryKeyType;
+  secured?: Role[];
 };
 
 export default ListLinkItem;

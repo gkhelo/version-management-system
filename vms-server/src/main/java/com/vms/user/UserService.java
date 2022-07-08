@@ -23,5 +23,5 @@ public interface UserService {
 
 	User findUserById(long userId);
 
-	List<User> getUsersByCompanyAndIds(long companyId, List<Long> userIds);
+	List<User> getApplicationUsers(long applicationId, long companyId);
 }

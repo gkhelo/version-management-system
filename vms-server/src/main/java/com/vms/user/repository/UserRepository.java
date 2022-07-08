@@ -20,6 +20,6 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long>, 
 	@Query("SELECT u FROM User u WHERE u.company.id = :companyId")
 	Page<User> findAllByCompany(@Param("companyId") long companyId, Pageable paging);
 
-	@Query("SELECT u FROM User u WHERE u.company.id = :companyId AND u.id IN (:userIds)")
-	List<User> findUsersByCompanyAndIds(@Param("companyId") long companyId, @Param("userIds") List<Long> userIds);
+	@Query("SELECT u FROM User u LEFT JOIN u.applications a WHERE a.id = :applicationId AND u.company.id = :companyId")
+	List<User> getUsersByApplicationAndCompanyId(@Param("applicationId") long applicationId, @Param("companyId") long companyId);
 }
