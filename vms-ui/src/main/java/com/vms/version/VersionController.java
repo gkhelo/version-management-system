@@ -21,7 +21,7 @@ import java.net.URLConnection;
 
 @RestController
 @RequestMapping("/api/versions")
-@Secured("USER")
+@Secured({"ADMIN", "USER"})
 @Tag(name = "Versions")
 @SecurityRequirement(name = "bearerAuth")
 public class VersionController {

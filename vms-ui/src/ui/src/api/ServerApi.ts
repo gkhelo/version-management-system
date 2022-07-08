@@ -27,12 +27,17 @@ import {
   ADD_VERSION,
   UPDATE_VERSION,
   GET_VERSION_FILE,
+  GET_COMMENTS,
+  ADD_COMMENT,
+  UPDATE_COMMENT,
+  DELETE_COMMENT,
 } from "../constants/Endpoints";
 import { User } from "../types/User";
 import { Pageable, PageImpl } from "../types/Pageable";
 import { Company } from "../types/Company";
 import { Application } from "../types/Application";
 import { Version } from "../types/Version";
+import { Comment } from "../types/Comment";
 
 const login = async (data: FormData) => {
   return await authAxiosInstance.post(LOGIN, data);
@@ -200,6 +205,31 @@ const getVersionFile = async (versionId: number, filename: string) => {
     responseType: "blob"
   });
   return response.data;
+};
+
+const getComments = async (versionId: number) => {
+	const response = await apiAxiosInstance.get<Comment[]>(`${GET_COMMENTS}/${versionId}`);
+	return response.data;
+};
+
+const addComment = async (comment: Comment) => {
+	const response = await apiAxiosInstance.post<Comment>(ADD_COMMENT, comment);
+	return response.data;
+};
+
+const updateComment = async (commentId: number, text: string) => {
+  const response = await apiAxiosInstance.put<Comment>(
+    UPDATE_COMMENT,
+    {},
+    {
+      params: { commentId: commentId, text: text },
+    }
+  );
+  return response.data;
+};
+
+const deleteComment = async (commentId: number) => {
+  await apiAxiosInstance.delete<number>(`${DELETE_COMMENT}/${commentId}`);
 }
 
 const ServerApi = {
@@ -230,6 +260,10 @@ const ServerApi = {
   addVersion,
   updateVersion,
   getVersionFile,
+  getComments,
+  addComment,
+  updateComment,
+  deleteComment,
 };
 
 export default ServerApi;
