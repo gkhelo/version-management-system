@@ -1,4 +1,5 @@
 import { FC, MouseEventHandler } from "react";
+import { useTranslation } from "react-i18next";
 import MarkdownIt from "markdown-it";
 import MdEditor, { Plugins } from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
@@ -6,9 +7,7 @@ import { styled } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
 import SimpleButton from "./SimpleButton";
 
-const EditorWrapper = styled("div")(({ theme }) => ({
-  // marginInline: theme.spacing(1),
-}));
+const EditorWrapper = styled("div")(({ theme }) => ({}));
 
 const useStyles = makeStyles({
   editor: {
@@ -44,12 +43,13 @@ export const MarkdownText: FC<{
   [props: string]: any;
 }> = ({ value, onClick, ...props }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const mdParser = new MarkdownIt();
 
   return (
     <EditorWrapper onClick={onClick}>
       <MdEditor
-        value={value || "Type here..."}
+        value={value || t("Type here...")}
         className={classes.readonly}
         renderHTML={(text: string) => mdParser.render(text)}
         readOnly
@@ -75,6 +75,7 @@ export const MarkdownEditor: FC<{
   onCancel: MouseEventHandler<HTMLButtonElement>;
   [props: string]: any;
 }> = ({ value, onChange, onSave, onCancel, ...props }) => {
+  const { t } = useTranslation();
   const handleImageUpload = (file: File) => {
     return new Promise((resolve) => {
       const reader = new FileReader();
@@ -117,7 +118,7 @@ export const MarkdownEditor: FC<{
           size="small"
           onClick={onSave}
         >
-          Save
+          {t("save")}
         </SimpleButton>
         <SimpleButton
           sx={{ mt: 1, mb: 1, ml: 1 }}
@@ -126,7 +127,7 @@ export const MarkdownEditor: FC<{
           size="small"
           onClick={onCancel}
         >
-          Cancel
+          {t("cancel")}
         </SimpleButton>
       </EditorWrapper>
     </>

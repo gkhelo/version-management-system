@@ -209,7 +209,7 @@ const VersionForm: FC<{
                       startIcon={<SaveIcon />}
                       type="submit"
                     >
-                      {t("Save")}
+                      {t("save")}
                     </SimpleButton>
                   </FormButtonWrapper>
                 )}

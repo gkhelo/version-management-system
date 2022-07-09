@@ -39,7 +39,7 @@ const ApplicationForm: FC<{
               <FormikTextfield<Application> name="name" label={t("name")} />
               <FormikSelect<Application>
                 name="vendorId"
-                label={"vendor"}
+                label={t("vendor")}
                 getValue={(vendor: Company) => vendor.id}
                 renderValue={(vendor: Company) => vendor.name}
                 data={vendors.data}
@@ -53,7 +53,7 @@ const ApplicationForm: FC<{
                   startIcon={<SaveIcon />}
                   type="submit"
                 >
-                  {t("Save")}
+                  {t("save")}
                 </SimpleButton>
               </FormButtonWrapper>
             </Stack>

@@ -72,7 +72,7 @@ const ApplicationUsersTab: FC<{ applicationId: number }> = ({
       (await ServerApi.addApplicationUser(applicationId, userId).then(
         (data) => {
           setSnackbarMessage({
-            message: "Successfully added user",
+            message: t("Successfully added user"),
             status: 200,
             severity: Severity.SUCCESS,
           });
@@ -101,7 +101,7 @@ const ApplicationUsersTab: FC<{ applicationId: number }> = ({
           sx={{ mb: 1 }}
           onClick={() => setDialogOpen(true)}
         >
-          {t("Add User")}
+          {t("addUser")}
         </SimpleButton>
       </FormButtonWrapper>
       <TextField
@@ -115,7 +115,7 @@ const ApplicationUsersTab: FC<{ applicationId: number }> = ({
             </InputAdornment>
           ),
         }}
-        placeholder={"Search for application user"}
+        placeholder={t("Search for application user")}
       />
       <List>
         {filteredUsers && [
@@ -134,14 +134,14 @@ const ApplicationUsersTab: FC<{ applicationId: number }> = ({
           startIcon={<ChevronLeftIcon />}
           onClick={() => setPage(page - 1)}
         >
-          Previous
+          {t("previous")}
         </SimpleButton>
         <SimpleButton
           disabled={(page + 1) * USERS_ON_PAGE >= applicationUsers.length}
           endIcon={<ChevronRightIcon />}
           onClick={() => setPage(page + 1)}
         >
-          Next
+          {t("next")}
         </SimpleButton>
       </div>
     </Container>

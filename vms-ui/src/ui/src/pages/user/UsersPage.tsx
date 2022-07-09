@@ -55,7 +55,7 @@ const UsersPage: FC = () => {
               sx={{ marginBottom: 0.5 }}
               onClick={navigateToNewUser}
             >
-              {t("Add User")}
+              {t("addUser")}
             </Button>
             <VMSDatagrid
               columns={[
