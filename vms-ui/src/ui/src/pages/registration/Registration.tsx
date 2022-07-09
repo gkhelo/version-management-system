@@ -1,4 +1,4 @@
-import { Box, Container, CssBaseline } from "@mui/material";
+import { Box, Container, CssBaseline, Snackbar } from "@mui/material";
 import ServerApi from "../../api/ServerApi";
 import LinearStepper from "./LinearStepper";
 import CompanyStep from "./steps/CompanyStep";
@@ -6,8 +6,15 @@ import AdminStep from "./steps/AdminStep";
 import { Company } from "../../types/Company";
 import { Role, User } from "../../types/User";
 import * as yup from "yup";
+import { useState } from "react";
+import SnackbarAlert from "../../components/SnackbarAlert";
+import { Severity } from "../../types/SnackbarMessage";
+import { useTranslation } from "react-i18next";
 
 const Registration = () => {
+  const [completed, setCompleted] = useState<boolean>(false);
+  const { t } = useTranslation();
+
   const steps = [
     {
       name: "Company",
@@ -58,18 +65,21 @@ const Registration = () => {
     };
 
     ServerApi.register(company, admin)
-      .then(() => {
-        console.log("Company registered successfully");
-
-        // TODO: show that registration completed successfully
-        // TODO: show link/button "Go to login page"
-        window.location.reload();
+      .then((response) => {
+        if (response.status == 200) {
+          console.log("Company registered successfully");
+          setCompleted(true);
+        }
       })
       .catch((error) => {
         // TODO: show errors
         console.log("Registration error", error);
       });
   };
+
+  const handleClose = () => {
+    window.location.replace("login");
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -83,8 +93,25 @@ const Registration = () => {
         }}
       >
         <h1>Registration Form</h1>
-        <LinearStepper steps={steps} handleSubmit={handleSubmit} />
+        <LinearStepper steps={steps} handleSubmit={handleSubmit} completed={completed}/>
       </Box>
+
+      {completed &&
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={true}
+        autoHideDuration={10000}
+        onClose={handleClose}
+      >
+        <SnackbarAlert
+          onClose={handleClose}
+          severity={Severity.SUCCESS}
+          sx={{ width: "100%" }}
+        >
+          {t("registrationCompleted")}
+        </SnackbarAlert>
+      </Snackbar>
+      }
     </Container>
   );
 };

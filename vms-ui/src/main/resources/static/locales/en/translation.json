@@ -44,5 +44,7 @@
   "application": "Application",
   "addVersion": "Add Version",
   "viewVersion": "View Version",
-  "editVersion": "Edit Version"
+  "editVersion": "Edit Version",
+  "registrationCompleted": "Registration completed successfully, you'll be redirected to login page",
+  "Company with name companyName already exists": "Company with name {{companyName}} already exists"
 }

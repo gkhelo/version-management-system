@@ -100,17 +100,12 @@ public class AuthController {
 
 	@PostMapping("/register")
 	public ResponseEntity<Void> register(@RequestBody RegisterRequest request) {
-		try {
-			Company company = companyMapper.fromDTO(request.getCompany());
-			User admin = userMapper.fromDTO(request.getAdmin());
+		Company company = companyMapper.fromDTO(request.getCompany());
+		User admin = userMapper.fromDTO(request.getAdmin());
 
-			companyService.addCompany(company, admin);
+		companyService.addCompany(company, admin);
 
-			return ResponseEntity.ok().build();
-		} catch (VMSException ex) {
-			log.error("Error occurred while trying to register new company: {}", ex.getMessage());
-			return ResponseEntity.badRequest().build();
-		}
+		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/authenticated/{jwt}")

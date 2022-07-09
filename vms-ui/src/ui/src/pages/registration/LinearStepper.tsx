@@ -5,6 +5,7 @@ import { Formik } from "formik";
 const LinearStepper: FC<LinearStepperProps> = (props: LinearStepperProps) => {
   const steps: StepInfo[] = props.steps;
   const handleSubmit = props.handleSubmit;
+  const completed = props.completed;
 
   const [activeStep, setActiveStep] = useState<number>(0);
 
@@ -51,7 +52,7 @@ const LinearStepper: FC<LinearStepperProps> = (props: LinearStepperProps) => {
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
                 color="inherit"
-                disabled={isFirstStep}
+                disabled={completed || isFirstStep}
                 onClick={handleBack}
                 sx={{ mr: 1 }}
               >
@@ -60,7 +61,7 @@ const LinearStepper: FC<LinearStepperProps> = (props: LinearStepperProps) => {
 
               <Box sx={{ flex: "1 1 auto" }} />
 
-              <Button type="submit" variant="contained">
+              <Button disabled={completed} type="submit" variant="contained">
                 {isLastStep ? "Submit" : "Next"}
               </Button>
             </Box>
@@ -81,6 +82,7 @@ type StepInfo = {
 type LinearStepperProps = {
   steps: StepInfo[];
   handleSubmit: Function;
+  completed: boolean;
 };
 
 export default LinearStepper;

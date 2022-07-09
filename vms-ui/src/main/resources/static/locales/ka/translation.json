@@ -44,5 +44,7 @@
   "application": "აპლიკაცია",
   "addVersion": "ვერსიის დამატება",
   "viewVersion": "ვერსიის დათვალიერება",
-  "editVersion": "ვერსიის რედაქტირება"
+  "editVersion": "ვერსიის რედაქტირება",
+  "registrationCompleted": "რეგისტრაცია დასრულდა წარმატებით, თქვენ გადამისამრთდებით ავტორიზაციის გვერდზე",
+  "Company with name companyName already exists": "კომპანია სახელით {{companyName}} უკვე არსებობს"
 }
