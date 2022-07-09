@@ -11,6 +11,8 @@ import { Button } from "@mui/material";
 import { useNavigate } from "@tanstack/react-location";
 import { GridActionsCellItem, GridRowParams, GridValueGetterParams } from "@mui/x-data-grid";
 import { Context as UserContext } from "../../context/UserContext";
+import useApplications from "../../hooks/useApplications";
+import { Application } from "../../types/Application";
 
 const VersionsPage: FC = () => {
   usePageSelector("versions");
@@ -29,6 +31,9 @@ const VersionsPage: FC = () => {
     state: { user },
   } = useContext(UserContext);
 
+  const applications = useApplications({ page: 0, size: 10 });
+  const hasApplications = applications.data && applications.data?.content.some((app: Application) => ( app.vendorId == user?.companyId ));
+
   const navigateToVersion = (versionId: string | number, action: string) => {
     navigate({ to: `/versions/${action}/${versionId}` });
   };
@@ -46,6 +51,7 @@ const VersionsPage: FC = () => {
       ) : (
         versionData.data && (
           <>
+            {hasApplications &&
             <Button
               variant="contained"
               startIcon={<AddIcon/>}
@@ -55,6 +61,7 @@ const VersionsPage: FC = () => {
             >
               {t("addVersion")}
             </Button>
+            }
             <VMSDatagrid
               columns={[
                 {

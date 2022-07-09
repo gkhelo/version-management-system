@@ -37,6 +37,7 @@
   "vendor": "ვენდორი",
   "addVendor": "ვენდორის დამატება",
   "deleteVendor": "ვენდორის წაშლა",
+  "addedVendorSuccessfully": "ვენდორი დაემატა წარმატებით",
   "name": "სახელი",
   "Clients": "კლიენტები",
   "Versions": "ვერსიები",

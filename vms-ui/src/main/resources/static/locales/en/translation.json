@@ -37,6 +37,7 @@
   "vendor": "Vendor",
   "addVendor": "Add Vendor",
   "deleteVendor": "Delete Vendor",
+  "addedVendorSuccessfully": "Successfully added vendor",
   "name": "Name",
   "Clients": "Clients",
   "Versions": "Versions",
