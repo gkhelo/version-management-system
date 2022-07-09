@@ -16,4 +16,6 @@ public class VersionDTO extends ConfigurableDTO {
 	private ApplicationDTO application;
 
 	private List<String> filenames;
+
+	private String readme;
 }

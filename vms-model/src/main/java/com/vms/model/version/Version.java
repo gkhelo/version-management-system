@@ -16,6 +16,9 @@ public class Version extends Configurable {
 
 	private String description;
 
+	@Column(length = 5000)
+	private String readme;
+
 	@ManyToOne
 	@JoinColumn(name = "application_id", nullable = false)
 	private Application application;

@@ -9,4 +9,5 @@ export type Version = {
   application?: Application | null;
   filenames?: [string];
   files?: [Blob];
+  readme?: string;
 };
