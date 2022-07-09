@@ -1,4 +1,3 @@
-import { useFormik } from "formik";
 import { Box, Container, CssBaseline } from "@mui/material";
 import ServerApi from "../../api/ServerApi";
 import LinearStepper from "./LinearStepper";
@@ -6,45 +5,55 @@ import CompanyStep from "./steps/CompanyStep";
 import AdminStep from "./steps/AdminStep";
 import { Company } from "../../types/Company";
 import { Role, User } from "../../types/User";
+import * as yup from "yup";
 
 const Registration = () => {
-  const companyFormik = useFormik({
-    initialValues: {
-      companyName: "",
-      companyEmail: "",
-    },
-    onSubmit: () => {},
-  });
-
-  const adminFormik = useFormik({
-    initialValues: {
-      adminUsername: "",
-      adminPassword: "",
-      adminFirstname: "",
-      adminLastname: "",
-      adminEmail: "",
-    },
-    onSubmit: () => {},
-  });
-
   const steps = [
-    { name: "Company", component: <CompanyStep formik={companyFormik} /> },
-    { name: "Admin", component: <AdminStep formik={adminFormik} /> },
+    {
+      name: "Company",
+      component: <CompanyStep />,
+      initialValues: {
+        companyName: "",
+        companyEmail: "",
+      },
+      validationSchema: yup.object({
+        companyName: yup.string().required("Name is required").nullable(),
+        companyEmail: yup.string().email("Enter a valid email").required("Email is required").nullable(),
+      }),
+    },
+    {
+      name: "Admin",
+      component: <AdminStep />,
+      initialValues: {
+        adminUsername: "",
+        adminPassword: "",
+        adminFirstname: "",
+        adminLastname: "",
+        adminEmail: "",
+      },
+      validationSchema: yup.object({
+        adminUsername: yup.string().required("Username is required").nullable(),
+        adminPassword: yup.string().required("Password is required").min(8, "Password should be of minimum min characters length"),
+        adminFirstname: yup.string().required("Firstname is required").nullable(),
+        adminLastname: yup.string().required("Lastname is required").nullable(),
+        adminEmail: yup.string().email("Enter a valid email").required("Email is required").nullable(),
+      }),
+    },
   ];
 
-  const handleSubmit = () => {
+  const handleSubmit = (values: any) => {
     const company: Company = {
-      name: companyFormik.values.companyName,
-      email: companyFormik.values.companyEmail,
+      name: values.companyName,
+      email: values.companyEmail,
     };
 
     const admin: User = {
       id: 0,
-      username: adminFormik.values.adminUsername,
-      password: adminFormik.values.adminPassword,
-      firstname: adminFormik.values.adminFirstname,
-      lastname: adminFormik.values.adminLastname,
-      email: adminFormik.values.adminEmail,
+      username: values.adminUsername,
+      password: values.adminPassword,
+      firstname: values.adminFirstname,
+      lastname: values.adminLastname,
+      email: values.adminEmail,
       role: Role.ADMIN,
     };
 
