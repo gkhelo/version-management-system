@@ -66,7 +66,7 @@ const ApplicationsPage = () => {
                 sx={{ marginBottom: 0.5 }}
                 onClick={navigateToNewApplication}
               >
-                {t("Add Application")}
+                {t("addApplication")}
               </Button>
             )}
             <VMSDatagrid
@@ -109,19 +109,19 @@ const ApplicationsPage = () => {
                       ? [
                           <GridActionsCellItem
                             icon={<EditIcon />}
-                            label={t("editUser")}
+                            label={t("editApplication")}
                             onClick={() => navigateToApplication(params.id)}
                           />,
                           <GridActionsCellItem
                             icon={<DeleteIcon />}
-                            label={t("deleteUser")}
+                            label={t("deleteApplication")}
                             onClick={() => deleteUser(params.id)}
                           />,
                         ]
                       : [
                           <GridActionsCellItem
                             icon={<EditIcon />}
-                            label={t("editUser")}
+                            label={t("editApplication")}
                             onClick={() => navigateToApplication(params.id)}
                           />,
                         ];

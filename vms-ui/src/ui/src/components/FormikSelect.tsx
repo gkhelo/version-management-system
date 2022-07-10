@@ -1,4 +1,5 @@
 import { useFormikContext } from "formik";
+import _ from "lodash";
 import { MenuItem } from "@mui/material";
 import FormikTextfield from "./FormikTextfield";
 
@@ -32,7 +33,7 @@ const FormikSelect = <T extends {}>(props: FormikSelectProps) => {
         ) : (
           <MenuItem
             key="empty"
-            value={formik.values[nameKey] as unknown as string}
+            value={_.get(formik.values, nameKey) as unknown as string}
           />
         )}
       </FormikTextfield>

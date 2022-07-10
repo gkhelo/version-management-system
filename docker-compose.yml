@@ -24,4 +24,4 @@ services:
       - SPRING_DATASOURCE_USERNAME=vms
       - SPRING_DATASOURCE_PASSWORD=vms
     volumes:
-      - /home/gio/versions:/opt/versions
+      - ~/vms/versins:/opt/versions

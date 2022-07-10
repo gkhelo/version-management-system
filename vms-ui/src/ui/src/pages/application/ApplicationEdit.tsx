@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Box, Tab, Typography } from "@mui/material";
 import { Application } from "../../types/Application";
 import { styled } from "@mui/system";
@@ -28,6 +29,7 @@ const ApplicationEdit: FC<{
   application: Application;
   onSubmitHandler: Function;
 }> = ({ application, onSubmitHandler }) => {
+  const { t } = useTranslation();
   const [isVendor, setVendor] = useState<boolean>(true);
   const [companyId] = useCompanyId();
   const [currentTab, setCurrentTab] = useState<string>(isVendor ? "1" : "0");
@@ -57,14 +59,14 @@ const ApplicationEdit: FC<{
           >
             {!isVendor && (
               <StyledTab
-                label="Settings"
+                label={t("Settings")}
                 value="0"
                 icon={<AdminPanelSettingsIcon />}
                 iconPosition="start"
               />
             )}
             <StyledTab
-              label="Users"
+              label={t("Users")}
               value="1"
               icon={<GroupsIcon />}
               iconPosition="start"
