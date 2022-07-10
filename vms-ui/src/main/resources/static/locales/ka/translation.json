@@ -37,7 +37,7 @@
   "vendor": "ვენდორი",
   "addVendor": "ვენდორის დამატება",
   "deleteVendor": "ვენდორის წაშლა",
-  "addedVendorSuccessfully": "ვენდორი დაემატა წარმატებით",
+  "Successfully added vendor": "ვენდორი დაემატა წარმატებით",
   "name": "სახელი",
   "Clients": "კლიენტები",
   "Versions": "ვერსიები",
@@ -47,8 +47,7 @@
   "viewVersion": "ვერსიის დათვალიერება",
   "editVersion": "ვერსიის რედაქტირება",
   "registrationCompleted": "რეგისტრაცია დასრულდა წარმატებით, თქვენ გადამისამრთდებით ავტორიზაციის გვერდზე",
-  "Company with name companyName already exists": "კომპანია სახელით {{companyName}} უკვე არსებობს"
-  "editVersion": "ვერსიის რედაქტირება",
+  "Company with name companyName already exists": "კომპანია სახელით {{companyName}} უკვე არსებობს",
   "addApplication": "აპლიკაციის დამატება",
   "deleteApplication": "აპლიკაციის წაშლა",
   "editApplication": "აპლიკაციის რედაქტირება",

@@ -37,7 +37,7 @@
   "vendor": "Vendor",
   "addVendor": "Add Vendor",
   "deleteVendor": "Delete Vendor",
-  "addedVendorSuccessfully": "Successfully added vendor",
+  "Successfully added vendor": "Successfully added vendor",
   "name": "Name",
   "Clients": "Clients",
   "Versions": "Versions",
@@ -47,8 +47,7 @@
   "viewVersion": "View Version",
   "editVersion": "Edit Version",
   "registrationCompleted": "Registration completed successfully, you'll be redirected to login page",
-  "Company with name companyName already exists": "Company with name {{companyName}} already exists"
-  "editVersion": "Edit Version",
+  "Company with name companyName already exists": "Company with name {{companyName}} already exists",
   "addApplication": "Add Application",
   "deleteApplication": "Delete Application",
   "editApplication": "Edit Application",

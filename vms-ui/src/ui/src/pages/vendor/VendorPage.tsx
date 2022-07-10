@@ -20,7 +20,7 @@ const VendorPage: FC = () => {
   const vendorSubmitHandler = async (vendorId: number) => {
     await ServerApi.addVendor(vendorId).then((data) => {
       setSnackbarMessage({
-        message: "addedVendorSuccessfully",
+        message: "Successfully added vendor",
         status: 200,
         severity: Severity.SUCCESS,
       });
