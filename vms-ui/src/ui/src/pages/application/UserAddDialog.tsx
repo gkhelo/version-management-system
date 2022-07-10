@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, useState } from "react";
 import { debounce } from "lodash";
+import { useTranslation } from "react-i18next";
 import { styled } from "@mui/system";
 import {
   DialogActions,
@@ -36,6 +37,7 @@ const UserAddDialog: FC<{
 }> = ({ open, setOpen, onSubmit, applicationId }) => {
   const [users, setUsers] = useState<User[]>();
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const { t } = useTranslation();
   const handleClose = () => {
     onSubmit(selectedUser?.id);
     setSelectedUser(null);
@@ -67,7 +69,7 @@ const UserAddDialog: FC<{
       <BootstrapDialogContent>
         <LargeContactsIcon />
         <Typography gutterBottom variant="body2" sx={{ m: 1 }}>
-          მომხმარებლის დამატება
+          {t("addUser")}
         </Typography>
         {selectedUser ? (
           <UserListItem
@@ -116,7 +118,7 @@ const UserAddDialog: FC<{
           fullWidth
           size="small"
         >
-          Save changes
+          {t("save")}
         </SimpleButton>
       </DialogActions>
     </BootstrapDialog>

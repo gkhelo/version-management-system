@@ -44,5 +44,20 @@
   "application": "Application",
   "addVersion": "Add Version",
   "viewVersion": "View Version",
-  "editVersion": "Edit Version"
+  "addApplication": "Add Application",
+  "deleteApplication": "Delete Application",
+  "editApplication": "Edit Application",
+  "Successfully updated application": "Successfully updated application",
+  "Successfully added application": "Successfully added application",
+  "Settings": "Settings",
+  "companyName": "Company Name",
+  "vendorName": "Vendor Name",
+  "Search for application user": "Search for application user",
+  "Successfully added user": "Successfully added user",
+  "Successfully removed user": "Successfully removed user",
+  "previous": "Previous",
+  "next": "Next",
+  "cancel": "Cancel",
+  "Type here...": "Type here...",
+  "language": "Language"
 }

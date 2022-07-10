@@ -103,7 +103,7 @@ const SettingsDrawer: FC<SettingsDrawerProps> = ({ open, setOpen, logout }) => {
     >
       <TitleBox role="presentation">
         <StyledTitle variant="body1" noWrap>
-          Settings
+          {t("Settings")}
         </StyledTitle>
         <IconButton
           edge="end"
@@ -117,7 +117,7 @@ const SettingsDrawer: FC<SettingsDrawerProps> = ({ open, setOpen, logout }) => {
       <Divider />
       <Box sx={{ pl: 2, pr: 2 }}>
         <StyledParagraph variant="body1" noWrap>
-          Language
+          {t("language")}
         </StyledParagraph>
         <List>
           <LanguageButton

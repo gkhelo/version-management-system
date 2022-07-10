@@ -7,6 +7,7 @@ import VersionForm from "./VersionForm";
 import { Version } from "../../types/Version";
 import ServerApi from "../../api/ServerApi";
 import CommentsSection from "../../components/CommentsSection";
+import { Container, Paper } from "@mui/material";
 
 const VersionPage: FC = () => {
   usePageSelector("versions");
@@ -20,14 +21,20 @@ const VersionPage: FC = () => {
     setVersion(fetchedVersion);
   };
 
-  const versionSubmitHandler = async (action: string, updatedVersion: Version) => {
+  const versionSubmitHandler = async (
+    action: string,
+    updatedVersion: Version
+  ) => {
     if (updatedVersion) {
       updatedVersion.version = version?.version;
 
       const formData = new FormData();
-      formData.append("version", new Blob([JSON.stringify(updatedVersion)], {
-        type: "application/json"
-      }));
+      formData.append(
+        "version",
+        new Blob([JSON.stringify(updatedVersion)], {
+          type: "application/json",
+        })
+      );
 
       if (updatedVersion.files) {
         for (const file of updatedVersion.files) {
@@ -47,12 +54,11 @@ const VersionPage: FC = () => {
 
   useEffect(() => {
     if (action !== "add") {
-      fetchVersion(versionId)
-        .catch(err => {
-          console.error("Version fetch error", err);
-        });
+      fetchVersion(versionId).catch((err) => {
+        console.error("Version fetch error", err);
+      });
     }
-  }, [versionId]);
+  }, [versionId, action]);
 
   return (
     <>
@@ -62,14 +68,30 @@ const VersionPage: FC = () => {
           { name: t("Versions") },
         ]}
       />
-      {
-        action === "add" ?
-          <VersionForm action={action} version={null} onSubmitHandler={versionSubmitHandler}/>
-          :
-          version && <VersionForm action={action} version={version} onSubmitHandler={versionSubmitHandler}/>
-      }
-
-      { version && version.id && <CommentsSection versionId={version.id} /> }
+      <Container
+        maxWidth={false}
+        disableGutters
+        sx={{ mr: "auto", ml: "auto" }}
+      >
+        <Paper variant="outlined" sx={{ p: 2, m: 0 }}>
+          {action === "add" ? (
+            <VersionForm
+              action={action}
+              version={null}
+              onSubmitHandler={versionSubmitHandler}
+            />
+          ) : (
+            version && (
+              <VersionForm
+                action={action}
+                version={version}
+                onSubmitHandler={versionSubmitHandler}
+              />
+            )
+          )}
+        </Paper>
+      </Container>
+      {version && version.id && <CommentsSection versionId={version.id} />}
     </>
   );
 };

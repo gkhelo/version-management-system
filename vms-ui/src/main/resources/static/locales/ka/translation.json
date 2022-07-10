@@ -44,5 +44,21 @@
   "application": "აპლიკაცია",
   "addVersion": "ვერსიის დამატება",
   "viewVersion": "ვერსიის დათვალიერება",
-  "editVersion": "ვერსიის რედაქტირება"
+  "editVersion": "ვერსიის რედაქტირება",
+  "addApplication": "აპლიკაციის დამატება",
+  "deleteApplication": "აპლიკაციის წაშლა",
+  "editApplication": "აპლიკაციის რედაქტირება",
+  "Successfully updated application": "აპლიკაცია წარმატებით დარედაქტირდა",
+  "Successfully added application": "აპლიკაცია წარმატებით დაემატა",
+  "Settings": "პარამეტრები",
+  "companyName": "კომპანიის სახელი",
+  "vendorName": "ვენდორის სახელი",
+  "Search for application user": "აპლიკაციის მომხმარებლის ძებნა",
+  "Successfully added user": "მომხმარებელი დაემატა",
+  "Successfully removed user": "მომხმარებელი წაიშალა",
+  "previous": "წინა",
+  "next": "შემდეგი",
+  "cancel": "გაუქმება",
+  "Type here...": "შეავსეთ აქ...",
+  "language": "ენა"
 }

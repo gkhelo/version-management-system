@@ -53,7 +53,7 @@ const ApplicationPage: FC = () => {
         })
       : await ServerApi.updateApplication(application).then((data) => {
           setSnackbarMessage({
-            message: "Successfully updated application",
+            message: t("Successfully updated application"),
             status: 200,
             severity: Severity.SUCCESS,
           });

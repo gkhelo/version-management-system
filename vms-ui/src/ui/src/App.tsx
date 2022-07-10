@@ -73,7 +73,7 @@ const App: FC = () => {
                 path: "/versions",
                 children: [
                   { path: "/", element: <VersionsPage /> },
-                  { path: "/:action/:versionId", element: <VersionPage /> }
+                  { path: "/:action/:versionId", element: <VersionPage /> },
                 ],
               },
               { path: "/login", element: <Login />, meta: { outer: true } },
@@ -82,7 +82,6 @@ const App: FC = () => {
                 element: <Registration />,
                 meta: { outer: true },
               },
-
               { element: <Homepage /> },
             ]}
           >
