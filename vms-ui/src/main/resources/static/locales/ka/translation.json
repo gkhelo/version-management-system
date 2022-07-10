@@ -23,6 +23,7 @@
   "labelRowsPerPage": "ჩანაწერები გვერდზე",
   "labelDisplayedRows": "{{from}}-{{to}} {{count}}-დან",
   "company": "კომპანია",
+  "Name is required": "სახელის შევსება სავალდებულოა",
   "Username is required": "მომხმარებლის სახელის შევსება სავალდებულოა",
   "Firstname is required": "სახელის შევსება სავალდებულოა",
   "Lastname is required": "გვარის შევსება სავალდებულოა",
@@ -63,5 +64,12 @@
   "next": "შემდეგი",
   "cancel": "გაუქმება",
   "Type here...": "შეავსეთ აქ...",
-  "language": "ენა"
+  "language": "ენა",
+  "signIn": "ავტორიზაცია",
+  "signIn2": "შესვლა",
+  "Don't have an account? Sign Up": "ახალი ანგარიშის შექმნა",
+  "registrationForm": "რეგისტრაცია",
+  "back": "უკან",
+  "submit": "შენახვა",
+  "admin": "ადმინი"
 }

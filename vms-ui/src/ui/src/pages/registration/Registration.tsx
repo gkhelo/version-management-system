@@ -17,7 +17,7 @@ const Registration = () => {
 
   const steps = [
     {
-      name: "Company",
+      name: "company",
       component: <CompanyStep />,
       initialValues: {
         companyName: "",
@@ -29,7 +29,7 @@ const Registration = () => {
       }),
     },
     {
-      name: "Admin",
+      name: "admin",
       component: <AdminStep />,
       initialValues: {
         adminUsername: "",
@@ -92,7 +92,7 @@ const Registration = () => {
           alignItems: "center",
         }}
       >
-        <h1>Registration Form</h1>
+        <h1>{t("registrationForm")}</h1>
         <LinearStepper steps={steps} handleSubmit={handleSubmit} completed={completed}/>
       </Box>
 

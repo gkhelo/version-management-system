@@ -1,39 +1,41 @@
 import { Box } from "@mui/material";
 import FormikTextfield from "../../../components/FormikTextfield";
+import { useTranslation } from "react-i18next";
 
 const AdminStep = () => {
+  const { t } = useTranslation();
   return (
     <Box sx={{ mt: 1 }}>
       <FormikTextfield
         margin="normal"
         fullWidth
-        label="Username"
+        label={t("username")}
         name="adminUsername"
         autoFocus
       />
       <FormikTextfield
         margin="normal"
         fullWidth
-        label="Password"
+        label={t("password")}
         name="adminPassword"
         type="password"
       />
       <FormikTextfield
         margin="normal"
         fullWidth
-        label="Firstname"
+        label={t("firstname")}
         name="adminFirstname"
       />
       <FormikTextfield
         margin="normal"
         fullWidth
-        label="Lastname"
+        label={t("lastname")}
         name="adminLastname"
       />
       <FormikTextfield
         margin="normal"
         fullWidth
-        label="Email"
+        label={t("email")}
         name="adminEmail"
       />
     </Box>

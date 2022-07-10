@@ -17,10 +17,12 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import ServerApi from "../../api/ServerApi";
 import Copyright from "../../components/Copyright";
 import { Context } from "../../context/UserContext";
+import { useTranslation } from "react-i18next";
 
 const Login: FC = () => {
   const { setUser } = useContext(Context);
   const [isError, setIsError] = useState(false);
+  const { t } = useTranslation();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -57,7 +59,7 @@ const Login: FC = () => {
         </Avatar>
 
         <Typography component="h1" variant="h5">
-          Sign in
+          {t("signIn")}
         </Typography>
 
         {isError && (
@@ -72,7 +74,7 @@ const Login: FC = () => {
             required
             fullWidth
             id="username"
-            label="Username"
+            label={t("username")}
             name="username"
             autoComplete="username"
             autoFocus
@@ -83,7 +85,7 @@ const Login: FC = () => {
             required
             fullWidth
             name="password"
-            label="Password"
+            label={t("password")}
             type="password"
             id="password"
             autoComplete="current-password"
@@ -95,7 +97,7 @@ const Login: FC = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            {t("signIn2")}
           </Button>
         </Box>
 
@@ -106,7 +108,7 @@ const Login: FC = () => {
               component="button"
               variant="body2"
             >
-              {"Don't have an account? Sign Up"}
+              {t("Don't have an account? Sign Up")}
             </Link>
           </Grid>
         </Grid>

@@ -1,11 +1,13 @@
 import { FC, useState } from "react";
 import { Box, Button, Step, StepLabel, Stepper } from "@mui/material";
 import { Formik } from "formik";
+import { useTranslation } from "react-i18next";
 
 const LinearStepper: FC<LinearStepperProps> = (props: LinearStepperProps) => {
   const steps: StepInfo[] = props.steps;
   const handleSubmit = props.handleSubmit;
   const completed = props.completed;
+  const { t } = useTranslation();
 
   const [activeStep, setActiveStep] = useState<number>(0);
 
@@ -28,7 +30,7 @@ const LinearStepper: FC<LinearStepperProps> = (props: LinearStepperProps) => {
           const stepProps: { completed?: boolean } = {};
           return (
             <Step key={info.name} {...stepProps}>
-              <StepLabel>{info.name}</StepLabel>
+              <StepLabel>{t(info.name)}</StepLabel>
             </Step>
           );
         })}
@@ -56,13 +58,13 @@ const LinearStepper: FC<LinearStepperProps> = (props: LinearStepperProps) => {
                 onClick={handleBack}
                 sx={{ mr: 1 }}
               >
-                Back
+                {t("back")}
               </Button>
 
               <Box sx={{ flex: "1 1 auto" }} />
 
               <Button disabled={completed} type="submit" variant="contained">
-                {isLastStep ? "Submit" : "Next"}
+                {t(isLastStep ? "submit" : "next")}
               </Button>
             </Box>
           </form>
