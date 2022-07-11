@@ -65,7 +65,11 @@ const VersionPage: FC = () => {
       <VMSBreadcrumbs
         links={[
           { location: "/versions", name: t("Versions") },
-          { name: t("Versions") },
+          { name:
+              action == "add"
+                ? t("addVersion")
+                : t("editVersion")
+          },
         ]}
       />
       <Container

@@ -1,36 +1,24 @@
-import { Box, TextField } from "@mui/material";
+import { Box } from "@mui/material";
+import FormikTextfield from "../../../components/FormikTextfield";
+import { useTranslation } from "react-i18next";
 
-const CompanyStep = (props: any) => {
-  const formik = props.formik;
+const CompanyStep = () => {
+  const { t } = useTranslation();
   return (
     <Box sx={{ mt: 1 }}>
-      <form>
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="name"
-          label="Name"
-          name="companyName"
-          autoComplete="name"
-          autoFocus
-          onChange={formik.handleChange}
-          value={formik.values.companyName}
-        />
-
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="email"
-          label="Email"
-          name="companyEmail"
-          type="email"
-          autoComplete="email"
-          onChange={formik.handleChange}
-          value={formik.values.companyEmail}
-        />
-      </form>
+      <FormikTextfield
+        margin="normal"
+        fullWidth
+        label={t("name")}
+        name="companyName"
+        autoFocus
+      />
+      <FormikTextfield
+        margin="normal"
+        fullWidth
+        label={t("email")}
+        name="companyEmail"
+      />
     </Box>
   );
 };
