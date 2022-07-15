@@ -14,10 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
 
@@ -29,12 +25,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	@Autowired
 	ApplicationRepository applicationRepository;
-
-	@Override
-	public Application findById(long applicationId) {
-		return applicationRepository.findById(applicationId)
-									.orElseThrow(() -> new VMSException(String.format("Application with id %s does not exist", applicationId)));
-	}
 
 	@Override
 	public Page<Application> getApplications(User user, Pageable pageable) {
@@ -77,7 +67,10 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 	@Override
 	public void deleteApplication(long applicationId, long companyId) {
-
+		Application application = findById(applicationId);
+		if (application.getCompany().getId() == companyId) {
+			applicationRepository.delete(application);
+		}
 	}
 
 	@Override
@@ -101,5 +94,10 @@ public class ApplicationServiceImpl implements ApplicationService {
 		application.getUsers().remove(newUser);
 		newUser.getApplications().remove(application);
 		return application;
+	}
+
+	private Application findById(long applicationId) {
+		return applicationRepository.findById(applicationId)
+									.orElseThrow(() -> new VMSException(String.format("Application with id %s does not exist", applicationId)));
 	}
 }
