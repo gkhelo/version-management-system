@@ -48,7 +48,7 @@
   "viewVersion": "View Version",
   "editVersion": "Edit Version",
   "registrationCompleted": "Registration completed successfully, you'll be redirected to login page",
-  "Company with name companyName already exists": "Company with name {{companyName}} already exists",
+  "companyOrUserAlreadyExists": "Company or user already exists",
   "addApplication": "Add Application",
   "deleteApplication": "Delete Application",
   "editApplication": "Edit Application",
@@ -71,5 +71,7 @@
   "registrationForm": "Registration Form",
   "back": "Back",
   "submit": "Submit",
-  "admin": "Admin"
+  "admin": "Admin",
+  "filesUploadError": "Can't upload files",
+  "fileDownloadError": "Can't download files"
 }

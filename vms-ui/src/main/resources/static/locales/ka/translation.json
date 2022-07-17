@@ -48,7 +48,7 @@
   "viewVersion": "ვერსიის დათვალიერება",
   "editVersion": "ვერსიის რედაქტირება",
   "registrationCompleted": "რეგისტრაცია დასრულდა წარმატებით, თქვენ გადამისამრთდებით ავტორიზაციის გვერდზე",
-  "Company with name companyName already exists": "კომპანია სახელით {{companyName}} უკვე არსებობს",
+  "companyOrUserAlreadyExists": "კომპანია ან მომხმარებელი უკვე არსებობს",
   "addApplication": "აპლიკაციის დამატება",
   "deleteApplication": "აპლიკაციის წაშლა",
   "editApplication": "აპლიკაციის რედაქტირება",
@@ -71,5 +71,7 @@
   "registrationForm": "რეგისტრაცია",
   "back": "უკან",
   "submit": "შენახვა",
-  "admin": "ადმინი"
+  "admin": "ადმინი",
+  "filesUploadError": "ფაილების ატვირთვის შეცდომა",
+  "fileDownloadError": "ფაილების გადმოწერის შეცდომა"
 }

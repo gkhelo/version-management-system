@@ -52,7 +52,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 			return company;
 		} catch (DataIntegrityViolationException ex) {
-			throw new VMSException(String.format("Company with name %s already exists", company.getName()));
+			throw new VMSException("companyOrUserAlreadyExists");
 		}
 	}
 

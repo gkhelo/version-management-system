@@ -4,12 +4,14 @@ import { apiAxiosInstance, authAxiosInstance } from "../utils/AxiosInstance";
 import { Context as SnackbarContext } from "../context/SnackbarContext";
 import SnackbarAlert from "../components/SnackbarAlert";
 import { Severity } from "../types/SnackbarMessage";
+import { useTranslation } from "react-i18next";
 
 const WithAxios: FC<{ children: ReactNode }> = ({ children }) => {
   const {
     state: { message },
     setSnackbarMessage,
   } = useContext(SnackbarContext);
+  const { t } = useTranslation();
 
   const handleClose = (_: SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
@@ -59,7 +61,7 @@ const WithAxios: FC<{ children: ReactNode }> = ({ children }) => {
             severity={message.severity}
             sx={{ width: "100%" }}
           >
-            {message?.message}
+            {message?.message && t(message.message)}
           </SnackbarAlert>
         </Snackbar>
       )}

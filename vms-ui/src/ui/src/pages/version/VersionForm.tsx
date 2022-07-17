@@ -167,6 +167,10 @@ const VersionForm: FC<{
                     onChange={(event) => {
                       const files =
                         (event.target as HTMLInputElement).files || [];
+                      const updatedNames = Array.from(files).map(file => file.name);
+                      updatedNames.push(... filenames);
+                      setFilenames(updatedNames as [string]);
+
                       props.setFieldValue("files", files);
                     }}
                   />

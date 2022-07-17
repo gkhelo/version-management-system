@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -84,7 +83,7 @@ public class CompanyServiceImplTest {
 		when(companyRepository.save(any())).thenThrow(DataIntegrityViolationException.class);
 
 		VMSException exception = assertThrows(VMSException.class, () -> service.addCompany(company, admin));
-		assertEquals(format("Company with name %s already exists", company.getName()), exception.getMessage());
+		assertEquals("companyOrUserAlreadyExists", exception.getMessage());
 	}
 
 	@Test
