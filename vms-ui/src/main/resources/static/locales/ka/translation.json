@@ -73,5 +73,12 @@
   "submit": "შენახვა",
   "admin": "ადმინი",
   "filesUploadError": "ფაილების ატვირთვის შეცდომა",
-  "fileDownloadError": "ფაილების გადმოწერის შეცდომა"
+  "fileDownloadError": "ფაილების გადმოწერის შეცდომა",
+  "status": "სტატუსი",
+  "active": "აქტიური",
+  "pending": "მოლოდინში",
+  "rejected": "უარყოფილი",
+  "stopped": "შეჩერებული",
+  "expired": "ვადაგასული",
+  "Search for user": "მომხმარებლის ძებნა"
 }

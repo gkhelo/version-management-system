@@ -73,5 +73,12 @@
   "submit": "Submit",
   "admin": "Admin",
   "filesUploadError": "Can't upload files",
-  "fileDownloadError": "Can't download files"
+  "fileDownloadError": "Can't download files",
+  "status": "Status",
+  "active": "Active",
+  "pending": "Pending",
+  "rejected": "Rejected",
+  "stopped": "Stopped",
+  "expired": "Expired",
+  "Search for user": "Search for user"
 }

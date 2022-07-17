@@ -82,7 +82,7 @@ const UserAddDialog: FC<{
         ) : (
           <>
             <TextField
-              label={"Users"}
+              label={t("Users")}
               fullWidth
               size="small"
               sx={{ mb: 1 }}
@@ -94,7 +94,7 @@ const UserAddDialog: FC<{
                   </InputAdornment>
                 ),
               }}
-              placeholder={"Search for user"}
+              placeholder={t("Search for user")}
             />
             {users && [
               ...users.map((user: User) => (

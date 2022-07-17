@@ -31,6 +31,7 @@ import {
   ADD_COMMENT,
   UPDATE_COMMENT,
   DELETE_COMMENT,
+  DELETE_APPLICATION,
 } from "../constants/Endpoints";
 import { User } from "../types/User";
 import { Pageable, PageImpl } from "../types/Pageable";
@@ -145,13 +146,23 @@ const updateApplication = async (application: Application) => {
 };
 
 const getApplicationUsers = async (applicationId: number) => {
-  const response = await apiAxiosInstance.get<User[]>(`${GET_APPLICATION_USERS}/${applicationId}`);
+  const response = await apiAxiosInstance.get<User[]>(
+    `${GET_APPLICATION_USERS}/${applicationId}`
+  );
   return response.data;
 };
 
-const searchUsers = async (search: string, applicationId: number, maxResults: number) => {
+const searchUsers = async (
+  search: string,
+  applicationId: number,
+  maxResults: number
+) => {
   const response = await apiAxiosInstance.get<User[]>(SEARCH_USERS, {
-    params: { search: search, applicationId: applicationId,  maxResults: maxResults },
+    params: {
+      search: search,
+      applicationId: applicationId,
+      maxResults: maxResults,
+    },
   });
   return response.data;
 };
@@ -178,6 +189,11 @@ const deleteApplicationUser = async (applicationId: number, userId: number) => {
   return response.data;
 };
 
+const deleteApplication = async (id: string | number) => {
+  const response = await apiAxiosInstance.delete(`${DELETE_APPLICATION}/${id}`);
+  return response.data;
+};
+
 const getVersions = async (pageable: Pageable) => {
   const response = await apiAxiosInstance.get<PageImpl<Version>>(GET_VERSIONS, {
     params: { ...pageable },
@@ -201,20 +217,25 @@ const updateVersion = async (data: FormData) => {
 };
 
 const getVersionFile = async (versionId: number, filename: string) => {
-  const response = await apiAxiosInstance.get(`${GET_VERSION_FILE}/${versionId}/${filename}`, {
-    responseType: "blob"
-  });
+  const response = await apiAxiosInstance.get(
+    `${GET_VERSION_FILE}/${versionId}/${filename}`,
+    {
+      responseType: "blob",
+    }
+  );
   return response.data;
 };
 
 const getComments = async (versionId: number) => {
-	const response = await apiAxiosInstance.get<Comment[]>(`${GET_COMMENTS}/${versionId}`);
-	return response.data;
+  const response = await apiAxiosInstance.get<Comment[]>(
+    `${GET_COMMENTS}/${versionId}`
+  );
+  return response.data;
 };
 
 const addComment = async (comment: Comment) => {
-	const response = await apiAxiosInstance.post<Comment>(ADD_COMMENT, comment);
-	return response.data;
+  const response = await apiAxiosInstance.post<Comment>(ADD_COMMENT, comment);
+  return response.data;
 };
 
 const updateComment = async (commentId: number, text: string) => {
@@ -230,7 +251,7 @@ const updateComment = async (commentId: number, text: string) => {
 
 const deleteComment = async (commentId: number) => {
   await apiAxiosInstance.delete<number>(`${DELETE_COMMENT}/${commentId}`);
-}
+};
 
 const ServerApi = {
   login,
@@ -251,6 +272,7 @@ const ServerApi = {
   getApplication,
   addApplication,
   updateApplication,
+  deleteApplication,
   getApplicationUsers,
   searchUsers,
   addApplicationUser,

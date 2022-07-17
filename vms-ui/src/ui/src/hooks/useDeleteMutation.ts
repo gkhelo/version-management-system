@@ -11,6 +11,8 @@ const useDeleteMutation = (type: QueryKeyType) => {
         return ServerApi.deleteUser(id);
       case QueryKeyType.VENDORS:
         return ServerApi.deleteVendor(id);
+        case QueryKeyType.APPLICATIONS:
+          return ServerApi.deleteApplication(id);
       default:
         throw new Error("Incorrect delete type");
     }

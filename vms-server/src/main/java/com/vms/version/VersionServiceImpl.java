@@ -6,6 +6,7 @@ import com.vms.model.application.Application;
 import com.vms.model.configurable.Configurable;
 import com.vms.model.user.User;
 import com.vms.model.version.Version;
+import com.vms.model.version.VersionStatus;
 import com.vms.storage.StorageService;
 import com.vms.version.repository.VersionRepository;
 import org.slf4j.Logger;
@@ -61,6 +62,7 @@ public class VersionServiceImpl implements VersionService {
 	@Transactional
 	public Version addVersion(Version version, MultipartFile[] files) {
 		try {
+			version.setStatus(VersionStatus.PENDING);
 			Version result = versionRepository.save(version);
 
 			List<String> filenames = storageService.saveFiles(result.getId(), files);
@@ -82,7 +84,9 @@ public class VersionServiceImpl implements VersionService {
 				.findById(id)
 				.orElseThrow(() -> new VMSException(format("Version with ID %s not exists", id)));
 			List<String> oldFilenames = new ArrayList<>(oldVersion.getFilenames());
-
+			if (version.getStatus() == VersionStatus.ACTIVE && oldVersion.getStatus() != VersionStatus.ACTIVE) {
+				changeActiveVersion();
+			}
 			version = versionRepository.save(version);
 			List<String> filenames = files != null ? storageService.saveFiles(version.getId(), files) : Collections.emptyList();
 			version.getFilenames().addAll(filenames);
@@ -110,4 +114,13 @@ public class VersionServiceImpl implements VersionService {
 			throw new VMSException("fileDownloadError");
 		}
 	}
+
+	private void changeActiveVersion() {
+		Version version = versionRepository.findActiveVersion(VersionStatus.ACTIVE);
+		if (version != null) {
+			version.setStatus(VersionStatus.EXPIRED);
+			versionRepository.save(version);
+		}
+	}
+
 }

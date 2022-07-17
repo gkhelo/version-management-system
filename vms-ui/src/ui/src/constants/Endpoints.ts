@@ -14,7 +14,6 @@ export const DELETE_USER = "/users/delete";
 export const GET_ROLES = "/users/roles";
 export const GET_APPLICATION_USERS = "/users/application";
 
-
 export const GET_COMPANIES = "/companies/all";
 
 export const GET_VENDORS = "/vendors/all";
@@ -27,6 +26,7 @@ export const GET_APPLICATIONS = "/applications/all";
 export const GET_APPLICATION = "/applications/get";
 export const ADD_APPLICATION = "/applications/add";
 export const UPDATE_APPLICATION = "/applications/update";
+export const DELETE_APPLICATION = "/applications/delete";
 
 export const ADD_APPLICATION_USER = "/applications/user/add";
 export const DELETE_APPLICATION_USER = "/applications/user/delete";
@@ -39,5 +39,5 @@ export const GET_VERSION_FILE = "/versions";
 
 export const GET_COMMENTS = "/comments";
 export const ADD_COMMENT = "/comments/add";
-export const UPDATE_COMMENT = "/comments/update"
-export const DELETE_COMMENT = "/comments/delete"
+export const UPDATE_COMMENT = "/comments/update";
+export const DELETE_COMMENT = "/comments/delete";

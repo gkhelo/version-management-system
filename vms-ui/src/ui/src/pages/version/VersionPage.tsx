@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import usePageSelector from "../../hooks/usePageSelector";
 import { useTranslation } from "react-i18next";
 import VMSBreadcrumbs from "../../components/VMSBreadcrumbs";
-import { useMatch } from "@tanstack/react-location";
+import { useMatch, useNavigate } from "@tanstack/react-location";
 import VersionForm from "./VersionForm";
 import { Version } from "../../types/Version";
 import ServerApi from "../../api/ServerApi";
@@ -15,6 +15,7 @@ const VersionPage: FC = () => {
   const {
     params: { action, versionId },
   } = useMatch();
+  const navigate = useNavigate();
 
   const fetchVersion = async (versionId: number | string) => {
     const fetchedVersion = await ServerApi.getVersion(versionId);
@@ -48,6 +49,7 @@ const VersionPage: FC = () => {
         setVersion(await ServerApi.updateVersion(formData));
       }
     }
+    navigate({ to: "/versions" });
   };
 
   const [version, setVersion] = useState<Version>();
@@ -65,11 +67,7 @@ const VersionPage: FC = () => {
       <VMSBreadcrumbs
         links={[
           { location: "/versions", name: t("Versions") },
-          { name:
-              action == "add"
-                ? t("addVersion")
-                : t("editVersion")
-          },
+          { name: action === "add" ? t("addVersion") : t("editVersion") },
         ]}
       />
       <Container

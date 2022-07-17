@@ -6,7 +6,7 @@ import { Close as CloseIcon } from "@mui/icons-material";
 export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
-    minWidth: "40vw",
+    minWidth: "25vw",
   },
   "& .MuiDialogActions-root": {
     paddingLeft: theme.spacing(2),

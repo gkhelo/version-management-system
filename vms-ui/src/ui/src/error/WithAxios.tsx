@@ -24,11 +24,12 @@ const WithAxios: FC<{ children: ReactNode }> = ({ children }) => {
     authAxiosInstance.interceptors.response.use(
       (response) => response,
       async (error) => {
-        setSnackbarMessage({
-          message: error.response.data.message || error.response.statusText,
-          status: error.response.status,
-          severity: Severity.ERROR,
-        });
+        error.response.status !== 401 &&
+          setSnackbarMessage({
+            message: error.response.data.message || error.response.statusText,
+            status: error.response.status,
+            severity: Severity.ERROR,
+          });
       }
     );
   }, [setSnackbarMessage]);
@@ -37,11 +38,12 @@ const WithAxios: FC<{ children: ReactNode }> = ({ children }) => {
     apiAxiosInstance.interceptors.response.use(
       (response) => response,
       async (error) => {
-        setSnackbarMessage({
-          message: error.response.data.message || error.response.statusText,
-          status: error.response.status,
-          severity: Severity.ERROR,
-        });
+        error.response.status !== 401 &&
+          setSnackbarMessage({
+            message: error.response.data.message || error.response.statusText,
+            status: error.response.status,
+            severity: Severity.ERROR,
+          });
       }
     );
   }, [setSnackbarMessage]);

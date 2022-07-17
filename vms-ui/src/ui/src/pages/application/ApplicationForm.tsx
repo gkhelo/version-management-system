@@ -25,7 +25,7 @@ const ApplicationForm: FC<{
   const initialValues: Application = { ...application };
   const vendors = useVendors();
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth={false}>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

@@ -27,4 +27,7 @@ public class Version extends Configurable {
 	@CollectionTable(name = "version_files", joinColumns = @JoinColumn(name = "version_id"))
 	@Column(name = "filename")
 	private List<String> filenames;
+
+	@Enumerated
+	private VersionStatus status;
 }

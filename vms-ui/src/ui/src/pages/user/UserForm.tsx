@@ -2,11 +2,14 @@ import { FC } from "react";
 import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import * as yup from "yup";
-import { Button, Container, Paper, Stack } from "@mui/material";
+import { Container, Paper, Stack } from "@mui/material";
+import { Save as SaveIcon } from "@mui/icons-material";
 import FormikSelect from "../../components/FormikSelect";
 import FormikTextfield from "../../components/FormikTextfield";
 import useRoles from "../../hooks/useRoles";
 import { User } from "../../types/User";
+import FormButtonWrapper from "../../components/FormButtonWrapper";
+import SimpleButton from "../../components/SimpleButton";
 
 const validationSchema = yup.object({
   username: yup.string().required("Username is required").nullable(),
@@ -84,14 +87,18 @@ const UserForm: FC<{ user: User | null; onSubmitHandler: Function }> = ({
                   label={t("confirmPassword")}
                   type="password"
                 />
-                <Button
-                  color="primary"
-                  variant="contained"
-                  fullWidth
-                  type="submit"
-                >
-                  {t("save")}
-                </Button>
+                <FormButtonWrapper>
+                  <SimpleButton
+                    size="small"
+                    color="success"
+                    variant="contained"
+                    disableElevation
+                    startIcon={<SaveIcon />}
+                    type="submit"
+                  >
+                    {t("save")}
+                  </SimpleButton>
+                </FormButtonWrapper>
               </Stack>
             </form>
           )}

@@ -30,7 +30,7 @@ const ApplicationsPage = () => {
   const navigate = useNavigate();
   const [companyId] = useCompanyId();
   const { hasPermission } = usePermissions();
-  const deleteUser = useDeleteMutation(QueryKeyType.APPLICATIONS);
+  const deleteApplication = useDeleteMutation(QueryKeyType.APPLICATIONS);
   const pagination = usePagination([]);
   const applicationsData = useApplications({
     page: pagination.page,
@@ -115,7 +115,7 @@ const ApplicationsPage = () => {
                           <GridActionsCellItem
                             icon={<DeleteIcon />}
                             label={t("deleteApplication")}
-                            onClick={() => deleteUser(params.id)}
+                            onClick={() => deleteApplication(params.id)}
                           />,
                         ]
                       : [

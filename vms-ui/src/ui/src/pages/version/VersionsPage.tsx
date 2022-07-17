@@ -6,13 +6,24 @@ import useDateFormatter from "../../hooks/UseDateTimeFormatter";
 import usePageSelector from "../../hooks/usePageSelector";
 import usePagination from "../../hooks/usePagination";
 import useVersions from "../../hooks/useVersions";
-import { Add as AddIcon, Edit as EditIcon, Visibility as ViewIcon } from "@mui/icons-material";
+import {
+  Add as AddIcon,
+  Edit as EditIcon,
+  Visibility as ViewIcon,
+} from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { useNavigate } from "@tanstack/react-location";
-import { GridActionsCellItem, GridRowParams, GridValueGetterParams } from "@mui/x-data-grid";
+import {
+  GridActionsCellItem,
+  GridRenderCellParams,
+  GridRowParams,
+  GridValueGetterParams,
+} from "@mui/x-data-grid";
 import { Context as UserContext } from "../../context/UserContext";
 import useApplications from "../../hooks/useApplications";
 import { Application } from "../../types/Application";
+import VersionStatusChip from "./VersionStatusChip";
+import { VersionStatus } from "../../types/Version";
 
 const VersionsPage: FC = () => {
   usePageSelector("versions");
@@ -32,7 +43,11 @@ const VersionsPage: FC = () => {
   } = useContext(UserContext);
 
   const applications = useApplications({ page: 0, size: 10 });
-  const hasApplications = applications.data && applications.data?.content.some((app: Application) => ( app.vendorId == user?.companyId ));
+  const hasApplications =
+    applications.data &&
+    applications.data?.content.some(
+      (app: Application) => app.vendorId === user?.companyId
+    );
 
   const navigateToVersion = (versionId: string | number, action: string) => {
     navigate({ to: `/versions/${action}/${versionId}` });
@@ -44,24 +59,26 @@ const VersionsPage: FC = () => {
 
   return (
     <>
-      <VMSBreadcrumbs links={[{ location: "/versions", name: t("Versions") }]} />
+      <VMSBreadcrumbs
+        links={[{ location: "/versions", name: t("Versions") }]}
+      />
 
       {versionData.isError ? (
         <h3>{versionData.error.message}</h3>
       ) : (
         versionData.data && (
           <>
-            {hasApplications &&
-            <Button
-              variant="contained"
-              startIcon={<AddIcon/>}
-              size="small"
-              sx={{ marginBottom: 0.5 }}
-              onClick={navigateToAddVersion}
-            >
-              {t("addVersion")}
-            </Button>
-            }
+            {hasApplications && (
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                size="small"
+                sx={{ marginBottom: 0.5 }}
+                onClick={navigateToAddVersion}
+              >
+                {t("addVersion")}
+              </Button>
+            )}
             <VMSDatagrid
               columns={[
                 {
@@ -73,7 +90,8 @@ const VersionsPage: FC = () => {
                   field: "application",
                   headerName: t("application"),
                   flex: 2,
-                  valueGetter: (params: GridValueGetterParams) => params.value.name
+                  valueGetter: (params: GridValueGetterParams) =>
+                    params.value.name,
                 },
                 { field: "description", headerName: t("description"), flex: 2 },
                 {
@@ -89,6 +107,14 @@ const VersionsPage: FC = () => {
                   valueFormatter: dataGridValueFormatter,
                 },
                 {
+                  field: "status",
+                  headerName: t("status"),
+                  flex: 1,
+                  renderCell: (params: GridRenderCellParams) => (
+                    <VersionStatusChip status={params.value as VersionStatus} />
+                  ),
+                },
+                {
                   field: "actions",
                   type: "actions",
                   flex: 1,
@@ -98,13 +124,16 @@ const VersionsPage: FC = () => {
                         icon={<ViewIcon />}
                         label={t("viewVersion")}
                         onClick={() => navigateToVersion(params.id, "view")}
-                      />
+                      />,
                     ];
-                    if (user === null || user.companyId === params.row.application.vendorId) {
+                    if (
+                      user === null ||
+                      user.companyId === params.row.application.vendorId
+                    ) {
                       // Only vendor users can edit version
                       actions.push(
                         <GridActionsCellItem
-                          icon={<EditIcon/>}
+                          icon={<EditIcon />}
                           label={t("editVersion")}
                           onClick={() => navigateToVersion(params.id, "edit")}
                         />

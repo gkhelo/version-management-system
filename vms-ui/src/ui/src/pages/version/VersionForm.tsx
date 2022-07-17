@@ -1,4 +1,4 @@
-import { FC, useContext, useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import {
@@ -13,10 +13,9 @@ import {
 } from "@mui/material";
 import { Save as SaveIcon } from "@mui/icons-material";
 import FormikSelect from "../../components/FormikSelect";
-import { Version } from "../../types/Version";
+import { Version, VersionStatus } from "../../types/Version";
 import { Application } from "../../types/Application";
 import useApplications from "../../hooks/useApplications";
-import { Context as UserContext } from "../../context/UserContext";
 import FormikTextfield from "../../components/FormikTextfield";
 import * as yup from "yup";
 import ServerApi from "../../api/ServerApi";
@@ -25,6 +24,7 @@ import SimpleButton from "../../components/SimpleButton";
 import FormButtonWrapper from "../../components/FormButtonWrapper";
 import FormTitle from "../../components/FormTitle";
 import { MarkdownEditor, MarkdownText } from "../../components/VMSMarkdown";
+import VersionStatusChip from "./VersionStatusChip";
 
 const validationSchema = yup.object({
   description: yup.string().required("Description is required").nullable(),
@@ -37,9 +37,6 @@ const VersionForm: FC<{
   onSubmitHandler: Function;
 }> = ({ action, version, onSubmitHandler }) => {
   const { t } = useTranslation();
-  const {
-    state: { user },
-  } = useContext(UserContext);
 
   const initialValues: Version = version
     ? { ...version }
@@ -74,13 +71,12 @@ const VersionForm: FC<{
       description: values?.description || t("description"),
     });
   };
-
   return (
     <>
       <FormTitle variant="h5" color="primary">
         {titleValues.application}/{titleValues.description}
       </FormTitle>
-      <Divider sx={{ mb: 1 }} />
+      <Divider sx={{ mb: 2 }} />
       <Container maxWidth={false}>
         <Formik
           innerRef={descriptionRef}
@@ -112,16 +108,26 @@ const VersionForm: FC<{
                   onBlur={updateTitle}
                   getValue={(application: Application) => application.id}
                   renderValue={(application: Application) => application.name}
-                  data={
-                    applications.data
-                      ? applications.data.content.filter((app: Application) => {
-                          return (
-                            user != null && app.vendorId === user.companyId
-                          );
-                        })
-                      : []
-                  }
+                  data={applications.data?.content || []}
                 />
+                {version?.id !== 0 && (
+                  <FormikSelect<Version>
+                    name="status"
+                    label={t("status")}
+                    inputProps={{ readOnly: action !== "view" }}
+                    getValue={(status: VersionStatus) => status}
+                    renderValue={(status: VersionStatus) => (
+                      <VersionStatusChip status={status} />
+                    )}
+                    data={Object.values(VersionStatus)}
+                    variant="standard"
+                    InputProps={{
+                      disableUnderline: true,
+                    }}
+                    SelectProps={{ IconComponent: () => null }}
+                    sx={{ width: 150 }}
+                  />
+                )}
 
                 {version && (
                   <List>
@@ -167,8 +173,10 @@ const VersionForm: FC<{
                     onChange={(event) => {
                       const files =
                         (event.target as HTMLInputElement).files || [];
-                      const updatedNames = Array.from(files).map(file => file.name);
-                      updatedNames.push(... filenames);
+                      const updatedNames = Array.from(files).map(
+                        (file) => file.name
+                      );
+                      updatedNames.push(...filenames);
                       setFilenames(updatedNames as [string]);
 
                       props.setFieldValue("files", files);
@@ -199,24 +207,22 @@ const VersionForm: FC<{
                   ) : (
                     <MarkdownText
                       value={desc}
-                      onClick={() => setDescEditMode(true)}
+                      onClick={() => action !== "view" && setDescEditMode(true)}
                     />
                   )}
                 </div>
-                {action !== "view" && (
-                  <FormButtonWrapper>
-                    <SimpleButton
-                      size="small"
-                      color="success"
-                      variant="contained"
-                      disableElevation
-                      startIcon={<SaveIcon />}
-                      type="submit"
-                    >
-                      {t("save")}
-                    </SimpleButton>
-                  </FormButtonWrapper>
-                )}
+                <FormButtonWrapper>
+                  <SimpleButton
+                    size="small"
+                    color="success"
+                    variant="contained"
+                    disableElevation
+                    startIcon={<SaveIcon />}
+                    type="submit"
+                  >
+                    {t("save")}
+                  </SimpleButton>
+                </FormButtonWrapper>
               </Stack>
             </form>
           )}

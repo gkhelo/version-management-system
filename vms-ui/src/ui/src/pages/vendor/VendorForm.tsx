@@ -23,7 +23,7 @@ const VendorForm: FC<{ usedVendors: (number | undefined)[], onSubmitHandler: Fun
   const companies = useCompanies();
 
   return (
-    <Container maxWidth={"sm"}>
+    <Container maxWidth={false}>
       <Formik
         initialValues={{
           "vendorId": null

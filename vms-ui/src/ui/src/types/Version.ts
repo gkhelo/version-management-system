@@ -10,4 +10,13 @@ export type Version = {
   filenames?: [string];
   files?: [Blob];
   readme?: string;
+  status?: VersionStatus;
 };
+
+export enum VersionStatus {
+  ACTIVE = "ACTIVE",
+  PENDING = "PENDING",
+  REJECTED = "REJECTED",
+  STOPPED = "STOPPED",
+  EXPIRED = "EXPIRED",
+}
