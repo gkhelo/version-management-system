@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -46,6 +47,9 @@ public class VersionServiceImplTest {
 
 	@Mock
 	private StorageService storageService;
+
+	@Mock
+	private ApplicationEventPublisher eventPublisher;
 
 	@InjectMocks
 	private VersionServiceImpl service;
@@ -203,7 +207,7 @@ public class VersionServiceImplTest {
 		when(versionRepository.save(any())).thenReturn(version);
 		when(storageService.saveFiles(0, null)).thenThrow(new IOException());
 
-		VMSException exception = assertThrows(VMSException.class, () -> service.addVersion(version, null));
+		VMSException exception = assertThrows(VMSException.class, () -> service.addVersion(version, null, null));
 		assertEquals("filesUploadError", exception.getMessage());
 	}
 
@@ -218,7 +222,7 @@ public class VersionServiceImplTest {
 		when(versionRepository.save(any())).thenReturn(version);
 		when(storageService.saveFiles(0, null)).thenReturn(filenames);
 
-		Version actual = service.addVersion(version, null);
+		Version actual = service.addVersion(version, null, null);
 		assertEquals(0, actual.getId());
 		assertEquals(filenames, actual.getFilenames());
 	}

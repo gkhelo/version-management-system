@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -36,5 +37,5 @@ public class Application extends Configurable {
 		joinColumns = @JoinColumn(name = "application_id"),
 		inverseJoinColumns = @JoinColumn(name = "user_id")
 	)
-	private List<User> users;
+	private List<User> users = new ArrayList<>();
 }

@@ -13,7 +13,7 @@ public interface VersionService {
 
 	Version getVersion(long versionId);
 
-	Version addVersion(Version version, MultipartFile[] files);
+	Version addVersion(Version version, MultipartFile[] files, User user);
 
 	Version updateVersion(Version version, MultipartFile[] files);
 

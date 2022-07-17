@@ -54,7 +54,7 @@ public class VersionController {
 	public ResponseEntity<VersionDTO> addVersion(@RequestPart("version") VersionDTO versionDTO,
 												 @RequestPart("files") MultipartFile[] files) {
 		Version version = versionMapper.fromDTO(versionDTO);
-		return new ResponseEntity<>(versionMapper.toDTO(versionService.addVersion(version, files)), HttpStatus.OK);
+		return new ResponseEntity<>(versionMapper.toDTO(versionService.addVersion(version, files, authService.getAuthenticatedUser())), HttpStatus.OK);
 	}
 
 	@PutMapping("/update")

@@ -21,6 +21,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -65,5 +66,5 @@ public class User extends Configurable {
 	private List<Group> groups;
 
 	@ManyToMany(mappedBy = "users")
-	private List<Application> applications;
+	private List<Application> applications = new ArrayList<>();
 }

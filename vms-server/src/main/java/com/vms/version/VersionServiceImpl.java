@@ -8,9 +8,12 @@ import com.vms.model.user.User;
 import com.vms.model.version.Version;
 import com.vms.model.version.VersionStatus;
 import com.vms.storage.StorageService;
+import com.vms.version.events.VersionCreatedEvent;
+import com.vms.version.events.VersionUpdatedEvent;
 import com.vms.version.repository.VersionRepository;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,6 +44,9 @@ public class VersionServiceImpl implements VersionService {
 	@Autowired
 	private StorageService storageService;
 
+	@Autowired
+	private ApplicationEventPublisher applicationEventPublisher;
+
 	@Override
 	public Page<Version> getVersions(User user, Pageable pageable) {
 		List<Application> applications = applicationService.getApplications(user, Pageable.unpaged()).getContent();
@@ -60,14 +66,17 @@ public class VersionServiceImpl implements VersionService {
 
 	@Override
 	@Transactional
-	public Version addVersion(Version version, MultipartFile[] files) {
+	public Version addVersion(Version version, MultipartFile[] files, User user) {
 		try {
 			version.setStatus(VersionStatus.PENDING);
 			Version result = versionRepository.save(version);
 
 			List<String> filenames = storageService.saveFiles(result.getId(), files);
 			result.setFilenames(filenames);
-
+			if (result.getApplication() != null) {
+				Application application = applicationService.getApplication(result.getApplication().getId(), user);
+				applicationEventPublisher.publishEvent(new VersionCreatedEvent(this, application, result));
+			}
 			return result;
 		} catch (IOException ex) {
 			log.error("Error occurred while saving files", ex);
@@ -97,6 +106,8 @@ public class VersionServiceImpl implements VersionService {
 					log.info("Deleted {} for version with ID {}", filename, id);
 				}
 			}
+
+			applicationEventPublisher.publishEvent(new VersionUpdatedEvent(this, version.getApplication(), version));
 
 			return version;
 		} catch (IOException ex) {
